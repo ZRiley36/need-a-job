@@ -16,11 +16,16 @@ export default function ChessBoard() {
     if (selected) {
       const from = toAlgebraic(selected[0], selected[1]);
       const to = toAlgebraic(row, col);
-      const move = game.move({ from, to, promotion: "q" });
-      if (move) {
-        setGame(new Chess(game.fen())); // update board
+      try {
+        const move = game.move({ from, to, promotion: "q" });
+        if (move) {
+          setGame(new Chess(game.fen())); // update board
+        }
+      } catch {
+        // Ignore illegal move attempts
+      } finally {
+        setSelected(null);
       }
-      setSelected(null);
     } else if (board[row][col]) {
       setSelected([row, col]);
     }
@@ -41,12 +46,17 @@ export default function ChessBoard() {
     if (dragged) {
       const from = toAlgebraic(dragged[0], dragged[1]);
       const to = toAlgebraic(row, col);
-      const move = game.move({ from, to, promotion: "q" });
-      if (move) {
-        setGame(new Chess(game.fen()));
+      try {
+        const move = game.move({ from, to, promotion: "q" });
+        if (move) {
+          setGame(new Chess(game.fen()));
+        }
+      } catch {
+        // Ignore illegal move attempts
+      } finally {
+        setDragged(null);
+        setSelected(null);
       }
-      setDragged(null);
-      setSelected(null);
     }
   }
 
