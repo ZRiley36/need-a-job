@@ -72,8 +72,49 @@ function randomPiece() {
 }
 
 // Rotate a matrix 90 degrees clockwise
-function rotate(shape) {
+function rotateClockwise(shape) {
   return shape[0].map((_, i) => shape.map(row => row[i]).reverse());
+}
+
+// Rotate a matrix 90 degrees counter-clockwise
+function rotateCounterClockwise(shape) {
+  return shape[0].map((_, i) => shape.map(row => row[row.length - 1 - i]));
+}
+
+// Wall kick offsets for different pieces (simplified SRS)
+function getWallKicks(pieceIndex, clockwise = true) {
+  // I-piece has different kick data
+  if (pieceIndex === 0) {
+    return clockwise 
+      ? [{ x: 0, y: 0 }, { x: -2, y: 0 }, { x: 1, y: 0 }, { x: -2, y: -1 }, { x: 1, y: 2 }]
+      : [{ x: 0, y: 0 }, { x: 2, y: 0 }, { x: -1, y: 0 }, { x: 2, y: 1 }, { x: -1, y: -2 }];
+  }
+  // O-piece doesn't rotate
+  if (pieceIndex === 3) {
+    return [{ x: 0, y: 0 }];
+  }
+  // Standard pieces (J, L, S, T, Z)
+  return clockwise
+    ? [{ x: 0, y: 0 }, { x: -1, y: 0 }, { x: -1, y: 1 }, { x: 0, y: -2 }, { x: -1, y: -2 }]
+    : [{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 1, y: 1 }, { x: 0, y: -2 }, { x: 1, y: -2 }];
+}
+
+// Try rotation with wall kicks
+function tryRotation(board, currentShape, currentPos, newShape, pieceIndex, clockwise = true) {
+  const kicks = getWallKicks(pieceIndex, clockwise);
+  
+  for (const kick of kicks) {
+    const testPos = { 
+      x: currentPos.x + kick.x, 
+      y: currentPos.y + kick.y 
+    };
+    
+    if (!checkCollision(board, newShape, testPos)) {
+      return { shape: newShape, pos: testPos, success: true };
+    }
+  }
+  
+  return { success: false };
 }
 
 // Check for collision
@@ -168,6 +209,8 @@ export default function Tetris() {
   const [score, setScore] = useState(0);
   const requestRef = useRef();
   const [tickMs, setTickMs] = useState(400);
+  const lastRotationTime = useRef(0);
+  const ROTATION_COOLDOWN = 150; // milliseconds
 
   // Draw board with current piece
   const displayBoard = board.map(row => [...row]);
@@ -215,13 +258,34 @@ export default function Tetris() {
           moved = true;
         }
       }
+      // Clockwise rotation (Up arrow, W, or X)
       if (
-        e.key === "ArrowUp" || e.key.toLowerCase() === "w"
+        e.key === "ArrowUp" || e.key.toLowerCase() === "w" || e.key.toLowerCase() === "x"
       ) {
-        const rotated = rotate(current.shape);
-        if (!checkCollision(board, rotated, current.pos)) {
-          setCurrent(c => ({ ...c, shape: rotated }));
-          moved = true;
+        const now = Date.now();
+        if (now - lastRotationTime.current >= ROTATION_COOLDOWN) {
+          const rotated = rotateClockwise(current.shape);
+          const result = tryRotation(board, current.shape, current.pos, rotated, current.index, true);
+          if (result.success) {
+            setCurrent(c => ({ ...c, shape: result.shape, pos: result.pos }));
+            lastRotationTime.current = now;
+            moved = true;
+          }
+        }
+      }
+      // Counter-clockwise rotation (Z key or Shift)
+      if (
+        e.key.toLowerCase() === "z" || (e.shiftKey && (e.key === "ArrowUp" || e.key.toLowerCase() === "w"))
+      ) {
+        const now = Date.now();
+        if (now - lastRotationTime.current >= ROTATION_COOLDOWN) {
+          const rotated = rotateCounterClockwise(current.shape);
+          const result = tryRotation(board, current.shape, current.pos, rotated, current.index, false);
+          if (result.success) {
+            setCurrent(c => ({ ...c, shape: result.shape, pos: result.pos }));
+            lastRotationTime.current = now;
+            moved = true;
+          }
         }
       }
       if (e.key.toLowerCase() === "c") {
@@ -340,12 +404,12 @@ export default function Tetris() {
 
   return (
     <div className="flex flex-col items-center mt-8">
-      <h2 className="text-2xl font-bold mb-2 text-brand">Tetris</h2>
+      <h2 className="text-2xl font-bold mb-2 text-rich">Tetris</h2>
       <div className="flex gap-8 mb-4">
         {/* Main board */}
         <div>
           <div
-            className="inline-block border-4 border-brand-dark bg-black"
+            className="inline-block border-4 border-rich bg-black"
             style={{
               width: COLS * BLOCK_SIZE,
               height: ROWS * BLOCK_SIZE,
@@ -380,13 +444,13 @@ export default function Tetris() {
         <div className="flex flex-col gap-6 items-center">
           <div className="flex flex-col items-center">
             <span className="text-sm text-gray-400 mb-1">Next</span>
-            <div className="border-2 border-brand-dark bg-black rounded p-1">
+            <div className="border-2 border-rich bg-black rounded p-1">
               <MiniBoard shape={next.shape} colorIndex={next.index} />
             </div>
           </div>
           <div className="flex flex-col items-center">
             <span className="text-sm text-gray-400 mb-1">Hold</span>
-            <div className="border-2 border-brand-dark bg-black rounded p-1">
+            <div className="border-2 border-rich bg-black rounded p-1">
               {hold ? (
                 <MiniBoard shape={hold.shape} colorIndex={hold.index} />
               ) : (
@@ -397,10 +461,10 @@ export default function Tetris() {
         </div>
       </div>
       <div className="mt-4 flex gap-4 items-center">
-        <span className="text-lg text-brand-dark font-bold">Score: {score}</span>
+        <span className="text-lg text-rich font-bold">Score: {score}</span>
         {gameOver && (
           <button
-            className="ml-4 px-4 py-2 bg-brand-dark text-white rounded hover:bg-brand"
+            className="ml-4 px-4 py-2 bg-rich text-light rounded hover:bg-accent"
             onClick={resetGame}
           >
             Restart
@@ -408,7 +472,7 @@ export default function Tetris() {
         )}
       </div>
       <div className="mt-4 text-sm text-gray-400">
-        Controls: <b>Arrow keys</b> or <b>WASD</b> to move/rotate, <b>C</b> to hold, <b>Space</b> to hard drop
+        Controls: <b>Arrow keys/WASD</b> to move, <b>Up/W/X</b> rotate clockwise, <b>Z</b> rotate counter-clockwise, <b>C</b> to hold, <b>Space</b> to hard drop
       </div>
     </div>
   );

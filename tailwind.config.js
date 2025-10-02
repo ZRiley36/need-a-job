@@ -11,7 +11,7 @@ module.exports = {
         serif: ['Georgia', 'serif'],
       },
       colors: {
-        default: "#86A666", 
+        default: "#7FB77E", 
         light: "#FFFFDD",
         dark: "#000500",
         rich: "#6A2E35",
