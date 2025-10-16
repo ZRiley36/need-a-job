@@ -6,7 +6,7 @@ export function Projects() {
       <div className="bg-gradient-to-r from-neutral-800 to-neutral-900 border-b border-neutral-700">
         <div className="container-custom py-12">
           <div className="text-center mb-8">
-            <h1 className="heading-xl text-white mb-4">Featured Projects</h1>
+            <h1 className="heading-xl purple-text-gradient mb-4">Featured Projects</h1>
             <p className="text-neutral-400 body-base max-w-2xl mx-auto">
               A showcase of my data analysis and development work, including machine learning, 
               database design, and collaborative research projects.
@@ -190,7 +190,7 @@ export function Projects() {
                 </h3>
                 <div className="grid md:grid-cols-2 gap-4">
                   <a 
-                    href="/path/to/your/ER-model.pdf" 
+                    href="https://drive.google.com/drive/folders/1CY65Ht9pEO9s1u2YuQOAyqN_bwEcpQ5S?usp=drive_link" 
                     className="flex items-center p-4 bg-neutral-600/30 hover:bg-neutral-600/50 rounded-lg border border-neutral-500 hover:border-primary-500/50 transition-all duration-300 group"
                     target="_blank" 
                     rel="noopener noreferrer"
@@ -201,27 +201,25 @@ export function Projects() {
                       </svg>
                     </div>
                     <div className="flex-1">
-                      <p className="text-white font-medium group-hover:text-primary-400 transition-colors">ER Models</p>
-                      <p className="text-neutral-400 text-sm">Logical & Entity-Relationship diagrams</p>
+                      <p className="text-white font-medium group-hover:text-primary-400 transition-colors">ER Models & Database Files</p>
+                      <p className="text-neutral-400 text-sm">Logical & Entity-Relationship diagrams, SQL scripts & example queries</p>
                     </div>
                     <svg className="w-4 h-4 text-neutral-400 group-hover:text-primary-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                     </svg>
                   </a>
                   <a 
-                    href="/path/to/your/database-scripts.zip" 
+                    href="/database" 
                     className="flex items-center p-4 bg-neutral-600/30 hover:bg-neutral-600/50 rounded-lg border border-neutral-500 hover:border-primary-500/50 transition-all duration-300 group"
-                    target="_blank" 
-                    rel="noopener noreferrer"
                   >
                     <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center mr-3">
                       <svg className="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                       </svg>
                     </div>
                     <div className="flex-1">
-                      <p className="text-white font-medium group-hover:text-primary-400 transition-colors">Database Scripts</p>
-                      <p className="text-neutral-400 text-sm">SQL scripts & example queries</p>
+                      <p className="text-white font-medium group-hover:text-primary-400 transition-colors">View Example Queries</p>
+                      <p className="text-neutral-400 text-sm">SQL scripts & example queries in /database folder</p>
                     </div>
                     <svg className="w-4 h-4 text-neutral-400 group-hover:text-primary-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />

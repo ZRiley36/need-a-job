@@ -72,17 +72,17 @@ function randomPiece() {
 }
 
 // Rotate a matrix 90 degrees clockwise
-function rotateClockwise(shape) {
+function rotateClockwise(shape: number[][]) {
   return shape[0].map((_, i) => shape.map(row => row[i]).reverse());
 }
 
 // Rotate a matrix 90 degrees counter-clockwise
-function rotateCounterClockwise(shape) {
+function rotateCounterClockwise(shape: number[][]) {
   return shape[0].map((_, i) => shape.map(row => row[row.length - 1 - i]));
 }
 
 // Wall kick offsets for different pieces (simplified SRS)
-function getWallKicks(pieceIndex, clockwise = true) {
+function getWallKicks(pieceIndex: number, clockwise = true) {
   // I-piece has different kick data
   if (pieceIndex === 0) {
     return clockwise 
@@ -100,7 +100,7 @@ function getWallKicks(pieceIndex, clockwise = true) {
 }
 
 // Try rotation with wall kicks
-function tryRotation(board, currentShape, currentPos, newShape, pieceIndex, clockwise = true) {
+function tryRotation(board: number[][], currentShape: number[][], currentPos: {x: number, y: number}, newShape: number[][], pieceIndex: number, clockwise = true) {
   const kicks = getWallKicks(pieceIndex, clockwise);
   
   for (const kick of kicks) {
@@ -118,7 +118,7 @@ function tryRotation(board, currentShape, currentPos, newShape, pieceIndex, cloc
 }
 
 // Check for collision
-function checkCollision(board, shape, pos) {
+function checkCollision(board: number[][], shape: number[][], pos: {x: number, y: number}) {
   for (let y = 0; y < shape.length; y++) {
     for (let x = 0; x < shape[y].length; x++) {
       if (
@@ -137,7 +137,7 @@ function checkCollision(board, shape, pos) {
 }
 
 // Merge piece into board
-function merge(board, shape, pos, index) {
+function merge(board: number[][], shape: number[][], pos: {x: number, y: number}, index: number) {
   const newBoard = board.map(row => [...row]);
   for (let y = 0; y < shape.length; y++) {
     for (let x = 0; x < shape[y].length; x++) {
@@ -150,7 +150,7 @@ function merge(board, shape, pos, index) {
 }
 
 // Clear full lines
-function clearLines(board) {
+function clearLines(board: number[][]) {
   const newBoard = board.filter(row => row.some(cell => !cell));
   const cleared = ROWS - newBoard.length;
   while (newBoard.length < ROWS) {
@@ -160,7 +160,7 @@ function clearLines(board) {
 }
 
 // Mini board for preview/hold
-function MiniBoard({ shape, colorIndex }) {
+function MiniBoard({ shape, colorIndex }: { shape: number[][], colorIndex: number }) {
   const size = 4;
   const grid = Array.from({ length: size }, () => Array(size).fill(0));
   for (let y = 0; y < shape.length; y++) {
@@ -207,9 +207,9 @@ export default function Tetris() {
   const [canHold, setCanHold] = useState(true);
   const [gameOver, setGameOver] = useState(false);
   const [score, setScore] = useState(0);
-  const requestRef = useRef();
+  const requestRef = useRef<number | null>(null);
   const [tickMs, setTickMs] = useState(400);
-  const lastRotationTime = useRef(0);
+  const lastRotationTime = useRef<number>(0);
   const ROTATION_COOLDOWN = 150; // milliseconds
 
   // Draw board with current piece
@@ -228,7 +228,7 @@ export default function Tetris() {
 
   // Handle keyboard controls
   useEffect(() => {
-    function handle(e) {
+    function handle(e: KeyboardEvent) {
       if (gameOver) return;
       let moved = false;
       if (

@@ -32,7 +32,7 @@ export default function ChessBoard() {
   }
 
   const getPieceImage = (piece: { type: string; color: string } | null) => {
-    if (!piece) return null;
+    if (!piece) return "";
     // Example: "wK.svg" or "bQ.svg"
     return `/cburnett-pieces/${piece.color}${piece.type.toUpperCase()}.svg`;
   };
@@ -66,7 +66,7 @@ export default function ChessBoard() {
 
   return (
     <div className="flex flex-col items-center mt-8">
-      <h2 className="text-2xl font-bold mb-2 text-brand">Chess</h2>
+      <h2 className="text-2xl font-bold mb-2 purple-text-gradient">Chess</h2>
       <div className="relative" style={{ width: 320, height: 320 }}>
         {/* Board background */}
         <img
@@ -98,7 +98,7 @@ export default function ChessBoard() {
                   `}
                   style={{ width: "100%", height: "100%", background: "none", padding: 0 }}
                 >
-                  {piece && (
+                  {piece && getPieceImage(piece) && (
                     <img
                       src={getPieceImage(piece)}
                       alt=""
@@ -116,8 +116,30 @@ export default function ChessBoard() {
           )}
         </div>
       </div>
-      <div className="mt-2 text-gray-400 text-sm">
-        Click or drag a piece to move. No rules for turns or checkmate yet.
+      <div className="mt-4 text-center">
+        <div className="text-gray-400 text-sm mb-4">
+          Click or drag a piece to move. No rules for turns or checkmate yet.
+        </div>
+        
+        {/* Lichess Challenge Button */}
+        <a
+          href="https://lichess.org/@/ZachRiley36"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center px-6 py-3 purple-gradient hover:shadow-lg purple-glow text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-105"
+        >
+          <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+          </svg>
+          Challenge Me on Lichess
+          <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+          </svg>
+        </a>
+        
+        <div className="mt-2 text-xs text-gray-500">
+          Username: <span className="text-primary-400 font-medium">ZachRiley36</span>
+        </div>
       </div>
     </div>
   );

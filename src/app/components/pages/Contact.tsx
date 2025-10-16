@@ -41,7 +41,7 @@ export function Contact() {
       <div className="bg-gradient-to-r from-neutral-800 to-neutral-900 border-b border-neutral-700">
         <div className="container-custom py-12">
           <div className="text-center mb-8">
-            <h1 className="heading-xl text-white mb-4">Get In Touch</h1>
+            <h1 className="heading-xl purple-text-gradient mb-4">Get In Touch</h1>
             <p className="text-neutral-400 body-base max-w-2xl mx-auto">
               I'm always interested in new opportunities and collaborations. 
               Send me a message and I'll get back to you as soon as possible.
@@ -114,7 +114,7 @@ export function Contact() {
                   
         <button
           type="submit"
-                    className="w-full py-4 px-6 bg-primary-500 hover:bg-primary-600 text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-[1.02] hover:shadow-lg hover:shadow-primary-500/25"
+                    className="w-full py-4 px-6 purple-gradient hover:shadow-lg purple-glow text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-[1.02]"
         >
                     Send Message
         </button>

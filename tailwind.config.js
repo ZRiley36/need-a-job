@@ -12,18 +12,18 @@ module.exports = {
         serif: ['Georgia', 'serif'],
       },
       colors: {
-        // Primary brand colors
+        // Primary brand colors - Purple theme
         primary: {
-          50: '#f0f9f0',
-          100: '#dcf2dc',
-          200: '#bce5bc',
-          300: '#8dd48d',
-          400: '#7FB77E',
-          500: '#4a9c4a',
-          600: '#3a7f3a',
-          700: '#2f632f',
-          800: '#275027',
-          900: '#204220',
+          50: '#faf5ff',
+          100: '#f3e8ff',
+          200: '#e9d5ff',
+          300: '#d8b4fe',
+          400: '#c084fc',
+          500: '#a855f7',
+          600: '#9333ea',
+          700: '#7c3aed',
+          800: '#6b21a8',
+          900: '#581c87',
         },
         // Neutral colors for better contrast
         neutral: {
@@ -38,12 +38,12 @@ module.exports = {
           800: '#262626',
           900: '#171717',
         },
-        // Legacy colors (keeping for backward compatibility)
-        default: "#7FB77E", 
-        light: "#FFFFDD",
-        dark: "#000500",
-        rich: "#6A2E35",
-        accent: "#AD9BAA",
+        // Legacy colors (keeping for backward compatibility) - Purple theme
+        default: "#a855f7", 
+        light: "#faf5ff",
+        dark: "#1a0b2e",
+        rich: "#6b21a8",
+        accent: "#c084fc",
         // Semantic colors
         success: '#10b981',
         warning: '#f59e0b',

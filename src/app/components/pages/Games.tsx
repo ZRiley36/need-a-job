@@ -26,7 +26,7 @@ export function Games() {
       <div className="bg-gradient-to-r from-neutral-800 to-neutral-900 border-b border-neutral-700">
         <div className="container-custom py-12">
           <div className="text-center mb-8">
-            <h1 className="heading-xl text-white mb-4">Interactive Games</h1>
+            <h1 className="heading-xl purple-text-gradient mb-4">Interactive Games</h1>
             <p className="text-neutral-400 body-base">Play chess, snake, or tetris - built with React and TypeScript</p>
           </div>
         </div>
@@ -42,8 +42,8 @@ export function Games() {
                 onClick={() => setIndex(i)}
                 className={`px-6 py-3 rounded-md font-medium transition-all duration-300 transform hover:scale-105 ${
                   index === i
-                    ? "bg-primary-500 text-white shadow-lg shadow-primary-500/25"
-                    : "text-neutral-300 hover:text-white hover:bg-neutral-600/50"
+                    ? "bg-primary-500 text-white shadow-lg shadow-primary-500/25 purple-glow"
+                    : "text-neutral-300 hover:text-white hover:bg-neutral-600/50 hover:shadow-primary-500/10"
                 }`}
               >
                 {g.name}

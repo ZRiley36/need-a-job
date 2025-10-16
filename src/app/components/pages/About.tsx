@@ -5,7 +5,7 @@ export function About() {
       <div className="bg-gradient-to-r from-neutral-800 to-neutral-900 border-b border-neutral-700">
         <div className="container-custom py-12">
           <div className="text-center mb-8">
-            <h1 className="heading-xl text-white mb-4">Professional Resume</h1>
+            <h1 className="heading-xl purple-text-gradient mb-4">Professional Resume</h1>
             <div className="flex flex-wrap justify-center gap-4 text-neutral-300 body-base">
               <span>📍 Brooklyn, NY</span>
               <span>📞 (413) 992-8202</span>
@@ -23,8 +23,8 @@ export function About() {
       <div className="container-custom py-16 space-y-16">
         {/* Professional Objective */}
         <section className="animate-slide-up">
-          <h2 className="heading-lg text-primary-400 mb-6 flex items-center">
-            <span className="w-8 h-8 bg-primary-500/20 rounded-lg flex items-center justify-center mr-3">
+          <h2 className="heading-lg purple-text-gradient mb-6 flex items-center">
+            <span className="w-8 h-8 bg-primary-500/20 rounded-lg flex items-center justify-center mr-3 purple-glow">
               🎯
             </span>
             Professional Objective

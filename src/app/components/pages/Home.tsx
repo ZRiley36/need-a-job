@@ -13,9 +13,9 @@ export function Home() {
           </div>
           
           <h1 className="heading-display text-white mb-6 max-w-4xl mx-auto">
-            Building <span className="text-primary-400">innovative solutions</span> through
-            <span className="text-primary-400"> clean code</span> and
-            <span className="text-primary-400"> thoughtful design</span>
+            Building <span className="purple-text-gradient">innovative solutions</span> through
+            <span className="purple-text-gradient"> clean code</span> and
+            <span className="purple-text-gradient"> thoughtful design</span>
           </h1>
           
           <p className="body-lg text-neutral-300 max-w-2xl mx-auto mb-12 leading-relaxed">
@@ -27,7 +27,7 @@ export function Home() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <a 
               href="mailto:zachriley36@gmail.com"
-              className="inline-flex items-center px-8 py-4 bg-primary-500 hover:bg-primary-600 text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-primary-500/25"
+              className="inline-flex items-center px-8 py-4 purple-gradient hover:shadow-lg purple-glow text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-105"
             >
               Get In Touch
               <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -92,23 +92,23 @@ export function Home() {
         </div>
         
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="bg-gradient-to-br from-neutral-800 to-neutral-900 border border-neutral-700 rounded-lg p-6 hover:border-primary-500/50 transition-all duration-300 cursor-pointer group">
-            <h3 className="heading-sm text-white mb-2 group-hover:text-primary-400 transition-colors">Resume</h3>
+          <div className="bg-gradient-to-br from-neutral-800 to-neutral-900 border border-neutral-700 rounded-lg p-6 hover:border-primary-500/50 transition-all duration-300 cursor-pointer group hover:purple-glow">
+            <h3 className="heading-sm text-white mb-2 group-hover:purple-text-gradient transition-colors">Resume</h3>
             <p className="text-neutral-400 body-sm">Professional experience and technical skills</p>
           </div>
           
-          <div className="bg-gradient-to-br from-neutral-800 to-neutral-900 border border-neutral-700 rounded-lg p-6 hover:border-primary-500/50 transition-all duration-300 cursor-pointer group">
-            <h3 className="heading-sm text-white mb-2 group-hover:text-primary-400 transition-colors">Projects</h3>
+          <div className="bg-gradient-to-br from-neutral-800 to-neutral-900 border border-neutral-700 rounded-lg p-6 hover:border-primary-500/50 transition-all duration-300 cursor-pointer group hover:purple-glow">
+            <h3 className="heading-sm text-white mb-2 group-hover:purple-text-gradient transition-colors">Projects</h3>
             <p className="text-neutral-400 body-sm">Data analysis and development work</p>
           </div>
           
-          <div className="bg-gradient-to-br from-neutral-800 to-neutral-900 border border-neutral-700 rounded-lg p-6 hover:border-primary-500/50 transition-all duration-300 cursor-pointer group">
-            <h3 className="heading-sm text-white mb-2 group-hover:text-primary-400 transition-colors">Games</h3>
+          <div className="bg-gradient-to-br from-neutral-800 to-neutral-900 border border-neutral-700 rounded-lg p-6 hover:border-primary-500/50 transition-all duration-300 cursor-pointer group hover:purple-glow">
+            <h3 className="heading-sm text-white mb-2 group-hover:purple-text-gradient transition-colors">Games</h3>
             <p className="text-neutral-400 body-sm">Interactive chess, snake, and tetris games</p>
           </div>
           
-          <div className="bg-gradient-to-br from-neutral-800 to-neutral-900 border border-neutral-700 rounded-lg p-6 hover:border-primary-500/50 transition-all duration-300 cursor-pointer group">
-            <h3 className="heading-sm text-white mb-2 group-hover:text-primary-400 transition-colors">Contact</h3>
+          <div className="bg-gradient-to-br from-neutral-800 to-neutral-900 border border-neutral-700 rounded-lg p-6 hover:border-primary-500/50 transition-all duration-300 cursor-pointer group hover:purple-glow">
+            <h3 className="heading-sm text-white mb-2 group-hover:purple-text-gradient transition-colors">Contact</h3>
             <p className="text-neutral-400 body-sm">Get in touch for opportunities</p>
           </div>
         </div>
