@@ -50,17 +50,6 @@ export function Projects() {
                   <h2 className="heading-lg text-primary-400 mb-2">Ultimate Frisbee Data Analysis</h2>
                   <div className="flex flex-wrap items-center gap-4 text-neutral-400 body-sm">
                     <span>👥 Collaboration with Calahan Lackovic</span>
-                    <a 
-                      href="https://www.youtube.com/watch?v=xXuHFDnZVhA" 
-                      className="inline-flex items-center text-primary-400 hover:text-primary-300 transition-colors" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                    >
-                      🎥 Project Video
-                      <svg className="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                      </svg>
-                    </a>
                   </div>
                 </div>
                 <div className="mt-4 lg:mt-0">
@@ -208,23 +197,41 @@ export function Projects() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                     </svg>
                   </a>
-                  <a 
-                    href="/database" 
-                    className="flex items-center p-4 bg-neutral-600/30 hover:bg-neutral-600/50 rounded-lg border border-neutral-500 hover:border-primary-500/50 transition-all duration-300 group"
-                  >
-                    <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center mr-3">
-                      <svg className="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                      </svg>
+                  <div className="p-4 bg-neutral-600/30 rounded-lg border border-neutral-500">
+                    <div className="flex items-center mb-4">
+                      <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center mr-3">
+                        <svg className="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                        </svg>
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-white font-medium">Example Queries</p>
+                        <p className="text-neutral-400 text-sm">SQL scripts & database queries</p>
+                      </div>
                     </div>
-                    <div className="flex-1">
-                      <p className="text-white font-medium group-hover:text-primary-400 transition-colors">View Example Queries</p>
-                      <p className="text-neutral-400 text-sm">SQL scripts & example queries in /database folder</p>
+                    
+                    <div className="space-y-3">
+                      <div className="bg-neutral-900/50 rounded p-3 border border-neutral-600">
+                        <h4 className="text-primary-300 text-sm font-medium mb-2">Complex Relationship Query</h4>
+                        <code className="text-primary-400 text-xs block">
+                          SELECT f.name, SUM(t.amount) as total_contributions<br/>
+                          FROM filers f JOIN transactions t ON f.filer_id = t.filer_id<br/>
+                          WHERE f.name LIKE '%Keith Olberg%'<br/>
+                          GROUP BY f.filer_id, f.name;
+                        </code>
+                      </div>
+                      
+                      <div className="bg-neutral-900/50 rounded p-3 border border-neutral-600">
+                        <h4 className="text-primary-300 text-sm font-medium mb-2">Lobbyist Activity Analysis</h4>
+                        <code className="text-primary-400 text-xs block">
+                          SELECT l.name, COUNT(DISTINCT o.organization_id) as orgs_represented<br/>
+                          FROM lobbyists l JOIN lobbyist_orgs lo ON l.lobbyist_id = lo.lobbyist_id<br/>
+                          JOIN organizations o ON lo.organization_id = o.organization_id<br/>
+                          GROUP BY l.lobbyist_id, l.name ORDER BY orgs_represented DESC;
+                        </code>
+                      </div>
                     </div>
-                    <svg className="w-4 h-4 text-neutral-400 group-hover:text-primary-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                    </svg>
-                  </a>
+                  </div>
                 </div>
               </div>
 

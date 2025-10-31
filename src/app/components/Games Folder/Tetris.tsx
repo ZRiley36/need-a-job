@@ -182,7 +182,7 @@ function MiniBoard({ shape, colorIndex }: { shape: number[][], colorIndex: numbe
       {grid.flat().map((cell, i) => (
         <div
           key={i}
-          className={`w-5 h-5 border border-gray-700 ${cell ? COLORS[cell - 1] : "bg-gray-900"}`}
+          className={`w-5 h-5 border border-neutral-700 ${cell ? COLORS[cell - 1] : "bg-neutral-800"}`}
         />
       ))}
     </div>
@@ -404,12 +404,12 @@ export default function Tetris() {
 
   return (
     <div className="flex flex-col items-center mt-8">
-      <h2 className="text-2xl font-bold mb-2 text-rich">Tetris</h2>
+      <h2 className="text-2xl font-bold mb-2 purple-text-gradient">Tetris</h2>
       <div className="flex gap-8 mb-4">
         {/* Main board */}
         <div>
           <div
-            className="inline-block border-4 border-rich bg-black"
+            className="inline-block border-4 border-primary-500 bg-neutral-900 rounded-lg shadow-lg"
             style={{
               width: COLS * BLOCK_SIZE,
               height: ROWS * BLOCK_SIZE,
@@ -425,10 +425,10 @@ export default function Tetris() {
               {displayBoard.flat().map((cell, i) => (
                 <div
                   key={i}
-                  className={`w-7 h-7 border border-gray-800 ${
+                  className={`w-7 h-7 border border-neutral-700 ${
                     cell
                       ? COLORS[cell - 1]
-                      : "bg-gray-900"
+                      : "bg-neutral-800"
                   }`}
                   style={{
                     boxSizing: "border-box",
@@ -443,35 +443,35 @@ export default function Tetris() {
         {/* Next and Hold boxes */}
         <div className="flex flex-col gap-6 items-center">
           <div className="flex flex-col items-center">
-            <span className="text-sm text-gray-400 mb-1">Next</span>
-            <div className="border-2 border-rich bg-black rounded p-1">
+            <span className="text-sm text-neutral-300 mb-1 font-medium">Next</span>
+            <div className="border-2 border-primary-500 bg-neutral-900 rounded-lg p-2 shadow-lg">
               <MiniBoard shape={next.shape} colorIndex={next.index} />
             </div>
           </div>
           <div className="flex flex-col items-center">
-            <span className="text-sm text-gray-400 mb-1">Hold</span>
-            <div className="border-2 border-rich bg-black rounded p-1">
+            <span className="text-sm text-neutral-300 mb-1 font-medium">Hold</span>
+            <div className="border-2 border-primary-500 bg-neutral-900 rounded-lg p-2 shadow-lg">
               {hold ? (
                 <MiniBoard shape={hold.shape} colorIndex={hold.index} />
               ) : (
-                <div className="w-20 h-20 flex items-center justify-center text-gray-700">--</div>
+                <div className="w-20 h-20 flex items-center justify-center text-neutral-600">--</div>
               )}
             </div>
           </div>
         </div>
       </div>
       <div className="mt-4 flex gap-4 items-center">
-        <span className="text-lg text-rich font-bold">Score: {score}</span>
+        <span className="text-lg text-primary-400 font-bold">Score: {score}</span>
         {gameOver && (
           <button
-            className="ml-4 px-4 py-2 bg-rich text-light rounded hover:bg-accent"
+            className="ml-4 px-4 py-2 purple-gradient text-white rounded-lg hover:shadow-lg purple-glow transition-all duration-300 transform hover:scale-105"
             onClick={resetGame}
           >
             Restart
           </button>
         )}
       </div>
-      <div className="mt-4 text-sm text-gray-400">
+      <div className="mt-4 text-sm text-neutral-400 text-center max-w-md">
         Controls: <b>Arrow keys/WASD</b> to move, <b>Up/W/X</b> rotate clockwise, <b>Z</b> rotate counter-clockwise, <b>C</b> to hold, <b>Space</b> to hard drop
       </div>
     </div>

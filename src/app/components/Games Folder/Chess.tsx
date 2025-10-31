@@ -1,10 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Chess } from "chess.js";
 
 export default function ChessBoard() {
   const [game, setGame] = useState(() => new Chess());
   const [selected, setSelected] = useState<[number, number] | null>(null);
   const [dragged, setDragged] = useState<[number, number] | null>(null);
+  const [isPlayerTurn, setIsPlayerTurn] = useState(true);
+  const [isThinking, setIsThinking] = useState(false);
+  const [stockfishLevel, setStockfishLevel] = useState(1);
+  const [gameStatus, setGameStatus] = useState("playing"); // playing, checkmate, stalemate
   const board = game.board();
 
   // Convert board coordinates to algebraic notation (e.g., [6,4] -> "e2")
@@ -12,21 +16,92 @@ export default function ChessBoard() {
     return "abcdefgh"[col] + (8 - row);
   }
 
+  // Get Stockfish move from Lichess API
+  const getStockfishMove = async (fen: string, level: number) => {
+    try {
+      const response = await fetch(`https://lichess.org/api/cloud-eval?fen=${encodeURIComponent(fen)}&multiPv=1&depth=15`);
+      const data = await response.json();
+      
+      if (data.bestmove) {
+        return data.bestmove;
+      }
+      
+      // Fallback to simpler API call
+      const fallbackResponse = await fetch(`https://explorer.lichess.ovh/masters?fen=${encodeURIComponent(fen)}&topGames=0&recentGames=0`);
+      const fallbackData = await fallbackResponse.json();
+      
+      if (fallbackData.moves && fallbackData.moves.length > 0) {
+        // Return a random move from the top moves (simulating different difficulty levels)
+        const moveIndex = Math.min(level - 1, fallbackData.moves.length - 1);
+        return fallbackData.moves[moveIndex].uci;
+      }
+      
+      return null;
+    } catch (error) {
+      console.error('Error getting Stockfish move:', error);
+      return null;
+    }
+  };
+
+  // Make Stockfish move
+  const makeStockfishMove = async () => {
+    if (!isPlayerTurn || isThinking) return;
+    
+    setIsThinking(true);
+    const currentFen = game.fen();
+    const stockfishMove = await getStockfishMove(currentFen, stockfishLevel);
+    
+    if (stockfishMove) {
+      try {
+        const move = game.move(stockfishMove);
+        if (move) {
+          setGame(new Chess(game.fen()));
+          setIsPlayerTurn(true);
+          checkGameStatus();
+        }
+      } catch (error) {
+        console.error('Error making Stockfish move:', error);
+      }
+    }
+    
+    setIsThinking(false);
+  };
+
+  // Check game status
+  const checkGameStatus = () => {
+    if (game.isCheckmate()) {
+      setGameStatus("checkmate");
+    } else if (game.isStalemate()) {
+      setGameStatus("stalemate");
+    } else {
+      setGameStatus("playing");
+    }
+  };
+
   function handleSquareClick(row: number, col: number) {
+    if (!isPlayerTurn || isThinking || gameStatus !== "playing") return;
+    
     if (selected) {
       const from = toAlgebraic(selected[0], selected[1]);
       const to = toAlgebraic(row, col);
       try {
         const move = game.move({ from, to, promotion: "q" });
         if (move) {
-          setGame(new Chess(game.fen())); // update board
+          setGame(new Chess(game.fen()));
+          setIsPlayerTurn(false);
+          checkGameStatus();
+          
+          // Make Stockfish move after a short delay
+          setTimeout(() => {
+            makeStockfishMove();
+          }, 500);
         }
       } catch {
         // Ignore illegal move attempts
       } finally {
         setSelected(null);
       }
-    } else if (board[row][col]) {
+    } else if (board[row][col] && board[row][col]?.color === 'w') {
       setSelected([row, col]);
     }
   }
@@ -39,24 +114,34 @@ export default function ChessBoard() {
 
   // Drag handlers
   function handleDragStart(row: number, col: number) {
-    setDragged([row, col]);
+    if (!isPlayerTurn || isThinking || gameStatus !== "playing") return;
+    if (board[row][col]?.color === 'w') {
+      setDragged([row, col]);
+    }
   }
 
   function handleDrop(row: number, col: number) {
-    if (dragged) {
-      const from = toAlgebraic(dragged[0], dragged[1]);
-      const to = toAlgebraic(row, col);
-      try {
-        const move = game.move({ from, to, promotion: "q" });
-        if (move) {
-          setGame(new Chess(game.fen()));
-        }
-      } catch {
-        // Ignore illegal move attempts
-      } finally {
-        setDragged(null);
-        setSelected(null);
+    if (!isPlayerTurn || isThinking || gameStatus !== "playing" || !dragged) return;
+    
+    const from = toAlgebraic(dragged[0], dragged[1]);
+    const to = toAlgebraic(row, col);
+    try {
+      const move = game.move({ from, to, promotion: "q" });
+      if (move) {
+        setGame(new Chess(game.fen()));
+        setIsPlayerTurn(false);
+        checkGameStatus();
+        
+        // Make Stockfish move after a short delay
+        setTimeout(() => {
+          makeStockfishMove();
+        }, 500);
       }
+    } catch {
+      // Ignore illegal move attempts
+    } finally {
+      setDragged(null);
+      setSelected(null);
     }
   }
 
@@ -64,9 +149,75 @@ export default function ChessBoard() {
     e.preventDefault();
   }
 
+  // Reset game
+  const resetGame = () => {
+    setGame(new Chess());
+    setIsPlayerTurn(true);
+    setIsThinking(false);
+    setGameStatus("playing");
+    setSelected(null);
+    setDragged(null);
+  };
+
   return (
     <div className="flex flex-col items-center mt-8">
-      <h2 className="text-2xl font-bold mb-2 purple-text-gradient">Chess</h2>
+      <h2 className="text-2xl font-bold mb-2 purple-text-gradient">Chess vs Stockfish</h2>
+      
+      {/* Game Controls */}
+      <div className="mb-4 flex flex-col items-center space-y-3">
+        <div className="flex items-center space-x-4">
+          <label className="text-white text-sm font-medium">
+            Difficulty Level:
+          </label>
+          <select
+            value={stockfishLevel}
+            onChange={(e) => setStockfishLevel(Number(e.target.value))}
+            className="bg-neutral-700 text-white px-3 py-1 rounded border border-neutral-600 focus:border-primary-500 focus:outline-none"
+            disabled={!isPlayerTurn || isThinking}
+          >
+            <option value={1}>Level 1 (Easy)</option>
+            <option value={2}>Level 2 (Medium)</option>
+            <option value={3}>Level 3 (Hard)</option>
+            <option value={4}>Level 4 (Expert)</option>
+            <option value={5}>Level 5 (Master)</option>
+          </select>
+        </div>
+        
+        <div className="flex items-center space-x-4">
+          <button
+            onClick={resetGame}
+            className="px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white rounded-lg transition-colors text-sm font-medium"
+          >
+            New Game
+          </button>
+          
+          <div className="text-sm text-neutral-300">
+            {isThinking ? (
+              <span className="text-primary-400">🤖 Stockfish is thinking...</span>
+            ) : isPlayerTurn ? (
+              <span className="text-green-400">♟️ Your turn</span>
+            ) : (
+              <span className="text-blue-400">🤖 Stockfish's turn</span>
+            )}
+          </div>
+        </div>
+        
+        {gameStatus !== "playing" && (
+          <div className="text-center">
+            {gameStatus === "checkmate" && (
+              <div className="text-red-400 font-semibold">
+                {isPlayerTurn ? "🤖 Stockfish wins!" : "🎉 You win!"}
+              </div>
+            )}
+            {gameStatus === "stalemate" && (
+              <div className="text-yellow-400 font-semibold">
+                🤝 Stalemate - Draw!
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+      
       <div className="relative" style={{ width: 320, height: 320 }}>
         {/* Board background */}
         <img
@@ -118,7 +269,8 @@ export default function ChessBoard() {
       </div>
       <div className="mt-4 text-center">
         <div className="text-gray-400 text-sm mb-4">
-          Click or drag a piece to move. No rules for turns or checkmate yet.
+          Play as white against Stockfish! Click or drag pieces to move. 
+          Choose your difficulty level and try to beat the computer.
         </div>
         
         {/* Lichess Challenge Button */}
