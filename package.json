@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "chess.js": "^1.4.0",
     "emailjs-com": "^3.2.0",
     "git": "^0.1.5",
     "next": "15.3.2",
