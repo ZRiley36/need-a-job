@@ -8,16 +8,29 @@ import { Projects } from "@/app/components/pages/Projects";
 import { Contact } from "@/app/components/pages/Contact";
 import { Games } from "@/app/components/pages/Games";
 
-const pageComponents = {
-  Home: <Home />,
-  Resume: <About />,
-  Projects: <Projects />,
-  Games: <Games />,
-  Contact: <Contact />,
-};
+type PageKey = "Home" | "Resume" | "Projects" | "Games" | "Contact";
 
 export default function HomePage() {
-  const [activePage, setActivePage] = useState<keyof typeof pageComponents>("Home");
+  const [activePage, setActivePage] = useState<PageKey>("Home");
+
+  const renderPage = () => {
+    switch (activePage) {
+      case "Home":
+        return <Home setActivePage={setActivePage} />;
+      case "Resume":
+        return <About />;
+      case "Projects":
+        return <Projects />;
+      case "Games":
+        return <Games />;
+      case "Contact":
+        return <Contact />;
+      default:
+        return <Home setActivePage={setActivePage} />;
+    }
+  };
+
+  const pageKeys: PageKey[] = ["Home", "Resume", "Projects", "Games", "Contact"];
 
   return (
     <div className="min-h-screen bg-neutral-900 text-neutral-100">
@@ -38,10 +51,10 @@ export default function HomePage() {
         <div className="container-custom">
           <div className="flex justify-center">
             <div className="flex space-x-1 bg-neutral-700/50 rounded-lg p-1 my-4">
-              {Object.keys(pageComponents).map((page) => (
+              {pageKeys.map((page) => (
                 <button
                   key={page}
-                  onClick={() => setActivePage(page as keyof typeof pageComponents)}
+                  onClick={() => setActivePage(page)}
                   className={`px-6 py-3 rounded-md font-medium transition-all duration-300 transform hover:scale-105 ${
                     activePage === page 
                       ? "bg-primary-500 text-white shadow-lg shadow-primary-500/25 purple-glow" 
@@ -59,7 +72,7 @@ export default function HomePage() {
       {/* Main content with better spacing */}
       <main className="animate-fade-in">
         <div className={activePage === "Home" ? "" : "container-custom section-spacing"}>
-          {pageComponents[activePage]}
+          {renderPage()}
         </div>
       </main>
     </div>

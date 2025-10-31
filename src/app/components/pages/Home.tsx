@@ -1,5 +1,11 @@
 // components/pages/Home.tsx
-export function Home() {
+type PageKey = "Home" | "Resume" | "Projects" | "Games" | "Contact";
+
+interface HomeProps {
+  setActivePage: (page: PageKey) => void;
+}
+
+export function Home({ setActivePage }: HomeProps) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900">
       {/* Hero Section */}
@@ -92,22 +98,34 @@ export function Home() {
         </div>
         
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="bg-gradient-to-br from-neutral-800 to-neutral-900 border border-neutral-700 rounded-lg p-6 hover:border-primary-500/50 transition-all duration-300 cursor-pointer group hover:purple-glow">
+          <div 
+            onClick={() => setActivePage("Resume")}
+            className="bg-gradient-to-br from-neutral-800 to-neutral-900 border border-neutral-700 rounded-lg p-6 hover:border-primary-500/50 transition-all duration-300 cursor-pointer group hover:purple-glow transform hover:scale-105"
+          >
             <h3 className="heading-sm text-white mb-2 group-hover:purple-text-gradient transition-colors">Resume</h3>
             <p className="text-neutral-400 body-sm">Professional experience and technical skills</p>
           </div>
           
-          <div className="bg-gradient-to-br from-neutral-800 to-neutral-900 border border-neutral-700 rounded-lg p-6 hover:border-primary-500/50 transition-all duration-300 cursor-pointer group hover:purple-glow">
+          <div 
+            onClick={() => setActivePage("Projects")}
+            className="bg-gradient-to-br from-neutral-800 to-neutral-900 border border-neutral-700 rounded-lg p-6 hover:border-primary-500/50 transition-all duration-300 cursor-pointer group hover:purple-glow transform hover:scale-105"
+          >
             <h3 className="heading-sm text-white mb-2 group-hover:purple-text-gradient transition-colors">Projects</h3>
             <p className="text-neutral-400 body-sm">Data analysis and development work</p>
           </div>
           
-          <div className="bg-gradient-to-br from-neutral-800 to-neutral-900 border border-neutral-700 rounded-lg p-6 hover:border-primary-500/50 transition-all duration-300 cursor-pointer group hover:purple-glow">
+          <div 
+            onClick={() => setActivePage("Games")}
+            className="bg-gradient-to-br from-neutral-800 to-neutral-900 border border-neutral-700 rounded-lg p-6 hover:border-primary-500/50 transition-all duration-300 cursor-pointer group hover:purple-glow transform hover:scale-105"
+          >
             <h3 className="heading-sm text-white mb-2 group-hover:purple-text-gradient transition-colors">Games</h3>
             <p className="text-neutral-400 body-sm">Interactive chess, snake, and tetris games</p>
           </div>
           
-          <div className="bg-gradient-to-br from-neutral-800 to-neutral-900 border border-neutral-700 rounded-lg p-6 hover:border-primary-500/50 transition-all duration-300 cursor-pointer group hover:purple-glow">
+          <div 
+            onClick={() => setActivePage("Contact")}
+            className="bg-gradient-to-br from-neutral-800 to-neutral-900 border border-neutral-700 rounded-lg p-6 hover:border-primary-500/50 transition-all duration-300 cursor-pointer group hover:purple-glow transform hover:scale-105"
+          >
             <h3 className="heading-sm text-white mb-2 group-hover:purple-text-gradient transition-colors">Contact</h3>
             <p className="text-neutral-400 body-sm">Get in touch for opportunities</p>
           </div>
