@@ -22,8 +22,10 @@ export default function ChessBoard() {
       const response = await fetch(`https://lichess.org/api/cloud-eval?fen=${encodeURIComponent(fen)}&multiPv=1&depth=15`);
       const data = await response.json();
       
-      if (data.bestmove) {
-        return data.bestmove;
+      // Check for best move in the response
+      if (data.pvs && data.pvs.length > 0 && data.pvs[0].moves && data.pvs[0].moves.length > 0) {
+        // Get the first move from the principal variation
+        return data.pvs[0].moves[0];
       }
       
       // Fallback to simpler API call
@@ -31,7 +33,7 @@ export default function ChessBoard() {
       const fallbackData = await fallbackResponse.json();
       
       if (fallbackData.moves && fallbackData.moves.length > 0) {
-        // Return a random move from the top moves (simulating different difficulty levels)
+        // Return a move from the top moves (simulating different difficulty levels)
         const moveIndex = Math.min(level - 1, fallbackData.moves.length - 1);
         return fallbackData.moves[moveIndex].uci;
       }
@@ -44,34 +46,88 @@ export default function ChessBoard() {
   };
 
   // Make Stockfish move
-  const makeStockfishMove = async () => {
-    if (!isPlayerTurn || isThinking) return;
+  const makeStockfishMove = async (currentGameState: Chess) => {
+    if (isThinking) return;
     
     setIsThinking(true);
-    const currentFen = game.fen();
-    const stockfishMove = await getStockfishMove(currentFen, stockfishLevel);
     
-    if (stockfishMove) {
-      try {
-        const move = game.move(stockfishMove);
-        if (move) {
-          setGame(new Chess(game.fen()));
-          setIsPlayerTurn(true);
-          checkGameStatus();
+    try {
+      const currentFen = currentGameState.fen();
+      const stockfishMove = await getStockfishMove(currentFen, stockfishLevel);
+      
+      if (stockfishMove) {
+        // Create a new game instance from current state
+        const tempGame = new Chess(currentFen);
+        
+        // Try the move - chess.js expects moves in SAN or UCI format
+        let move;
+        try {
+          // Try UCI format first (e.g., "e2e4")
+          move = tempGame.move(stockfishMove);
+        } catch {
+          // If that fails, try parsing as UCI and converting
+          try {
+            // Some APIs return moves in format like "e2e4", try that
+            move = tempGame.move({
+              from: stockfishMove.substring(0, 2),
+              to: stockfishMove.substring(2, 4),
+              promotion: stockfishMove.length > 4 ? stockfishMove[4] : undefined
+            });
+          } catch {
+            console.error('Invalid move format:', stockfishMove);
+            setIsPlayerTurn(true);
+            setIsThinking(false);
+            return;
+          }
         }
-      } catch (error) {
-        console.error('Error making Stockfish move:', error);
+        
+        if (move) {
+          // Update game state with the new position
+          const updatedGame = new Chess(tempGame.fen());
+          setGame(updatedGame);
+          
+          // Check game status with the updated game
+          if (updatedGame.isCheckmate()) {
+            setGameStatus("checkmate");
+          } else if (updatedGame.isStalemate()) {
+            setGameStatus("stalemate");
+          } else {
+            setGameStatus("playing");
+            setIsPlayerTurn(true);
+          }
+        } else {
+          // If move failed, reset turn to player
+          setIsPlayerTurn(true);
+          setGameStatus("playing");
+        }
+      } else {
+        // If no move was found, reset turn to player (might be checkmate/stalemate)
+        const tempGame = new Chess(currentFen);
+        if (tempGame.isCheckmate() || tempGame.isStalemate()) {
+          if (tempGame.isCheckmate()) {
+            setGameStatus("checkmate");
+          } else {
+            setGameStatus("stalemate");
+          }
+        } else {
+          setIsPlayerTurn(true);
+        }
       }
+    } catch (error) {
+      console.error('Error making Stockfish move:', error);
+      // Reset turn to player on error
+      setIsPlayerTurn(true);
+      setGameStatus("playing");
+    } finally {
+      setIsThinking(false);
     }
-    
-    setIsThinking(false);
   };
 
-  // Check game status
-  const checkGameStatus = () => {
-    if (game.isCheckmate()) {
+  // Check game status - now takes game instance as parameter
+  const checkGameStatus = (gameInstance: Chess) => {
+    if (gameInstance.isCheckmate()) {
       setGameStatus("checkmate");
-    } else if (game.isStalemate()) {
+    } else if (gameInstance.isStalemate()) {
       setGameStatus("stalemate");
     } else {
       setGameStatus("playing");
@@ -85,15 +141,20 @@ export default function ChessBoard() {
       const from = toAlgebraic(selected[0], selected[1]);
       const to = toAlgebraic(row, col);
       try {
-        const move = game.move({ from, to, promotion: "q" });
+        // Create a temporary game to validate the move
+        const tempGame = new Chess(game.fen());
+        const move = tempGame.move({ from, to, promotion: "q" });
+        
         if (move) {
-          setGame(new Chess(game.fen()));
+          // Update game state
+          const newGame = new Chess(tempGame.fen());
+          setGame(newGame);
           setIsPlayerTurn(false);
-          checkGameStatus();
+          checkGameStatus(newGame);
           
-          // Make Stockfish move after a short delay
+          // Make Stockfish move after a short delay using the updated game state
           setTimeout(() => {
-            makeStockfishMove();
+            makeStockfishMove(newGame);
           }, 500);
         }
       } catch {
@@ -126,15 +187,20 @@ export default function ChessBoard() {
     const from = toAlgebraic(dragged[0], dragged[1]);
     const to = toAlgebraic(row, col);
     try {
-      const move = game.move({ from, to, promotion: "q" });
+      // Create a temporary game to validate the move
+      const tempGame = new Chess(game.fen());
+      const move = tempGame.move({ from, to, promotion: "q" });
+      
       if (move) {
-        setGame(new Chess(game.fen()));
+        // Update game state
+        const newGame = new Chess(tempGame.fen());
+        setGame(newGame);
         setIsPlayerTurn(false);
-        checkGameStatus();
+        checkGameStatus(newGame);
         
-        // Make Stockfish move after a short delay
+        // Make Stockfish move after a short delay using the updated game state
         setTimeout(() => {
-          makeStockfishMove();
+          makeStockfishMove(newGame);
         }, 500);
       }
     } catch {
