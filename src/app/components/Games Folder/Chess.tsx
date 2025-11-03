@@ -1,218 +1,206 @@
-import { useState, useEffect } from "react";
+"use client";
+
+import { useState, useCallback } from "react";
 import { Chess } from "chess.js";
+import { Chessboard } from "react-chessboard";
 
 export default function ChessBoard() {
   const [game, setGame] = useState(() => new Chess());
-  const [selected, setSelected] = useState<[number, number] | null>(null);
-  const [dragged, setDragged] = useState<[number, number] | null>(null);
   const [isPlayerTurn, setIsPlayerTurn] = useState(true);
   const [isThinking, setIsThinking] = useState(false);
   const [stockfishLevel, setStockfishLevel] = useState(1);
-  const [gameStatus, setGameStatus] = useState("playing"); // playing, checkmate, stalemate
-  const board = game.board();
-
-  // Convert board coordinates to algebraic notation (e.g., [6,4] -> "e2")
-  function toAlgebraic(row: number, col: number) {
-    return "abcdefgh"[col] + (8 - row);
-  }
+  const [gameStatus, setGameStatus] = useState<"playing" | "checkmate" | "stalemate">("playing");
 
   // Get Stockfish move from Lichess API
-  const getStockfishMove = async (fen: string, level: number) => {
+  // API returns: {fen: '...', knodes: number, depth: number, pvs: Array(1)}
+  // pvs[0].moves contains the move sequence in UCI format
+  const getStockfishMove = async (fen: string, level: number): Promise<string | null> => {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+    
     try {
-      const response = await fetch(`https://lichess.org/api/cloud-eval?fen=${encodeURIComponent(fen)}&multiPv=1&depth=15`);
-      const data = await response.json();
+      console.log('Calling Lichess cloud eval API with FEN:', fen);
+      const response = await fetch(`https://lichess.org/api/cloud-eval?fen=${encodeURIComponent(fen)}&multiPv=1&depth=15`, {
+        signal: controller.signal
+      });
+      clearTimeout(timeoutId);
       
-      // Check for best move in the response
-      if (data.pvs && data.pvs.length > 0 && data.pvs[0].moves && data.pvs[0].moves.length > 0) {
-        // Get the first move from the principal variation
-        return data.pvs[0].moves[0];
+      if (!response.ok) {
+        console.error('Lichess cloud eval API returned error:', response.status, response.statusText);
+        return null;
       }
       
-      // Fallback to simpler API call
-      const fallbackResponse = await fetch(`https://explorer.lichess.ovh/masters?fen=${encodeURIComponent(fen)}&topGames=0&recentGames=0`);
-      const fallbackData = await fallbackResponse.json();
+      const data = await response.json();
+      console.log('API response:', data);
       
-      if (fallbackData.moves && fallbackData.moves.length > 0) {
-        // Return a move from the top moves (simulating different difficulty levels)
-        const moveIndex = Math.min(level - 1, fallbackData.moves.length - 1);
-        return fallbackData.moves[moveIndex].uci;
+      // API format: {fen: '...', knodes: number, depth: number, pvs: Array(1)}
+      if (data && data.pvs && Array.isArray(data.pvs) && data.pvs.length > 0) {
+        const pv = data.pvs[0];
+        
+        // pvs[0] should have a 'moves' array with UCI format moves
+        if (pv.moves && Array.isArray(pv.moves) && pv.moves.length > 0) {
+          const move = pv.moves[0];
+          
+          // Move should be a string in UCI format (e.g., "e2e4" or "e7e8q")
+          if (typeof move === 'string' && (move.length === 4 || move.length === 5)) {
+            console.log('Got move from API:', move, 'depth:', data.depth, 'knodes:', data.knodes);
+            return move.toLowerCase();
+          } else {
+            console.error('Invalid move format from API:', move, typeof move);
+          }
+        } else {
+          console.error('No moves in pvs[0]:', pv);
+        }
+      } else {
+        console.error('Invalid API response structure:', data);
       }
       
       return null;
     } catch (error) {
-      console.error('Error getting Stockfish move:', error);
+      clearTimeout(timeoutId);
+      if (error instanceof Error && error.name === 'AbortError') {
+        console.error('API request timed out after 30 seconds');
+      } else {
+        console.error('Error calling Lichess API:', error);
+      }
       return null;
     }
   };
 
   // Make Stockfish move
-  const makeStockfishMove = async (currentGameState: Chess) => {
-    if (isThinking) return;
-    
+  const makeStockfishMove = useCallback(async (currentFen: string) => {
     setIsThinking(true);
     
     try {
-      const currentFen = currentGameState.fen();
-      const stockfishMove = await getStockfishMove(currentFen, stockfishLevel);
+      console.log('=== Stockfish making move ===');
+      console.log('Current FEN:', currentFen);
       
-      if (stockfishMove) {
-        // Create a new game instance from current state
-        const tempGame = new Chess(currentFen);
+      // Get move from API
+      const stockfishMoveUci = await getStockfishMove(currentFen, stockfishLevel);
+      
+      if (!stockfishMoveUci || stockfishMoveUci.length < 4) {
+        console.error('No valid move from API');
+        console.error('API returned:', stockfishMoveUci);
+        setIsPlayerTurn(true);
+        setIsThinking(false);
+        return;
+      }
+      
+      console.log('API returned UCI move:', stockfishMoveUci);
+      
+      // Parse UCI move: format is "e2e4" or "e7e8q" (from + to + optional promotion)
+      const from = stockfishMoveUci.substring(0, 2);
+      const to = stockfishMoveUci.substring(2, 4);
+      const promotion = stockfishMoveUci.length === 5 ? stockfishMoveUci[4].toLowerCase() : undefined;
+      
+      console.log('Parsed move - from:', from, 'to:', to, 'promotion:', promotion || 'none');
+      
+      // Create game instance and apply move
+      const tempGame = new Chess(currentFen);
+      
+      try {
+        // Apply the move directly - chess.js handles castling correctly if FEN is correct
+        const move = tempGame.move({
+          from,
+          to,
+          promotion: promotion || undefined
+        });
         
-        // Try the move - chess.js expects moves in SAN or UCI format
-        let move;
-        try {
-          // Try UCI format first (e.g., "e2e4")
-          move = tempGame.move(stockfishMove);
-        } catch {
-          // If that fails, try parsing as UCI and converting
-          try {
-            // Some APIs return moves in format like "e2e4", try that
-            move = tempGame.move({
-              from: stockfishMove.substring(0, 2),
-              to: stockfishMove.substring(2, 4),
-              promotion: stockfishMove.length > 4 ? stockfishMove[4] : undefined
-            });
-          } catch {
-            console.error('Invalid move format:', stockfishMove);
-            setIsPlayerTurn(true);
-            setIsThinking(false);
-            return;
-          }
+        if (!move) {
+          console.error('Move returned null - invalid move');
+          setIsPlayerTurn(true);
+          setIsThinking(false);
+          return;
         }
         
-        if (move) {
-          // Update game state with the new position
-          const updatedGame = new Chess(tempGame.fen());
-          setGame(updatedGame);
-          
-          // Check game status with the updated game
-          if (updatedGame.isCheckmate()) {
-            setGameStatus("checkmate");
-          } else if (updatedGame.isStalemate()) {
-            setGameStatus("stalemate");
-          } else {
-            setGameStatus("playing");
-            setIsPlayerTurn(true);
-          }
+        const newFen = tempGame.fen();
+        console.log('Move applied successfully:', move.san);
+        console.log('Move flags:', move.flags);
+        console.log('New FEN:', newFen);
+        console.log('Next turn:', newFen.split(' ')[1]);
+        
+        // Update game state
+        setGame(new Chess(newFen));
+        setIsPlayerTurn(true);
+        setIsThinking(false);
+        
+        // Check game status
+        if (tempGame.isCheckmate()) {
+          setGameStatus("checkmate");
+          console.log('Checkmate!');
+        } else if (tempGame.isStalemate()) {
+          setGameStatus("stalemate");
+          console.log('Stalemate!');
         } else {
-          // If move failed, reset turn to player
-          setIsPlayerTurn(true);
           setGameStatus("playing");
         }
-      } else {
-        // If no move was found, reset turn to player (might be checkmate/stalemate)
-        const tempGame = new Chess(currentFen);
-        if (tempGame.isCheckmate() || tempGame.isStalemate()) {
-          if (tempGame.isCheckmate()) {
-            setGameStatus("checkmate");
-          } else {
-            setGameStatus("stalemate");
-          }
-        } else {
-          setIsPlayerTurn(true);
-        }
+        
+        console.log('=== Move complete ===');
+        
+      } catch (moveError) {
+        console.error('Failed to apply move:', moveError);
+        console.error('UCI move:', stockfishMoveUci);
+        console.error('From:', from, 'To:', to);
+        console.error('FEN:', currentFen);
+        
+        // Show legal moves for debugging
+        const legalMoves = tempGame.moves({ verbose: true });
+        console.error('Legal moves available:', legalMoves.map((m: any) => `${m.from}${m.to}${m.promotion || ''}`));
+        
+        setIsPlayerTurn(true);
+        setIsThinking(false);
+        return;
       }
+      
     } catch (error) {
-      console.error('Error making Stockfish move:', error);
-      // Reset turn to player on error
+      console.error('Error in makeStockfishMove:', error);
       setIsPlayerTurn(true);
-      setGameStatus("playing");
-    } finally {
       setIsThinking(false);
     }
-  };
+  }, [stockfishLevel]);
 
-  // Check game status - now takes game instance as parameter
-  const checkGameStatus = (gameInstance: Chess) => {
-    if (gameInstance.isCheckmate()) {
-      setGameStatus("checkmate");
-    } else if (gameInstance.isStalemate()) {
-      setGameStatus("stalemate");
-    } else {
-      setGameStatus("playing");
-    }
-  };
-
-  function handleSquareClick(row: number, col: number) {
-    if (!isPlayerTurn || isThinking || gameStatus !== "playing") return;
+  // Handle player move
+  function onDrop({ sourceSquare, targetSquare, piece }: { sourceSquare: string; targetSquare: string | null; piece: { pieceType: string } }) {
+    if (!isPlayerTurn || isThinking || gameStatus !== "playing") return false;
     
-    if (selected) {
-      const from = toAlgebraic(selected[0], selected[1]);
-      const to = toAlgebraic(row, col);
-      try {
-        // Create a temporary game to validate the move
-        const tempGame = new Chess(game.fen());
-        const move = tempGame.move({ from, to, promotion: "q" });
-        
-        if (move) {
-          // Update game state
-          const newGame = new Chess(tempGame.fen());
-          setGame(newGame);
-          setIsPlayerTurn(false);
-          checkGameStatus(newGame);
-          
-          // Make Stockfish move after a short delay using the updated game state
-          setTimeout(() => {
-            makeStockfishMove(newGame);
-          }, 500);
-        }
-      } catch {
-        // Ignore illegal move attempts
-      } finally {
-        setSelected(null);
-      }
-    } else if (board[row][col] && board[row][col]?.color === 'w') {
-      setSelected([row, col]);
-    }
-  }
-
-  const getPieceImage = (piece: { type: string; color: string } | null) => {
-    if (!piece) return "";
-    // Example: "wK.svg" or "bQ.svg"
-    return `/cburnett-pieces/${piece.color}${piece.type.toUpperCase()}.svg`;
-  };
-
-  // Drag handlers
-  function handleDragStart(row: number, col: number) {
-    if (!isPlayerTurn || isThinking || gameStatus !== "playing") return;
-    if (board[row][col]?.color === 'w') {
-      setDragged([row, col]);
-    }
-  }
-
-  function handleDrop(row: number, col: number) {
-    if (!isPlayerTurn || isThinking || gameStatus !== "playing" || !dragged) return;
+    // Only allow white pieces to move, and must have a target square
+    if (!targetSquare || piece.pieceType[0] !== 'w') return false;
     
-    const from = toAlgebraic(dragged[0], dragged[1]);
-    const to = toAlgebraic(row, col);
     try {
-      // Create a temporary game to validate the move
       const tempGame = new Chess(game.fen());
-      const move = tempGame.move({ from, to, promotion: "q" });
+      const move = tempGame.move({
+        from: sourceSquare,
+        to: targetSquare,
+        promotion: "q"
+      });
       
       if (move) {
-        // Update game state
-        const newGame = new Chess(tempGame.fen());
-        setGame(newGame);
+        setGame(new Chess(tempGame.fen()));
         setIsPlayerTurn(false);
-        checkGameStatus(newGame);
         
-        // Make Stockfish move after a short delay using the updated game state
-        setTimeout(() => {
-          makeStockfishMove(newGame);
-        }, 500);
+        // Check game status
+        if (tempGame.isCheckmate()) {
+          setGameStatus("checkmate");
+        } else if (tempGame.isStalemate()) {
+          setGameStatus("stalemate");
+        } else {
+          setGameStatus("playing");
+          // Make Stockfish move after a delay - use the updated FEN
+          const updatedFen = tempGame.fen();
+          setTimeout(() => {
+            console.log('Triggering Stockfish move after player move');
+            makeStockfishMove(updatedFen);
+          }, 500);
+        }
+        
+        return true;
       }
     } catch {
-      // Ignore illegal move attempts
-    } finally {
-      setDragged(null);
-      setSelected(null);
+      // Invalid move
+      return false;
     }
-  }
-
-  function handleDragOver(e: React.DragEvent) {
-    e.preventDefault();
+    
+    return false;
   }
 
   // Reset game
@@ -221,8 +209,6 @@ export default function ChessBoard() {
     setIsPlayerTurn(true);
     setIsThinking(false);
     setGameStatus("playing");
-    setSelected(null);
-    setDragged(null);
   };
 
   return (
@@ -284,58 +270,25 @@ export default function ChessBoard() {
         )}
       </div>
       
-      <div className="relative" style={{ width: 320, height: 320 }}>
-        {/* Board background */}
-        <img
-          src="green-board.png" // adjust path as needed
-          alt="Chess board"
-          className="absolute top-0 left-0 w-full h-full pointer-events-none select-none"
-          draggable={false}
-        />
-        {/* Chess grid */}
-        <div
-          className="absolute top-0 left-0 w-full h-full"
-          style={{
-            display: "grid",
-            gridTemplateRows: "repeat(8, 1fr)",
-            gridTemplateColumns: "repeat(8, 1fr)",
+      {/* Chess Board */}
+      <div className="mb-4">
+        <Chessboard
+          options={{
+            position: game.fen(),
+            onPieceDrop: onDrop,
+            boardOrientation: "white",
+            allowDragging: isPlayerTurn && !isThinking && gameStatus === "playing",
+            boardStyle: {
+              borderRadius: "4px",
+              boxShadow: "0 4px 6px rgba(0, 0, 0, 0.3)",
+            },
           }}
-        >
-          {board.map((row, rIdx) =>
-            row.map((piece, cIdx) => {
-              const isSelected = selected && selected[0] === rIdx && selected[1] === cIdx;
-              return (
-                <button
-                  key={rIdx + "-" + cIdx}
-                  onClick={() => handleSquareClick(rIdx, cIdx)}
-                  onDrop={() => handleDrop(rIdx, cIdx)}
-                  onDragOver={handleDragOver}
-                  className={`flex items-center justify-center border border-transparent
-                    ${isSelected ? "ring-4 ring-brand" : ""}
-                  `}
-                  style={{ width: "100%", height: "100%", background: "none", padding: 0 }}
-                >
-                  {piece && getPieceImage(piece) && (
-                    <img
-                      src={getPieceImage(piece)}
-                      alt=""
-                      className="w-8 h-8 select-none"
-                      draggable={true}
-                      onDragStart={e => {
-                        handleDragStart(rIdx, cIdx);
-                        // e.dataTransfer.setDragImage(e.target, 20, 20); // optional
-                      }}
-                    />
-                  )}
-                </button>
-              );
-            })
-          )}
-        </div>
+        />
       </div>
+      
       <div className="mt-4 text-center">
         <div className="text-gray-400 text-sm mb-4">
-          Play as white against Stockfish! Click or drag pieces to move. 
+          Play as white against Stockfish! Drag pieces to move. 
           Choose your difficulty level and try to beat the computer.
         </div>
         
