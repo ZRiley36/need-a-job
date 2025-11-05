@@ -1,70 +1,111 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { Chess } from "chess.js";
 import { Chessboard } from "react-chessboard";
+
+// Elo rating options with corresponding Stockfish skill levels
+const ELO_RATINGS = [
+  { elo: 800, skillLevel: 2, depth: 6 },
+  { elo: 1200, skillLevel: 4, depth: 8 },
+  { elo: 1600, skillLevel: 7, depth: 10 },
+  { elo: 2000, skillLevel: 12, depth: 12 },
+  { elo: 2400, skillLevel: 18, depth: 15 },
+];
 
 export default function ChessBoard() {
   const [game, setGame] = useState(() => new Chess());
   const [isPlayerTurn, setIsPlayerTurn] = useState(true);
   const [isThinking, setIsThinking] = useState(false);
-  const [stockfishLevel, setStockfishLevel] = useState(1);
+  const [stockfishLevel, setStockfishLevel] = useState(0); // Index into ELO_RATINGS array
   const [gameStatus, setGameStatus] = useState<"playing" | "checkmate" | "stalemate">("playing");
+  const stockfishRef = useRef<Worker | null>(null);
 
-  // Get Stockfish move from Lichess API
-  // API returns: {fen: '...', knodes: number, depth: number, pvs: Array(1)}
-  // pvs[0].moves contains the move sequence in UCI format
-  const getStockfishMove = async (fen: string, level: number): Promise<string | null> => {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+  // Initialize Stockfish engine
+  useEffect(() => {
+    // Check if WebAssembly is supported
+    const wasmSupported = typeof WebAssembly === 'object' && WebAssembly.validate(Uint8Array.of(0x0, 0x61, 0x73, 0x6d, 0x01, 0x00, 0x00, 0x00));
     
-    try {
-      console.log('Calling Lichess cloud eval API with FEN:', fen);
-      const response = await fetch(`https://lichess.org/api/cloud-eval?fen=${encodeURIComponent(fen)}&multiPv=1&depth=15`, {
-        signal: controller.signal
-      });
-      clearTimeout(timeoutId);
-      
-      if (!response.ok) {
-        console.error('Lichess cloud eval API returned error:', response.status, response.statusText);
-        return null;
+    // Create Stockfish worker from public folder
+    const stockfishPath = wasmSupported 
+      ? '/stockfish/stockfish.wasm.js'
+      : '/stockfish/stockfish.js';
+    
+    const stockfish = new Worker(stockfishPath);
+    stockfishRef.current = stockfish;
+
+    // Initialize UCI
+    stockfish.postMessage('uci');
+
+    // Cleanup on unmount
+    return () => {
+      if (stockfishRef.current) {
+        stockfishRef.current.terminate();
+        stockfishRef.current = null;
       }
-      
-      const data = await response.json();
-      console.log('API response:', data);
-      
-      // API format: {fen: '...', knodes: number, depth: number, pvs: Array(1)}
-      if (data && data.pvs && Array.isArray(data.pvs) && data.pvs.length > 0) {
-        const pv = data.pvs[0];
-        
-        // pvs[0] should have a 'moves' array with UCI format moves
-        if (pv.moves && Array.isArray(pv.moves) && pv.moves.length > 0) {
-          const move = pv.moves[0];
-          
-          // Move should be a string in UCI format (e.g., "e2e4" or "e7e8q")
-          if (typeof move === 'string' && (move.length === 4 || move.length === 5)) {
-            console.log('Got move from API:', move, 'depth:', data.depth, 'knodes:', data.knodes);
-            return move.toLowerCase();
-          } else {
-            console.error('Invalid move format from API:', move, typeof move);
-          }
-        } else {
-          console.error('No moves in pvs[0]:', pv);
+    };
+  }, []);
+
+  // Get Stockfish move using stockfish.js
+  // Stockfish uses UCI protocol, returns best move in UCI format
+  const getStockfishMove = async (fen: string, level: number): Promise<string | null> => {
+    return new Promise((resolve) => {
+      if (!stockfishRef.current) {
+        console.error('Stockfish engine not initialized');
+        resolve(null);
+        return;
+      }
+
+      const stockfish = stockfishRef.current;
+      let moveFound = false;
+      const timeoutId = setTimeout(() => {
+        if (!moveFound) {
+          console.error('Stockfish move timeout');
+          stockfish.postMessage('stop');
+          resolve(null);
         }
-      } else {
-        console.error('Invalid API response structure:', data);
-      }
-      
-      return null;
-    } catch (error) {
-      clearTimeout(timeoutId);
-      if (error instanceof Error && error.name === 'AbortError') {
-        console.error('API request timed out after 30 seconds');
-      } else {
-        console.error('Error calling Lichess API:', error);
-      }
-      return null;
-    }
+      }, 10000); // 10 second timeout
+
+      // Get Elo rating configuration for the selected level
+      const eloConfig = ELO_RATINGS[level] || ELO_RATINGS[2]; // Default to 1600 if invalid
+      const skillLevel = eloConfig.skillLevel;
+      const depth = eloConfig.depth;
+
+      // Set skill level (1-20, where 1 is weakest, 20 is strongest)
+      stockfish.postMessage(`setoption name Skill Level value ${skillLevel}`);
+
+      // Set up position
+      stockfish.postMessage(`position fen ${fen}`);
+
+      // Calculate best move with depth based on level
+      stockfish.postMessage(`go depth ${depth}`);
+
+      // Handle Stockfish messages
+      const messageHandler = (e: MessageEvent) => {
+        if (moveFound) return;
+
+        const line = e.data.trim();
+        
+        // Best move response format: "bestmove e2e4"
+        if (line.startsWith('bestmove')) {
+          moveFound = true;
+          clearTimeout(timeoutId);
+          stockfish.removeEventListener('message', messageHandler);
+          
+          const parts = line.split(' ');
+          if (parts.length >= 2 && parts[1] !== '(none)') {
+            const move = parts[1].toLowerCase();
+            console.log('Stockfish best move:', move);
+            resolve(move);
+          } else {
+            console.error('No move found in bestmove response:', line);
+            resolve(null);
+          }
+        }
+      };
+
+      stockfish.addEventListener('message', messageHandler);
+    });
   };
 
   // Make Stockfish move
@@ -75,18 +116,18 @@ export default function ChessBoard() {
       console.log('=== Stockfish making move ===');
       console.log('Current FEN:', currentFen);
       
-      // Get move from API
+      // Get move from Stockfish engine
       const stockfishMoveUci = await getStockfishMove(currentFen, stockfishLevel);
       
       if (!stockfishMoveUci || stockfishMoveUci.length < 4) {
-        console.error('No valid move from API');
-        console.error('API returned:', stockfishMoveUci);
+        console.error('No valid move from Stockfish');
+        console.error('Stockfish returned:', stockfishMoveUci);
         setIsPlayerTurn(true);
         setIsThinking(false);
         return;
       }
       
-      console.log('API returned UCI move:', stockfishMoveUci);
+      console.log('Stockfish returned UCI move:', stockfishMoveUci);
       
       // Parse UCI move: format is "e2e4" or "e7e8q" (from + to + optional promotion)
       const from = stockfishMoveUci.substring(0, 2);
@@ -219,7 +260,7 @@ export default function ChessBoard() {
       <div className="mb-4 flex flex-col items-center space-y-3">
         <div className="flex items-center space-x-4">
           <label className="text-white text-sm font-medium">
-            Difficulty Level:
+            Stockfish Elo Rating:
           </label>
           <select
             value={stockfishLevel}
@@ -227,11 +268,11 @@ export default function ChessBoard() {
             className="bg-neutral-700 text-white px-3 py-1 rounded border border-neutral-600 focus:border-primary-500 focus:outline-none"
             disabled={!isPlayerTurn || isThinking}
           >
-            <option value={1}>Level 1 (Easy)</option>
-            <option value={2}>Level 2 (Medium)</option>
-            <option value={3}>Level 3 (Hard)</option>
-            <option value={4}>Level 4 (Expert)</option>
-            <option value={5}>Level 5 (Master)</option>
+            {ELO_RATINGS.map((rating, index) => (
+              <option key={index} value={index}>
+                {rating.elo} Elo
+              </option>
+            ))}
           </select>
         </div>
         
