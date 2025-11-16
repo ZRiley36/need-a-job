@@ -254,7 +254,7 @@ export default function ChessBoard() {
 
   return (
     <div className="flex flex-col items-center mt-8">
-      <h2 className="text-2xl font-bold mb-2 purple-text-gradient">Chess vs Stockfish</h2>
+      <h2 className="text-2xl font-bold mb-2 text-[#00ff88]">Chess vs Stockfish</h2>
       
       {/* Game Controls */}
       <div className="mb-4 flex flex-col items-center space-y-3">
@@ -265,7 +265,7 @@ export default function ChessBoard() {
           <select
             value={stockfishLevel}
             onChange={(e) => setStockfishLevel(Number(e.target.value))}
-            className="bg-neutral-700 text-white px-3 py-1 rounded border border-neutral-600 focus:border-primary-500 focus:outline-none"
+            className="bg-neutral-700 text-white px-3 py-1 rounded-none border border-neutral-600 focus:border-neutral-500 focus:outline-none"
             disabled={!isPlayerTurn || isThinking}
           >
             {ELO_RATINGS.map((rating, index) => (
@@ -279,14 +279,14 @@ export default function ChessBoard() {
         <div className="flex items-center space-x-4">
           <button
             onClick={resetGame}
-            className="px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white rounded-lg transition-colors text-sm font-medium"
+            className="px-4 py-2 bg-neutral-700 hover:bg-neutral-600 text-white rounded-none transition-colors text-sm font-medium"
           >
             New Game
           </button>
           
           <div className="text-sm text-neutral-300">
             {isThinking ? (
-              <span className="text-primary-400">🤖 Stockfish is thinking...</span>
+              <span className="text-[#00ff88]">🤖 Stockfish is thinking...</span>
             ) : isPlayerTurn ? (
               <span className="text-green-400">♟️ Your turn</span>
             ) : (
@@ -320,7 +320,7 @@ export default function ChessBoard() {
             boardOrientation: "white",
             allowDragging: isPlayerTurn && !isThinking && gameStatus === "playing",
             boardStyle: {
-              borderRadius: "4px",
+              borderRadius: "0px",
               boxShadow: "0 4px 6px rgba(0, 0, 0, 0.3)",
             },
           }}
@@ -338,7 +338,7 @@ export default function ChessBoard() {
           href="https://lichess.org/@/ZachRiley36"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center px-6 py-3 purple-gradient hover:shadow-lg purple-glow text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-105"
+          className="inline-flex items-center px-6 py-3 bg-neutral-700 hover:bg-neutral-600 text-[#00ff88] font-medium rounded-none transition-all duration-300"
         >
           <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
             <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
@@ -350,7 +350,7 @@ export default function ChessBoard() {
         </a>
         
         <div className="mt-2 text-xs text-gray-500">
-          Username: <span className="text-primary-400 font-medium">ZachRiley36</span>
+          Username: <span className="text-[#00ff88] font-medium">ZachRiley36</span>
         </div>
       </div>
     </div>

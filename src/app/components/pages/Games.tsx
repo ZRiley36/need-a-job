@@ -23,10 +23,10 @@ export function Games() {
   return (
     <div className="bg-neutral-900 text-neutral-100">
       {/* Header Section */}
-      <div className="bg-gradient-to-r from-neutral-800 to-neutral-900 border-b border-neutral-700">
+      <div className="bg-neutral-800 border-b border-neutral-700">
         <div className="container-custom py-12">
           <div className="text-center mb-8">
-            <h1 className="heading-xl purple-text-gradient mb-4">Interactive Games</h1>
+            <h1 className="heading-xl text-[#00ff88] mb-4">Interactive Games</h1>
             <p className="text-neutral-400 body-base">Play chess, snake, or tetris - built with React and TypeScript</p>
           </div>
         </div>
@@ -35,15 +35,15 @@ export function Games() {
       <div className="container-custom py-16">
         {/* Navigation matching the main nav style */}
         <div className="flex justify-center mb-12">
-          <div className="flex space-x-1 bg-neutral-700/50 rounded-lg p-1">
+          <div className="flex space-x-1 bg-neutral-700/50 rounded-none p-1">
             {games.map((g, i) => (
               <button
                 key={g.name}
                 onClick={() => setIndex(i)}
-                className={`px-6 py-3 rounded-md font-medium transition-all duration-300 transform hover:scale-105 ${
+                className={`px-6 py-3 rounded-none font-medium transition-all duration-300 ${
                   index === i
-                    ? "bg-primary-500 text-white shadow-lg shadow-primary-500/25 purple-glow"
-                    : "text-neutral-300 hover:text-white hover:bg-neutral-600/50 hover:shadow-primary-500/10"
+                    ? "bg-neutral-700 text-[#00ff88]"
+                    : "text-neutral-300 hover:text-[#00ff88] hover:bg-neutral-600/50"
                 }`}
               >
                 {g.name}
@@ -53,7 +53,7 @@ export function Games() {
         </div>
 
         {/* Game Display Area */}
-        <div className="w-full min-h-[70vh] flex items-center justify-center bg-neutral-800/30 rounded-xl border border-neutral-700 p-8">
+        <div className="w-full min-h-[70vh] flex items-center justify-center bg-neutral-800/30 rounded-none border border-neutral-700 p-8">
           <div className="animate-fade-in">
             {games[index].component}
           </div>

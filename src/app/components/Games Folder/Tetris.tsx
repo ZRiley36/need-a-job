@@ -404,12 +404,12 @@ export default function Tetris() {
 
   return (
     <div className="flex flex-col items-center mt-8">
-      <h2 className="text-2xl font-bold mb-2 purple-text-gradient">Tetris</h2>
+      <h2 className="text-2xl font-bold mb-2 text-[#00ff88]">Tetris</h2>
       <div className="flex gap-8 mb-4">
         {/* Main board */}
         <div>
           <div
-            className="inline-block border-4 border-primary-500 bg-neutral-900 rounded-lg shadow-lg"
+            className="inline-block border-4 border-neutral-600 bg-neutral-900 rounded-none shadow-lg"
             style={{
               width: COLS * BLOCK_SIZE,
               height: ROWS * BLOCK_SIZE,
@@ -444,13 +444,13 @@ export default function Tetris() {
         <div className="flex flex-col gap-6 items-center">
           <div className="flex flex-col items-center">
             <span className="text-sm text-neutral-300 mb-1 font-medium">Next</span>
-            <div className="border-2 border-primary-500 bg-neutral-900 rounded-lg p-2 shadow-lg">
+            <div className="border-2 border-neutral-600 bg-neutral-900 rounded-none p-2 shadow-lg">
               <MiniBoard shape={next.shape} colorIndex={next.index} />
             </div>
           </div>
           <div className="flex flex-col items-center">
             <span className="text-sm text-neutral-300 mb-1 font-medium">Hold</span>
-            <div className="border-2 border-primary-500 bg-neutral-900 rounded-lg p-2 shadow-lg">
+            <div className="border-2 border-neutral-600 bg-neutral-900 rounded-none p-2 shadow-lg">
               {hold ? (
                 <MiniBoard shape={hold.shape} colorIndex={hold.index} />
               ) : (
@@ -461,10 +461,10 @@ export default function Tetris() {
         </div>
       </div>
       <div className="mt-4 flex gap-4 items-center">
-        <span className="text-lg text-primary-400 font-bold">Score: {score}</span>
+        <span className="text-lg text-[#00ff88] font-bold">Score: {score}</span>
         {gameOver && (
           <button
-            className="ml-4 px-4 py-2 purple-gradient text-white rounded-lg hover:shadow-lg purple-glow transition-all duration-300 transform hover:scale-105"
+            className="ml-4 px-4 py-2 bg-neutral-700 hover:bg-neutral-600 text-[#00ff88] rounded-none transition-all duration-300"
             onClick={resetGame}
           >
             Restart

@@ -137,10 +137,10 @@ export default function Snake() {
 
   return (
     <div className="flex flex-col items-center mt-8">
-      <h2 className="text-2xl font-bold mb-2 text-rich">Snake</h2>
-      <div className="mb-4 text-lg font-semibold text-accent">Score: {score}</div>
+      <h2 className="text-2xl font-bold mb-2 text-[#00ff88]">Snake</h2>
+      <div className="mb-4 text-lg font-semibold text-[#00ff88]">Score: {score}</div>
       <div
-        className="grid border-4 border-rich bg-black"
+        className="grid border-4 border-neutral-600 bg-black rounded-none"
         style={{
           gridTemplateRows: `repeat(${BOARD_SIZE}, 20px)`,
           gridTemplateColumns: `repeat(${BOARD_SIZE}, 20px)`,
@@ -166,7 +166,7 @@ export default function Snake() {
         <div className="mt-4 text-red-400 font-bold">
           Game Over!
           <button
-            className="ml-4 px-4 py-2 bg-rich text-light rounded hover:bg-accent"
+            className="ml-4 px-4 py-2 bg-neutral-700 text-[#00ff88] rounded-none hover:bg-neutral-600"
             onClick={resetGame}
           >
             Restart

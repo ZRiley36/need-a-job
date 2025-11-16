@@ -35,9 +35,9 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-neutral-900 text-neutral-100">
       {/* Header with improved typography */}
-      <header className="bg-gradient-to-r from-neutral-900 via-neutral-800 to-neutral-900 border-b border-neutral-700">
+      <header className="bg-neutral-900 border-b border-neutral-700">
         <div className="container-custom py-8">
-          <h1 className="heading-display text-center purple-text-gradient animate-fade-in">
+          <h1 className="heading-display text-center text-[#00ff88] animate-fade-in">
             Zach Riley
           </h1>
           <p className="text-center text-neutral-400 mt-2 body-lg animate-slide-up">
@@ -50,15 +50,15 @@ export default function HomePage() {
       <nav className="bg-neutral-800 border-b border-neutral-700 sticky top-0 z-50 backdrop-blur-sm bg-neutral-800/95">
         <div className="container-custom">
           <div className="flex justify-center">
-            <div className="flex space-x-1 bg-neutral-700/50 rounded-lg p-1 my-4">
+            <div className="flex space-x-1 bg-neutral-700/50 rounded-none p-1 my-4">
               {pageKeys.map((page) => (
                 <button
                   key={page}
                   onClick={() => setActivePage(page)}
-                  className={`px-6 py-3 rounded-md font-medium transition-all duration-300 transform hover:scale-105 ${
+                  className={`px-6 py-3 rounded-none font-medium transition-all duration-300 ${
                     activePage === page 
-                      ? "bg-primary-500 text-white shadow-lg shadow-primary-500/25 purple-glow" 
-                      : "text-neutral-300 hover:text-white hover:bg-neutral-600/50 hover:shadow-primary-500/10"
+                      ? "bg-neutral-700 text-[#00ff88]" 
+                      : "text-neutral-300 hover:text-[#00ff88] hover:bg-neutral-600/50"
                   }`}
                 >
                   {page}
