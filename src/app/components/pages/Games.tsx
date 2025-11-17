@@ -34,13 +34,13 @@ export function Games() {
 
       <div className="container-custom py-16">
         {/* Navigation matching the main nav style */}
-        <div className="flex justify-center mb-12">
-          <div className="flex space-x-1 bg-neutral-700/50 rounded-none p-1">
+        <div className="flex justify-center mb-12 overflow-x-auto">
+          <div className="flex space-x-1 bg-neutral-700/50 rounded-none p-1 min-w-max">
             {games.map((g, i) => (
               <button
                 key={g.name}
                 onClick={() => setIndex(i)}
-                className={`px-6 py-3 rounded-none font-medium transition-all duration-300 ${
+                className={`px-3 sm:px-6 py-2 sm:py-3 rounded-none font-medium transition-all duration-300 text-sm sm:text-base whitespace-nowrap ${
                   index === i
                     ? "bg-neutral-700 text-[#00ff88]"
                     : "text-neutral-300 hover:text-[#00ff88] hover:bg-neutral-600/50"

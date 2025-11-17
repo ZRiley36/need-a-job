@@ -48,14 +48,14 @@ export default function HomePage() {
 
       {/* Enhanced Navigation */}
       <nav className="bg-neutral-800 border-b border-neutral-700 sticky top-0 z-50 backdrop-blur-sm bg-neutral-800/95">
-        <div className="container-custom">
-          <div className="flex justify-center">
+        <div className="container-custom overflow-x-auto">
+          <div className="flex justify-center min-w-max sm:min-w-0">
             <div className="flex space-x-1 bg-neutral-700/50 rounded-none p-1 my-4">
               {pageKeys.map((page) => (
                 <button
                   key={page}
                   onClick={() => setActivePage(page)}
-                  className={`px-6 py-3 rounded-none font-medium transition-all duration-300 ${
+                  className={`px-3 sm:px-6 py-2 sm:py-3 rounded-none font-medium transition-all duration-300 text-sm sm:text-base whitespace-nowrap ${
                     activePage === page 
                       ? "bg-neutral-700 text-[#00ff88]" 
                       : "text-neutral-300 hover:text-[#00ff88] hover:bg-neutral-600/50"

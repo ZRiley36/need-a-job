@@ -253,19 +253,19 @@ export default function ChessBoard() {
   };
 
   return (
-    <div className="flex flex-col items-center mt-8">
-      <h2 className="text-2xl font-bold mb-2 text-[#00ff88]">Chess vs Stockfish</h2>
+    <div className="flex flex-col items-center mt-8 px-4 w-full max-w-full overflow-x-hidden">
+      <h2 className="text-xl sm:text-2xl font-bold mb-2 text-[#00ff88] text-center">Chess vs Stockfish</h2>
       
       {/* Game Controls */}
-      <div className="mb-4 flex flex-col items-center space-y-3">
-        <div className="flex items-center space-x-4">
-          <label className="text-white text-sm font-medium">
+      <div className="mb-4 flex flex-col items-center space-y-3 w-full max-w-md">
+        <div className="flex flex-col sm:flex-row items-center sm:items-center gap-2 sm:gap-4 w-full sm:w-auto">
+          <label className="text-white text-sm font-medium whitespace-nowrap">
             Stockfish Elo Rating:
           </label>
           <select
             value={stockfishLevel}
             onChange={(e) => setStockfishLevel(Number(e.target.value))}
-            className="bg-neutral-700 text-white px-3 py-1 rounded-none border border-neutral-600 focus:border-neutral-500 focus:outline-none"
+            className="bg-neutral-700 text-white px-3 py-1 rounded-none border border-neutral-600 focus:border-neutral-500 focus:outline-none w-full sm:w-auto min-w-[120px]"
             disabled={!isPlayerTurn || isThinking}
           >
             {ELO_RATINGS.map((rating, index) => (
@@ -276,15 +276,15 @@ export default function ChessBoard() {
           </select>
         </div>
         
-        <div className="flex items-center space-x-4">
+        <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 w-full sm:w-auto">
           <button
             onClick={resetGame}
-            className="px-4 py-2 bg-neutral-700 hover:bg-neutral-600 text-white rounded-none transition-colors text-sm font-medium"
+            className="px-4 py-2 bg-neutral-700 hover:bg-neutral-600 text-white rounded-none transition-colors text-sm font-medium w-full sm:w-auto"
           >
             New Game
           </button>
           
-          <div className="text-sm text-neutral-300">
+          <div className="text-sm text-neutral-300 text-center sm:text-left">
             {isThinking ? (
               <span className="text-[#00ff88]">🤖 Stockfish is thinking...</span>
             ) : isPlayerTurn ? (
@@ -296,7 +296,7 @@ export default function ChessBoard() {
         </div>
         
         {gameStatus !== "playing" && (
-          <div className="text-center">
+          <div className="text-center w-full">
             {gameStatus === "checkmate" && (
               <div className="text-red-400 font-semibold">
                 {isPlayerTurn ? "🤖 Stockfish wins!" : "🎉 You win!"}
@@ -312,23 +312,25 @@ export default function ChessBoard() {
       </div>
       
       {/* Chess Board */}
-      <div className="mb-4">
-        <Chessboard
-          options={{
-            position: game.fen(),
-            onPieceDrop: onDrop,
-            boardOrientation: "white",
-            allowDragging: isPlayerTurn && !isThinking && gameStatus === "playing",
-            boardStyle: {
-              borderRadius: "0px",
-              boxShadow: "0 4px 6px rgba(0, 0, 0, 0.3)",
-            },
-          }}
-        />
+      <div className="mb-4 w-full flex justify-center overflow-x-auto">
+        <div className="w-full max-w-[min(100vw-2rem,500px)]">
+          <Chessboard
+            options={{
+              position: game.fen(),
+              onPieceDrop: onDrop,
+              boardOrientation: "white",
+              allowDragging: isPlayerTurn && !isThinking && gameStatus === "playing",
+              boardStyle: {
+                borderRadius: "0px",
+                boxShadow: "0 4px 6px rgba(0, 0, 0, 0.3)",
+              },
+            }}
+          />
+        </div>
       </div>
       
-      <div className="mt-4 text-center">
-        <div className="text-gray-400 text-sm mb-4">  
+      <div className="mt-4 text-center px-4 w-full max-w-md">
+        <div className="text-gray-400 text-xs sm:text-sm mb-4">  
           Play as white against Stockfish! Drag pieces to move. 
           Choose your difficulty level and try to beat the computer.
         </div>
@@ -338,13 +340,13 @@ export default function ChessBoard() {
           href="https://lichess.org/@/ZachRiley36"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center px-6 py-3 bg-neutral-700 hover:bg-neutral-600 text-[#00ff88] font-medium rounded-none transition-all duration-300"
+          className="inline-flex items-center justify-center px-4 sm:px-6 py-3 bg-neutral-700 hover:bg-neutral-600 text-[#00ff88] font-medium rounded-none transition-all duration-300 w-full sm:w-auto text-sm sm:text-base"
         >
-          <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+          <svg className="w-4 h-4 sm:w-5 sm:h-5 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
             <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
           </svg>
-          Challenge Me on Lichess
-          <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <span className="truncate">Challenge Me on Lichess</span>
+          <svg className="w-3 h-3 sm:w-4 sm:h-4 ml-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
           </svg>
         </a>
