@@ -328,7 +328,7 @@ export default function ChessBoard() {
       </div>
       
       <div className="mt-4 text-center">
-        <div className="text-gray-400 text-sm mb-4">
+        <div className="text-gray-400 text-sm mb-4">  
           Play as white against Stockfish! Drag pieces to move. 
           Choose your difficulty level and try to beat the computer.
         </div>
