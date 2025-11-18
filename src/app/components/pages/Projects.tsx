@@ -253,6 +253,62 @@ export function Projects() {
             </div>
           </div>
         </section>
+
+        {/* DrinksDB Project */}
+        <section className="animate-slide-up">
+          <div className="bg-neutral-800/50 border border-neutral-700 rounded-none p-8">
+            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-6">
+              <div>
+                <h2 className="heading-lg text-[#00ff88] mb-2">
+                  <a 
+                    href="https://drinks-db-rosy.vercel.app/" 
+                    className="hover:text-[#00cc6a] transition-colors"
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                  >
+                    DrinksDB
+                  </a>
+                </h2>
+                <p className="text-neutral-400 body-sm">Cocktail Recipe Database & Search Application</p>
+              </div>
+              <div className="mt-4 lg:mt-0">
+                <div className="flex flex-wrap gap-2">
+                  <span className="px-3 py-1 bg-neutral-700/50 text-[#00ff88] rounded-none text-sm">React</span>
+                  <span className="px-3 py-1 bg-neutral-700/50 text-[#00ff88] rounded-none text-sm">Express.js</span>
+                  <span className="px-3 py-1 bg-neutral-700/50 text-[#00ff88] rounded-none text-sm">PostgreSQL</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="mb-6">
+              <div className="bg-neutral-700/30 rounded-none p-4 border border-neutral-600">
+                <img
+                  src="/drinksdb-screenshot.png"
+                  alt="DrinksDB home page search UI"
+                  className="w-full h-auto rounded-none"
+                />
+              </div>
+            </div>
+
+            <div className="space-y-6 text-neutral-300 body-base leading-relaxed">
+              <div className="border-l-4 border-neutral-600 pl-6">
+                <p className="mb-4">
+                  A full-stack cocktail recipe database and search application. Built with React on the frontend and Express.js on the backend, powered by a PostgreSQL database. Users can search cocktails by name, filter by glass type and preparation method, and find drinks by available ingredients. Features a custom icon system for glass types and a tiled background pattern. Currently in development, with ongoing improvements to the database and user experience.
+                </p>
+                <p>
+                  <a 
+                    href="https://drinks-db-rosy.vercel.app/" 
+                    className="text-[#00ff88] hover:text-[#00cc6a] underline transition-colors" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                  >
+                    Visit DrinksDB →
+                  </a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
     </div>
   );
