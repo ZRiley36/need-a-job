@@ -180,40 +180,40 @@ export function Projects() {
                 <div className="grid md:grid-cols-2 gap-4">
                   <a 
                     href="https://drive.google.com/drive/folders/1CY65Ht9pEO9s1u2YuQOAyqN_bwEcpQ5S?usp=drive_link" 
-                    className="flex items-center p-4 bg-neutral-600/30 hover:bg-neutral-600/50 rounded-none border border-neutral-500 hover:border-neutral-400 transition-all duration-300 group"
+                    className="flex items-center p-4 bg-neutral-600/30 hover:bg-neutral-600/50 rounded-none border border-neutral-500 hover:border-neutral-400 transition-all duration-300 group min-w-0"
                     target="_blank" 
                     rel="noopener noreferrer"
                   >
-                    <div className="w-10 h-10 bg-red-500/20 rounded-none flex items-center justify-center mr-3">
+                    <div className="w-10 h-10 bg-red-500/20 rounded-none flex items-center justify-center mr-3 flex-shrink-0">
                       <svg className="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
                       </svg>
                     </div>
-                    <div className="flex-1">
+                    <div className="flex-1 min-w-0">
                       <p className="text-[#00ff88] font-medium transition-colors">ER Models & Database Files</p>
                       <p className="text-neutral-400 text-sm">Logical & Entity-Relationship diagrams, SQL scripts & example queries</p>
                     </div>
-                    <svg className="w-4 h-4 text-neutral-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-4 h-4 text-neutral-400 transition-colors flex-shrink-0 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                     </svg>
                   </a>
-                  <div className="p-4 bg-neutral-600/30 rounded-none border border-neutral-500">
+                  <div className="p-4 bg-neutral-600/30 rounded-none border border-neutral-500 min-w-0 overflow-hidden">
                     <div className="flex items-center mb-4">
-                      <div className="w-10 h-10 bg-blue-500/20 rounded-none flex items-center justify-center mr-3">
+                      <div className="w-10 h-10 bg-blue-500/20 rounded-none flex items-center justify-center mr-3 flex-shrink-0">
                         <svg className="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
                         </svg>
                       </div>
-                      <div className="flex-1">
+                      <div className="flex-1 min-w-0">
                         <p className="text-white font-medium">Example Queries</p>
                         <p className="text-neutral-400 text-sm">SQL scripts & database queries</p>
                       </div>
                     </div>
                     
                     <div className="space-y-3">
-                      <div className="bg-neutral-900/50 rounded-none p-3 border border-neutral-600">
+                      <div className="bg-neutral-900/50 rounded-none p-3 border border-neutral-600 overflow-x-auto">
                         <h4 className="text-[#00ff88] text-sm font-medium mb-2">Complex Relationship Query</h4>
-                        <code className="text-[#00ff88] text-xs block">
+                        <code className="text-[#00ff88] text-xs block whitespace-pre-wrap break-words">
                           SELECT f.name, SUM(t.amount) as total_contributions<br/>
                           FROM filers f JOIN transactions t ON f.filer_id = t.filer_id<br/>
                           WHERE f.name LIKE '%Keith Olberg%'<br/>
@@ -221,9 +221,9 @@ export function Projects() {
                         </code>
                       </div>
                       
-                      <div className="bg-neutral-900/50 rounded-none p-3 border border-neutral-600">
+                      <div className="bg-neutral-900/50 rounded-none p-3 border border-neutral-600 overflow-x-auto">
                         <h4 className="text-[#00ff88] text-sm font-medium mb-2">Lobbyist Activity Analysis</h4>
-                        <code className="text-[#00ff88] text-xs block">
+                        <code className="text-[#00ff88] text-xs block whitespace-pre-wrap break-words">
                           SELECT l.name, COUNT(DISTINCT o.organization_id) as orgs_represented<br/>
                           FROM lobbyists l JOIN lobbyist_orgs lo ON l.lobbyist_id = lo.lobbyist_id<br/>
                           JOIN organizations o ON lo.organization_id = o.organization_id<br/>
