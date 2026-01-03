@@ -56,10 +56,7 @@ export function Contact() {
             {/* Contact Form */}
             <div className="animate-slide-up">
               <div className="bg-neutral-800/50 border border-neutral-700 rounded-none p-8">
-                <h2 className="heading-lg text-[#00ff88] mb-6 flex items-center">
-                  <span className="w-8 h-8 bg-neutral-700/50 rounded-none flex items-center justify-center mr-3">
-                    ✉️
-                  </span>
+                <h2 className="heading-lg text-[#00ff88] mb-6">
                   Send a Message
                 </h2>
                 
@@ -101,7 +98,7 @@ export function Contact() {
                       Message *
                     </label>
           <textarea
-                      className="w-full px-4 py-3 rounded-lg bg-neutral-700/50 text-white border border-neutral-600 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500/25 transition-all duration-300 resize-vertical"
+                      className="w-full px-4 py-3 rounded-none bg-neutral-700/50 text-white border border-neutral-600 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500/25 transition-all duration-300 resize-vertical"
             id="message"
             name="message"
                       rows={5}
@@ -123,23 +120,17 @@ export function Contact() {
                 {/* Status Messages */}
                 {sent && (
                   <div className="mt-6 p-4 bg-success/10 border border-success/20 rounded-none animate-fade-in">
-                    <div className="flex items-center text-success">
-                      <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                      </svg>
+                    <p className="text-success">
                       Message sent successfully! I'll get back to you soon.
-                    </div>
+                    </p>
                   </div>
                 )}
                 
                 {error && (
                   <div className="mt-6 p-4 bg-error/10 border border-error/20 rounded-none animate-fade-in">
-                    <div className="flex items-center text-error">
-                      <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
+                    <p className="text-error">
                       {error}
-                    </div>
+                    </p>
                   </div>
                 )}
               </div>
@@ -150,64 +141,36 @@ export function Contact() {
               <div className="space-y-8">
                 {/* Direct Contact */}
                 <div className="bg-neutral-800/50 border border-neutral-700 rounded-none p-8">
-                  <h3 className="heading-md text-white mb-6 flex items-center">
-                    <span className="w-8 h-8 bg-neutral-700/50 rounded-none flex items-center justify-center mr-3">
-                      📱
-                    </span>
+                  <h3 className="heading-md text-white mb-6">
                     Direct Contact
                   </h3>
                   
                   <div className="space-y-4">
-                    <div className="flex items-center group">
-                      <div className="w-10 h-10 bg-neutral-700/50 rounded-none flex items-center justify-center mr-4 transition-colors">
-                        <svg className="w-5 h-5 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                        </svg>
-                      </div>
-                      <div>
-                        <p className="text-neutral-400 body-sm">Email</p>
-                        <a 
-                          href="mailto:zachriley36@gmail.com" 
-                          className="text-[#00ff88] hover:text-[#00cc6a] transition-colors body-base font-medium"
-                        >
-                          ZachRiley36@gmail.com
-                        </a>
-                      </div>
+                    <div>
+                      <p className="text-neutral-400 body-sm">Email</p>
+                      <a 
+                        href="mailto:zachriley36@gmail.com" 
+                        className="text-[#00ff88] hover:text-[#00cc6a] transition-colors body-base font-medium"
+                      >
+                        ZachRiley36@gmail.com
+                      </a>
                     </div>
                     
-                    <div className="flex items-center group">
-                      <div className="w-10 h-10 bg-neutral-700/50 rounded-none flex items-center justify-center mr-4 transition-colors">
-                        <svg className="w-5 h-5 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                        </svg>
-                      </div>
-                      <div>
-                        <p className="text-neutral-400 body-sm">Phone</p>
-                        <p className="text-white body-base font-medium">(413) 992-8202</p>
-                      </div>
+                    <div>
+                      <p className="text-neutral-400 body-sm">Phone</p>
+                      <p className="text-white body-base font-medium">(413) 992-8202</p>
                     </div>
                     
-                    <div className="flex items-center group">
-                      <div className="w-10 h-10 bg-neutral-700/50 rounded-none flex items-center justify-center mr-4 transition-colors">
-                        <svg className="w-5 h-5 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
-                      </div>
-                      <div>
-                        <p className="text-neutral-400 body-sm">Location</p>
-                        <p className="text-white body-base font-medium">Brooklyn, NY</p>
-                      </div>
+                    <div>
+                      <p className="text-neutral-400 body-sm">Location</p>
+                      <p className="text-white body-base font-medium">Brooklyn, NY</p>
                     </div>
                   </div>
                 </div>
 
                 {/* Social Links */}
                 <div className="bg-neutral-800/50 border border-neutral-700 rounded-none p-8">
-                  <h3 className="heading-md text-white mb-6 flex items-center">
-                    <span className="w-8 h-8 bg-neutral-700/50 rounded-none flex items-center justify-center mr-3">
-                      🔗
-                    </span>
+                  <h3 className="heading-md text-white mb-6">
                     Connect Online
                   </h3>
                   
@@ -218,18 +181,10 @@ export function Contact() {
           rel="noopener noreferrer"
                       className="flex items-center p-4 bg-neutral-700/30 hover:bg-neutral-700/50 rounded-none border border-neutral-600 hover:border-neutral-500 transition-all duration-300 group"
                     >
-                      <div className="w-10 h-10 bg-blue-500/20 rounded-none flex items-center justify-center mr-4">
-                        <svg className="w-5 h-5 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M16.338 16.338H13.67V12.16c0-.995-.017-2.277-1.387-2.277-1.39 0-1.601 1.086-1.601 2.207v4.248H8.014v-8.59h2.559v1.174h.037c.356-.675 1.227-1.387 2.526-1.387 2.703 0 3.203 1.778 3.203 4.092v4.711zM5.005 6.575a1.548 1.548 0 11-.003-3.096 1.548 1.548 0 01.003 3.096zm-1.337 9.763H6.34v-8.59H3.667v8.59zM17.668 1H2.328C1.595 1 1 1.581 1 2.298v15.403C1 18.418 1.595 19 2.328 19h15.34c.734 0 1.332-.582 1.332-1.299V2.298C19 1.581 18.402 1 17.668 1z" clipRule="evenodd" />
-                        </svg>
-                      </div>
                       <div className="flex-1">
                         <p className="text-[#00ff88] font-medium transition-colors">LinkedIn</p>
                         <p className="text-neutral-400 body-sm">Professional network & experience</p>
                       </div>
-                      <svg className="w-5 h-5 text-neutral-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                      </svg>
                     </a>
                   </div>
                 </div>

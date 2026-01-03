@@ -7,13 +7,13 @@ export function About() {
           <div className="text-center mb-8">
             <h1 className="heading-xl text-[#00ff88] mb-4">Professional Resume</h1>
             <div className="flex flex-wrap justify-center gap-4 text-neutral-300 body-base">
-              <span>📍 Brooklyn, NY</span>
-              <span>📞 (413) 992-8202</span>
+              <span>Brooklyn, NY</span>
+              <span>(413) 992-8202</span>
               <a href="mailto:zachriley36@gmail.com" className="text-[#00ff88] hover:text-[#00cc6a] transition-colors">
-                ✉️ ZachRiley36@gmail.com
+                ZachRiley36@gmail.com
               </a>
               <a href="https://linkedin.com/in/zdriley" className="text-[#00ff88] hover:text-[#00cc6a] transition-colors" target="_blank" rel="noopener noreferrer">
-                🔗 LinkedIn
+                LinkedIn
               </a>
             </div>
           </div>
@@ -23,10 +23,7 @@ export function About() {
       <div className="container-custom py-16 space-y-16">
         {/* Professional Objective */}
         <section className="animate-slide-up">
-          <h2 className="heading-lg text-[#00ff88] mb-6 flex items-center">
-            <span className="w-8 h-8 bg-neutral-700/50 rounded-none flex items-center justify-center mr-3">
-              🎯
-            </span>
+          <h2 className="heading-lg text-[#00ff88] mb-6">
             Professional Objective
           </h2>
           <div className="bg-neutral-800/50 border border-neutral-700 rounded-none p-8">
@@ -38,22 +35,19 @@ export function About() {
 
         {/* Technical Skills */}
         <section className="animate-slide-up">
-          <h2 className="heading-lg text-[#00ff88] mb-6 flex items-center">
-            <span className="w-8 h-8 bg-neutral-700/50 rounded-none flex items-center justify-center mr-3">
-              🛠️
-            </span>
+          <h2 className="heading-lg text-[#00ff88] mb-6">
             Technical Skills
           </h2>
           <div className="grid md:grid-cols-3 gap-6">
-            <div className="bg-neutral-800/50 border border-neutral-700 rounded-xl p-6">
+            <div className="bg-neutral-800/50 border border-neutral-700 rounded-none p-6">
               <h3 className="heading-sm text-white mb-4">Programming Languages</h3>
               <p className="text-neutral-300 body-base">Python, Java, JavaScript, C/C++, Kotlin, SQL, Cypher</p>
             </div>
-            <div className="bg-neutral-800/50 border border-neutral-700 rounded-xl p-6">
+            <div className="bg-neutral-800/50 border border-neutral-700 rounded-none p-6">
               <h3 className="heading-sm text-white mb-4">Frameworks & Libraries</h3>
               <p className="text-neutral-300 body-base">React, Node.js, Flutter, Flask, Pandas, NumPy, Scikit-learn</p>
             </div>
-            <div className="bg-neutral-800/50 border border-neutral-700 rounded-xl p-6">
+            <div className="bg-neutral-800/50 border border-neutral-700 rounded-none p-6">
               <h3 className="heading-sm text-white mb-4">Cloud & Tools</h3>
               <p className="text-neutral-300 body-base">AWS (S3, Elastic Search, Glue), Git, Microsoft Office</p>
             </div>
@@ -62,10 +56,7 @@ export function About() {
 
         {/* Work Experience */}
         <section className="animate-slide-up">
-          <h2 className="heading-lg text-[#00ff88] mb-6 flex items-center">
-            <span className="w-8 h-8 bg-neutral-700/50 rounded-none flex items-center justify-center mr-3">
-              💼
-            </span>
+          <h2 className="heading-lg text-[#00ff88] mb-6">
             Work Experience
           </h2>
           <div className="space-y-8">
@@ -78,27 +69,11 @@ export function About() {
                 </div>
                 <span className="text-neutral-400 body-sm mt-2 md:mt-0">June 2023 – June 2024</span>
               </div>
-              <ul className="space-y-3 text-neutral-300 body-base">
-                <li className="flex items-start">
-                  <span className="w-2 h-2 bg-white rounded-none mt-2 mr-3 flex-shrink-0"></span>
-                  Contributed to Digital Democracy's web platform that empowers journalists to track and analyze California legislative decisions
-                </li>
-                <li className="flex items-start">
-                  <span className="w-2 h-2 bg-white rounded-none mt-2 mr-3 flex-shrink-0"></span>
-                  Built Python/Flask API for CalMatters to access California legislative data
-                </li>
-                <li className="flex items-start">
-                  <span className="w-2 h-2 bg-white rounded-none mt-2 mr-3 flex-shrink-0"></span>
-                  Wrote API endpoints using SQL queries to serve hearing, bill, legislator, and committee data
-                </li>
-                <li className="flex items-start">
-                  <span className="w-2 h-2 bg-white rounded-none mt-2 mr-3 flex-shrink-0"></span>
-                  Refactored SQL queries into Neo4j's Cypher to optimize performance
-                </li>
-                <li className="flex items-start">
-                  <span className="w-2 h-2 bg-white rounded-none mt-2 mr-3 flex-shrink-0"></span>
-                  Used Pandas, NumPy, and Scikit-learn ML models to analyze legislative trends for tipsheets
-                </li>
+              <ul className="space-y-3 text-neutral-300 body-base list-disc list-inside">
+                <li>Contributed to Digital Democracy's web platform that empowers journalists to track and analyze California legislative decisions</li>
+                <li>Built and maintained over 20 Python/Flask API endpoints to securely serve key legislative data to CalMatters journalists</li>
+                <li>Engineered database performance improvements by refactoring complex SQL queries into Neo4j Cypher, reducing query latency by 45% for legislative data</li>
+                <li>Executed data analysis projects utilizing Pandas and Scikit-learn ML models to identify legislative trends, contributing to 12+ data-driven tipsheets used by news outlets</li>
               </ul>
             </div>
 
@@ -106,28 +81,15 @@ export function About() {
             <div className="bg-neutral-800/50 border border-neutral-700 rounded-none p-8 hover:bg-neutral-800/70 transition-all duration-300">
               <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
                 <div>
-                  <h3 className="heading-sm text-white mb-1">Junior Software Developing Engineer</h3>
+                  <h3 className="heading-sm text-white mb-1">Software Development Intern</h3>
                   <p className="text-[#00ff88] font-medium">Amazon</p>
                 </div>
                 <span className="text-neutral-400 body-sm mt-2 md:mt-0">March 2021 – June 2022</span>
               </div>
-              <ul className="space-y-3 text-neutral-300 body-base">
-                <li className="flex items-start">
-                  <span className="w-2 h-2 bg-white rounded-none mt-2 mr-3 flex-shrink-0"></span>
-                  Part of the last-mile team: optimized package allocation to reduce delivery times and costs
-                </li>
-                <li className="flex items-start">
-                  <span className="w-2 h-2 bg-white rounded-none mt-2 mr-3 flex-shrink-0"></span>
-                  Created a testing system simulating thousands of package requests
-                </li>
-                <li className="flex items-start">
-                  <span className="w-2 h-2 bg-white rounded-none mt-2 mr-3 flex-shrink-0"></span>
-                  Built log querying tool to help SWE troubleshoot using AWS services (S3, Elastic Search, Glue)
-                </li>
-                <li className="flex items-start">
-                  <span className="w-2 h-2 bg-white rounded-none mt-2 mr-3 flex-shrink-0"></span>
-                  Participated in agile development with daily stand-ups and sprints
-                </li>
+              <ul className="space-y-3 text-neutral-300 body-base list-disc list-inside">
+                <li>Work on the last-mile team to optimize package allocation to reduce delivery times and cost</li>
+                <li>Developed a high-throughput stress-testing platform simulating 10,000+ package requests per minute, ensuring the reliability of new allocation algorithms</li>
+                <li>Built a log querying tool to help SWE troubleshoot using AWS services (S3, Elastic Search, Glue)</li>
               </ul>
             </div>
           </div>
@@ -135,10 +97,7 @@ export function About() {
 
         {/* Education */}
         <section className="animate-slide-up">
-          <h2 className="heading-lg text-[#00ff88] mb-6 flex items-center">
-            <span className="w-8 h-8 bg-neutral-700/50 rounded-none flex items-center justify-center mr-3">
-              🎓
-            </span>
+          <h2 className="heading-lg text-[#00ff88] mb-6">
             Education
           </h2>
           <div className="bg-neutral-800/50 border border-neutral-700 rounded-none p-8">

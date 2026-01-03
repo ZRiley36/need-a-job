@@ -9,47 +9,27 @@ export function Home({ setActivePage }: HomeProps) {
   return (
     <div className="min-h-screen bg-neutral-900">
       {/* Hero Section */}
-      <section className="container-custom py-20 md:py-32">
+      <section className="container-custom py-12">
         <div className="text-center animate-slide-up">
-          <div className="mb-8">
-            <div className="inline-flex items-center px-4 py-2 bg-neutral-700/50 rounded-none text-[#00ff88] text-sm font-medium mb-6">
-              <span className="w-2 h-2 bg-white rounded-none mr-2 animate-pulse"></span>
-              Available for new opportunities
-            </div>
-          </div>
-          
-          <h1 className="heading-display text-white mb-6 max-w-4xl mx-auto">
-            Building <span className="text-[#00ff88]">innovative solutions</span> through
-            <span className="text-[#00ff88]"> clean code</span> and
-            <span className="text-[#00ff88]"> thoughtful design</span>
+          <h1 className="heading-display text-white mb-4 max-w-4xl mx-auto">
+           <span className="text-[#00ff88]">Just a guy who likes to learn</span>
           </h1>
           
-          <p className="body-lg text-neutral-300 max-w-2xl mx-auto mb-12 leading-relaxed">
-            Computer Science graduate with hands-on experience at Amazon and Digital Democracy. 
-            I specialize in full-stack development, API design, and data analysis, bringing both 
-            technical expertise and analytical thinking to every project.
-          </p>
-          
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          <div className="flex flex-wrap justify-center items-center gap-4 text-neutral-300 body-base">
             <a 
               href="mailto:zachriley36@gmail.com"
-              className="inline-flex items-center px-8 py-4 bg-neutral-700 hover:bg-neutral-600 text-[#00ff88] font-medium rounded-none transition-all duration-300"
+              className="text-[#00ff88] hover:text-[#00cc6a] underline transition-colors"
             >
               Get In Touch
-              <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
             </a>
+            <span className="text-neutral-500">•</span>
             <a 
               href="https://linkedin.com/in/zdriley" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="inline-flex items-center px-8 py-4 border border-neutral-600 text-neutral-300 hover:text-white hover:border-neutral-500 font-medium rounded-none transition-all duration-300"
+              className="text-[#00ff88] hover:text-[#00cc6a] underline transition-colors"
             >
-              View LinkedIn
-              <svg className="ml-2 w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
-              </svg>
+              LinkedIn
             </a>
           </div>
         </div>
@@ -57,78 +37,85 @@ export function Home({ setActivePage }: HomeProps) {
 
       {/* Key Highlights */}
       <section className="container-custom pb-20">
-        <div className="grid md:grid-cols-3 gap-8">
-          <div className="bg-neutral-800/50 backdrop-blur-sm border border-neutral-700 rounded-none p-8 text-center hover:bg-neutral-800/70 transition-all duration-300">
-            <div className="w-12 h-12 bg-neutral-700/50 rounded-none flex items-center justify-center mx-auto mb-4">
-              <svg className="w-6 h-6 text-[#00ff88]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-              </svg>
-            </div>
-            <h3 className="heading-sm text-white mb-3">Full-Stack Development</h3>
-            <p className="text-neutral-400 body-base">React, Node.js, Python, Java, and modern web technologies</p>
-          </div>
-          
-          <div className="bg-neutral-800/50 backdrop-blur-sm border border-neutral-700 rounded-none p-8 text-center hover:bg-neutral-800/70 transition-all duration-300">
-            <div className="w-12 h-12 bg-neutral-700/50 rounded-none flex items-center justify-center mx-auto mb-4">
-              <svg className="w-6 h-6 text-[#00ff88]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-              </svg>
-            </div>
-            <h3 className="heading-sm text-white mb-3">Data Analysis</h3>
-            <p className="text-neutral-400 body-base">Pandas, NumPy, Scikit-learn, and statistical modeling</p>
-          </div>
-          
-          <div className="bg-neutral-800/50 backdrop-blur-sm border border-neutral-700 rounded-none p-8 text-center hover:bg-neutral-800/70 transition-all duration-300">
-            <div className="w-12 h-12 bg-neutral-700/50 rounded-none flex items-center justify-center mx-auto mb-4">
-              <svg className="w-6 h-6 text-[#00ff88]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10" />
-              </svg>
-            </div>
-            <h3 className="heading-sm text-white mb-3">Cloud & DevOps</h3>
-            <p className="text-neutral-400 body-base">AWS services, API design, and scalable architectures</p>
-          </div>
+        <div className="max-w-3xl mx-auto">
+          <h2 className="heading-lg text-white mb-6">Skills & Expertise</h2>
+          <ul className="space-y-4 text-neutral-300 body-base">
+            <li className="flex items-start">
+              <span className="text-[#00ff88] mr-3">•</span>
+              <div>
+                <strong className="text-white">Full-Stack Development:</strong> React, Node.js, Python, Java, and modern web technologies
+              </div>
+            </li>
+            <li className="flex items-start">
+              <span className="text-[#00ff88] mr-3">•</span>
+              <div>
+                <strong className="text-white">Data Analysis:</strong> Pandas, NumPy, Scikit-learn, and statistical modeling
+              </div>
+            </li>
+            <li className="flex items-start">
+              <span className="text-[#00ff88] mr-3">•</span>
+              <div>
+                <strong className="text-white">Cloud & DevOps:</strong> AWS services, API design, and scalable architectures
+              </div>
+            </li>
+          </ul>
         </div>
       </section>
 
       {/* Quick Navigation */}
       <section className="container-custom pb-20">
-        <div className="text-center mb-12">
-          <h2 className="heading-lg text-white mb-4">Explore My Work</h2>
-          <p className="text-neutral-400 body-base">Learn more about my experience, projects, and interests</p>
-        </div>
-        
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div 
-            onClick={() => setActivePage("Resume")}
-            className="bg-neutral-800 border border-neutral-700 rounded-none p-6 hover:border-neutral-600 transition-all duration-300 cursor-pointer group"
-          >
-            <h3 className="heading-sm text-[#00ff88] mb-2 transition-colors">Resume</h3>
-            <p className="text-neutral-400 body-sm">Professional experience and technical skills</p>
-          </div>
-          
-          <div 
-            onClick={() => setActivePage("Projects")}
-            className="bg-neutral-800 border border-neutral-700 rounded-none p-6 hover:border-neutral-600 transition-all duration-300 cursor-pointer group"
-          >
-            <h3 className="heading-sm text-[#00ff88] mb-2 transition-colors">Projects</h3>
-            <p className="text-neutral-400 body-sm">Data analysis and development work</p>
-          </div>
-          
-          <div 
-            onClick={() => setActivePage("Games")}
-            className="bg-neutral-800 border border-neutral-700 rounded-none p-6 hover:border-neutral-600 transition-all duration-300 cursor-pointer group"
-          >
-            <h3 className="heading-sm text-[#00ff88] mb-2 transition-colors">Games</h3>
-            <p className="text-neutral-400 body-sm">Interactive chess, snake, and tetris games</p>
-          </div>
-          
-          <div 
-            onClick={() => setActivePage("Contact")}
-            className="bg-neutral-800 border border-neutral-700 rounded-none p-6 hover:border-neutral-600 transition-all duration-300 cursor-pointer group"
-          >
-            <h3 className="heading-sm text-[#00ff88] mb-2 transition-colors">Contact</h3>
-            <p className="text-neutral-400 body-sm">Get in touch for opportunities</p>
-          </div>
+        <div className="max-w-3xl mx-auto">
+          <h2 className="heading-lg text-white mb-6">Explore My Work</h2>
+          <ul className="space-y-4 text-neutral-300 body-base">
+            <li className="flex items-start">
+              <span className="text-[#00ff88] mr-3">•</span>
+              <div>
+                <button 
+                  onClick={() => setActivePage("Resume")}
+                  className="text-[#00ff88] hover:text-[#00cc6a] underline transition-colors text-left"
+                >
+                  <strong>Resume</strong>
+                </button>
+                <span className="text-neutral-400"> — Professional experience and technical skills</span>
+              </div>
+            </li>
+            <li className="flex items-start">
+              <span className="text-[#00ff88] mr-3">•</span>
+              <div>
+                <button 
+                  onClick={() => setActivePage("Projects")}
+                  className="text-[#00ff88] hover:text-[#00cc6a] underline transition-colors text-left"
+                >
+                  <strong>Projects</strong>
+                </button>
+                <span className="text-neutral-400"> — Data analysis and development work</span>
+              </div>
+            </li>
+            <li className="flex items-start">
+              <span className="text-[#00ff88] mr-3">•</span>
+              <div>
+                <button 
+                  onClick={() => setActivePage("Games")}
+                  className="text-[#00ff88] hover:text-[#00cc6a] underline transition-colors text-left"
+                >
+                  <strong>Games</strong>
+                </button>
+                <span className="text-neutral-400"> — Interactive chess, snake, and tetris games</span>
+              </div>
+            </li>
+            <li className="flex items-start">
+              <span className="text-[#00ff88] mr-3">•</span>
+              <div>
+                <button 
+                  onClick={() => setActivePage("Contact")}
+                  className="text-[#00ff88] hover:text-[#00cc6a] underline transition-colors text-left"
+                >
+                  <strong>Contact</strong>
+                </button>
+                <span className="text-neutral-400"> — Get in touch for opportunities</span>
+              </div>
+            </li>
+          </ul>
         </div>
       </section>
     </div>
