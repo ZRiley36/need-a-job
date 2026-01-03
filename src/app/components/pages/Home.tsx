@@ -98,9 +98,9 @@ export function Home({ setActivePage }: HomeProps) {
                   onClick={() => setActivePage("Games")}
                   className="text-[#00ff88] hover:text-[#00cc6a] underline transition-colors text-left"
                 >
-                  <strong>Games</strong>
+                  <strong>Interests</strong>
                 </button>
-                <span className="text-neutral-400"> — Interactive chess, snake, and tetris games</span>
+                <span className="text-neutral-400"> — Games, reading, and ultimate frisbee</span>
               </div>
             </li>
             <li className="flex items-start">

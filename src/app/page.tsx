@@ -31,6 +31,14 @@ export default function HomePage() {
   };
 
   const pageKeys: PageKey[] = ["Home", "Resume", "Projects", "Games", "Contact"];
+  
+  const pageDisplayNames: Record<PageKey, string> = {
+    Home: "Home",
+    Resume: "Resume",
+    Projects: "Projects",
+    Games: "Interests",
+    Contact: "Contact",
+  };
 
   return (
     <div className="min-h-screen bg-neutral-900 text-neutral-100">
@@ -61,7 +69,7 @@ export default function HomePage() {
                       : "text-neutral-300 hover:text-[#00ff88] hover:bg-neutral-600/50"
                   }`}
                 >
-                  {page}
+                  {pageDisplayNames[page]}
                 </button>
               ))}
             </div>
