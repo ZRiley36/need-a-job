@@ -128,8 +128,17 @@ export function Games() {
         <section className="animate-slide-up">
           <div className="bg-neutral-800/50 border border-neutral-700 rounded-none p-8">
             <h2 className="heading-lg text-[#00ff88] mb-4">Ultimate Frisbee</h2>
+            <div className="mb-6">
+              <div className="bg-neutral-700/30 rounded-none p-4 border border-neutral-600">
+                <img
+                  src="/ZR_Ultimate_photo.jpeg"
+                  alt="Ultimate frisbee action shot"
+                  className="w-full h-auto rounded-none"
+                />
+              </div>
+            </div>
             <p className="text-neutral-300 body-base">
-              I'm passionate about ultimate frisbee and have played competitively. The sport combines athleticism, strategy, and the spirit of the game in a unique way that I find incredibly engaging.
+              I've played ultimate frisbee my whole life. Captaining both my high school and college teams which were both consistently ranked top 10 in the nation. The ultimate community has facilated emotional and professional growth for which I will always be grateful.
             </p>
           </div>
         </section>
