@@ -9,6 +9,9 @@
   --foreground: #171717;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --accent: #C2572E;
+  --accent-hover: #D96E3F;
+  --accent-rgb: 194, 87, 46;
   --purple-primary: #a855f7;
   --purple-secondary: #c084fc;
   --purple-accent: #e9d5ff;

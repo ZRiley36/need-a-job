@@ -41,7 +41,7 @@ export function Contact() {
       <div className="bg-neutral-800 border-b border-neutral-700">
         <div className="container-custom py-12">
           <div className="text-center mb-8">
-            <h1 className="heading-xl text-[#00ff88] mb-4">Get In Touch</h1>
+            <h1 className="heading-xl text-[var(--accent)] mb-4">Get In Touch</h1>
             <p className="text-neutral-400 body-base max-w-2xl mx-auto">
               I'm always interested in new opportunities and collaborations. 
               Send me a message and I'll get back to you as soon as possible.
@@ -56,12 +56,7 @@ export function Contact() {
             {/* Contact Form */}
             <div className="animate-slide-up">
               <div className="bg-neutral-800/50 border border-neutral-700 rounded-none p-8">
-                <h2 className="heading-lg text-[#00ff88] mb-6 flex items-center">
-                  <span className="w-8 h-8 bg-neutral-700/50 rounded-none flex items-center justify-center mr-3">
-                    ✉️
-                  </span>
-                  Send a Message
-                </h2>
+                <h2 className="heading-lg text-[var(--accent)] mb-6">Send a Message</h2>
                 
                 <form onSubmit={handleSubmit} className="space-y-6">
         <div>
@@ -114,7 +109,7 @@ export function Contact() {
                   
         <button
           type="submit"
-                    className="w-full py-4 px-6 bg-neutral-700 hover:bg-neutral-600 text-[#00ff88] font-medium rounded-none transition-all duration-300"
+                    className="w-full py-4 px-6 bg-neutral-700 hover:bg-neutral-600 text-[var(--accent)] font-medium rounded-none transition-all duration-300"
         >
                     Send Message
         </button>
@@ -150,12 +145,7 @@ export function Contact() {
               <div className="space-y-8">
                 {/* Direct Contact */}
                 <div className="bg-neutral-800/50 border border-neutral-700 rounded-none p-8">
-                  <h3 className="heading-md text-white mb-6 flex items-center">
-                    <span className="w-8 h-8 bg-neutral-700/50 rounded-none flex items-center justify-center mr-3">
-                      📱
-                    </span>
-                    Direct Contact
-                  </h3>
+                  <h3 className="heading-md text-white mb-6">Direct Contact</h3>
                   
                   <div className="space-y-4">
                     <div className="flex items-center group">
@@ -168,7 +158,7 @@ export function Contact() {
                         <p className="text-neutral-400 body-sm">Email</p>
                         <a 
                           href="mailto:zachriley36@gmail.com" 
-                          className="text-[#00ff88] hover:text-[#00cc6a] transition-colors body-base font-medium"
+                          className="text-[var(--accent)] hover:text-[var(--accent-hover)] transition-colors body-base font-medium"
                         >
                           ZachRiley36@gmail.com
                         </a>
@@ -204,12 +194,7 @@ export function Contact() {
 
                 {/* Social Links */}
                 <div className="bg-neutral-800/50 border border-neutral-700 rounded-none p-8">
-                  <h3 className="heading-md text-white mb-6 flex items-center">
-                    <span className="w-8 h-8 bg-neutral-700/50 rounded-none flex items-center justify-center mr-3">
-                      🔗
-                    </span>
-                    Connect Online
-                  </h3>
+                  <h3 className="heading-md text-white mb-6">Connect Online</h3>
                   
                   <div className="flex flex-col space-y-4">
         <a
@@ -224,7 +209,7 @@ export function Contact() {
                         </svg>
                       </div>
                       <div className="flex-1">
-                        <p className="text-[#00ff88] font-medium transition-colors">LinkedIn</p>
+                        <p className="text-[var(--accent)] font-medium transition-colors">LinkedIn</p>
                         <p className="text-neutral-400 body-sm">Professional network & experience</p>
                       </div>
                       <svg className="w-5 h-5 text-neutral-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">

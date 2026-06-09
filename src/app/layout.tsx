@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Zach Riley",
-  description: "Site temporarily offline.",
+  title: "Zach Riley - Software Developer",
+  description: "Computer Science graduate with experience at Amazon and Digital Democracy. Full-stack developer specializing in React, Node.js, Python, and data analysis.",
 };
 
 export default function RootLayout({
