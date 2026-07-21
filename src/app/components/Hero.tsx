@@ -1,16 +1,29 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { SocialLinks } from "@/app/components/SocialLinks";
-import { VectorField } from "@/app/components/VectorField";
 import { PageKey } from "@/app/lib/nav";
 
-export function VectorFieldHero({ onNavigate }: { onNavigate: (page: PageKey) => void }) {
+// WebGL globe is browser-only — keep it out of the server/initial bundle.
+const GlobeCanvas = dynamic(
+  () => import("@/app/components/GlobeCanvas").then((m) => m.GlobeCanvas),
+  { ssr: false, loading: () => null },
+);
+
+export function Hero({ onNavigate }: { onNavigate: (page: PageKey) => void }) {
   return (
     <div className="relative w-full h-[calc(100vh-5rem)] bg-neutral-950 overflow-hidden">
-      <VectorField text="Zach Riley" textYRatio={0.38} />
+      <GlobeCanvas />
+
+      {/* Vignette + bottom fade so the hero text stays readable over the globe. */}
+      <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-neutral-950 via-neutral-950/55 to-neutral-950/10" />
+      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(75%_65%_at_50%_42%,transparent,rgba(10,10,10,0.7))]" />
 
       <div className="absolute inset-0 flex flex-col items-center justify-end pb-24 px-6 pointer-events-none">
         <div className="flex flex-col items-center text-center gap-5 max-w-2xl">
+          <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight text-white drop-shadow-[0_2px_20px_rgba(10,10,10,0.9)]">
+            Zach Riley
+          </h1>
           <span className="inline-flex items-center gap-2 px-3 py-1 border border-[var(--accent)]/40 text-[var(--accent)] text-xs tracking-[0.2em] uppercase">
             <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-pulse" />
             Open to software roles
