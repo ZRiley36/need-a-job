@@ -8,14 +8,122 @@ export function Projects() {
           <div className="text-center mb-8">
             <h1 className="heading-xl text-[var(--accent)] mb-4">Featured Projects</h1>
             <p className="text-neutral-400 body-base max-w-2xl mx-auto">
-              A showcase of my data and software work, spanning data engineering pipelines,
-              machine learning, full-stack applications, database design, and collaborative research.
+              A showcase of my data and software work, spanning data-engineering pipelines,
+              LLM-powered automation, machine learning, full-stack applications, and database design.
             </p>
           </div>
         </div>
       </div>
 
       <div className="container-custom py-16 space-y-16">
+        {/* NYC Apartment Hunt Project */}
+        <section className="animate-slide-up">
+          <div className="bg-neutral-800/50 border border-neutral-700 rounded-none p-8">
+            <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between mb-6">
+              <div>
+                <h2 className="heading-lg text-[var(--accent)] mb-2">NYC Apartment Hunt</h2>
+                <p className="text-neutral-400 body-sm">Automated, Claude-verified apartment search with twice-daily alerts</p>
+                <p className="inline-flex items-center gap-1.5 text-neutral-500 body-sm mt-1">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                  </svg>
+                  Private repo — holds personal profiles &amp; API keys
+                </p>
+              </div>
+              <div className="mt-4 lg:mt-0">
+                <div className="flex flex-wrap gap-2 lg:justify-end lg:max-w-md">
+                  <span className="px-3 py-1 bg-neutral-700/50 text-[var(--accent)] rounded-none text-sm">Python</span>
+                  <span className="px-3 py-1 bg-neutral-700/50 text-[var(--accent)] rounded-none text-sm">LangGraph</span>
+                  <span className="px-3 py-1 bg-neutral-700/50 text-[var(--accent)] rounded-none text-sm">Claude (Haiku)</span>
+                  <span className="px-3 py-1 bg-neutral-700/50 text-[var(--accent)] rounded-none text-sm">Apify</span>
+                  <span className="px-3 py-1 bg-neutral-700/50 text-[var(--accent)] rounded-none text-sm">Pydantic</span>
+                  <span className="px-3 py-1 bg-neutral-700/50 text-[var(--accent)] rounded-none text-sm">GitHub Actions</span>
+                  <span className="px-3 py-1 bg-neutral-700/50 text-[var(--accent)] rounded-none text-sm">pytest</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-6 text-neutral-300 body-base leading-relaxed">
+              <div className="border-l-4 border-neutral-600 pl-6">
+                <p className="mb-4">
+                  An automated apartment finder that runs the tedious part of a NYC housing search on a
+                  schedule. Twice a day it pulls fresh rentals for each person&apos;s saved criteria, filters
+                  them in its own code — NYC listing-site filters are notoriously unreliable — de-duplicates
+                  against everything already seen, and surfaces only genuinely new, vetted matches.
+                </p>
+                <p>
+                  The pipeline is a{' '}
+                  <a href="https://langchain-ai.github.io/langgraph/" className="text-[var(--accent)] hover:text-[var(--accent-hover)] underline transition-colors" target="_blank" rel="noopener noreferrer">
+                    LangGraph
+                  </a>{' '}state machine. The <span className="text-[var(--accent)]">verify</span> step hands each new
+                  listing to a Claude Haiku agent that judges whether it&apos;s a real, active listing (not a
+                  scam) and whether it actually has the required amenities, returning structured JSON. Listings
+                  are then graded, published to a private web report, and emailed the moment something new turns up.
+                </p>
+              </div>
+
+              {/* Pipeline flow */}
+              <div className="flex flex-wrap items-center gap-2 text-sm text-neutral-300">
+                <span className="px-3 py-1 bg-neutral-700/50 rounded-none">Search</span>
+                <span className="text-neutral-500" aria-hidden="true">→</span>
+                <span className="px-3 py-1 bg-neutral-700/50 rounded-none">Normalize · filter · dedup</span>
+                <span className="text-neutral-500" aria-hidden="true">→</span>
+                <span className="px-3 py-1 bg-neutral-700/50 rounded-none text-[var(--accent)]">Verify · Claude Haiku</span>
+                <span className="text-neutral-500" aria-hidden="true">→</span>
+                <span className="px-3 py-1 bg-neutral-700/50 rounded-none">Grade</span>
+                <span className="text-neutral-500" aria-hidden="true">→</span>
+                <span className="px-3 py-1 bg-neutral-700/50 rounded-none">Report · email</span>
+              </div>
+
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                <div className="bg-neutral-700/30 rounded-none p-4 border border-neutral-600">
+                  <h4 className="text-[var(--accent)] text-sm font-medium mb-1">Sources</h4>
+                  <p className="text-neutral-400 text-sm">Apify actors scrape StreetEasy and a multi-site aggregator (Zillow, Zumper, Redfin, Realtor); profiles sharing a neighborhood share one fetch.</p>
+                </div>
+                <div className="bg-neutral-700/30 rounded-none p-4 border border-neutral-600">
+                  <h4 className="text-[var(--accent)] text-sm font-medium mb-1">Filtering</h4>
+                  <p className="text-neutral-400 text-sm">In-code rules for budget (incl. per-room-share caps), bed/bath ratios, a geo-radius (haversine), and co-living / room-share exclusion.</p>
+                </div>
+                <div className="bg-neutral-700/30 rounded-none p-4 border border-neutral-600">
+                  <h4 className="text-[var(--accent)] text-sm font-medium mb-1">AI verification</h4>
+                  <p className="text-neutral-400 text-sm">A Claude Haiku agent vets each new listing for scam signals, active status, and amenities — as typed, structured output.</p>
+                </div>
+                <div className="bg-neutral-700/30 rounded-none p-4 border border-neutral-600">
+                  <h4 className="text-[var(--accent)] text-sm font-medium mb-1">Grading</h4>
+                  <p className="text-neutral-400 text-sm">Ranks into three bands from amenity confirmations, scam risk, and where the rent sits in the budget.</p>
+                </div>
+                <div className="bg-neutral-700/30 rounded-none p-4 border border-neutral-600">
+                  <h4 className="text-[var(--accent)] text-sm font-medium mb-1">Reports &amp; alerts</h4>
+                  <p className="text-neutral-400 text-sm">Self-contained HTML report on a private, unguessable GitHub Pages URL, plus an email when new matches appear.</p>
+                </div>
+                <div className="bg-neutral-700/30 rounded-none p-4 border border-neutral-600">
+                  <h4 className="text-[var(--accent)] text-sm font-medium mb-1">Automation</h4>
+                  <p className="text-neutral-400 text-sm">A GitHub Action runs it twice daily and commits &quot;seen&quot; state back, so you&apos;re only alerted to genuinely new listings.</p>
+                </div>
+              </div>
+
+              <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+                <span className="text-neutral-400 text-sm">Every match lands in one of three bands:</span>
+                <div className="flex flex-wrap gap-2 text-sm">
+                  <span className="px-3 py-1 rounded-none border border-green-500/30 text-green-400 bg-green-500/10">Apply now</span>
+                  <span className="px-3 py-1 rounded-none border border-amber-500/30 text-amber-400 bg-amber-500/10">Consider</span>
+                  <span className="px-3 py-1 rounded-none border border-neutral-600 text-neutral-400 bg-neutral-700/30">Probably not</span>
+                </div>
+              </div>
+
+              <div className="bg-neutral-700/30 rounded-none p-6 border border-neutral-600">
+                <h3 className="text-[var(--accent)] text-sm font-medium mb-2">Engineering approach</h3>
+                <p className="text-neutral-300">
+                  Built spec-first and test-driven: a written design with hard global constraints, decomposed
+                  into small, interface-first tasks each landed test-first. ~50 pytest tests run hermetically
+                  with every external boundary — Apify, Claude, SMTP, the filesystem — faked, and a final
+                  security pass HTML-escapes the public report against XSS from scraped and model-generated text.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* NYC Transit Analytics Project */}
         <section className="animate-slide-up">
           <div className="bg-neutral-800/50 border border-neutral-700 rounded-none p-8">

@@ -115,12 +115,12 @@ export function GlobeCanvas({ className = "" }: { className?: string }) {
       phi: 0,
       theta: 0.2,
       dark: 1,
-      diffuse: 1.4,
+      diffuse: 1.7,
       mapSamples: 16000,
-      mapBrightness: 8,
-      baseColor: [0.55, 0.28, 0.18], // rust land dots, bright enough on #0a0a0a
+      mapBrightness: 11,
+      baseColor: [0.78, 0.34, 0.16], // punchy rust land dots on #0a0a0a
       markerColor: accent, // bright rust city markers
-      glowColor: [accent[0] * 0.4, accent[1] * 0.4, accent[2] * 0.4],
+      glowColor: [accent[0] * 0.6, accent[1] * 0.6, accent[2] * 0.6],
       markers: MARKERS,
     });
 
