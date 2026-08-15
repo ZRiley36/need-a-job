@@ -4,8 +4,8 @@ import { VectorField } from "@/app/components/VectorField";
 const CARDS = [
   {
     title: "Data Engineering",
-    body: "Real-time ingestion pipelines — GTFS-RT transit feeds, Prefect-scheduled flows, FastAPI services, and Dockerized Postgres/Redis stacks.",
-    tags: ["Python", "FastAPI", "Docker"],
+    body: "Real-time ingestion pipelines — GTFS-RT transit feeds, Prefect-scheduled flows, FastAPI services, and Dockerized Postgres/Redis stacks, moving to Kubernetes for production workloads.",
+    tags: ["Python", "FastAPI", "Docker", "Kubernetes"],
   },
   {
     title: "Full-Stack Development",

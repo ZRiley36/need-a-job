@@ -117,9 +117,9 @@ export function About() {
                 logs without SSH and cut MTTR from ~45 min to &lt;10 min.
               </Bullet>
               <Bullet>
-                Migrated 10+ secret categories from .env files into AWS Secrets
-                Manager across dev / beta / prod; wrote rotation Lambdas and
-                eliminated plaintext credentials from version control.
+                Migrating our email reader service from ECS to Kubernetes on AWS
+                EKS; owning deployment manifests, service topology, ingress
+                rules, and cutover strategy.
               </Bullet>
             </Role>
 
@@ -168,13 +168,13 @@ export function About() {
           <div className="space-y-6">
             <div className="bg-neutral-800/50 border border-neutral-700 p-8">
               <h3 className="heading-sm text-white mb-2">
-                California Legislature Financial Transactions
+                NYC Transit Analytics
               </h3>
               <p className="text-neutral-300 body-base leading-relaxed">
-                Designed a relational database mapping money flows between
-                legislators, lobbyists, and organizations; surfaced patterns
-                linking political relationships to funding using SQL analytics on
-                top of CalAccess data.
+                Built a data-engineering platform that ingests real-time MTA
+                GTFS-RT feeds on a Prefect schedule, persists them to PostgreSQL
+                with raw payloads archived to S3 / GCS, and serves them through a
+                Dockerized FastAPI stack.
               </p>
             </div>
             <div className="bg-neutral-800/50 border border-neutral-700 p-8">
@@ -213,8 +213,9 @@ export function About() {
                 Infrastructure
               </h3>
               <p className="text-neutral-300 body-base">
-                AWS (Lambda, ECS, S3, CloudWatch, Athena, Glue, Secrets Manager,
-                Bedrock, ElasticSearch), Docker, Postgres, Neo4j
+                AWS (Lambda, ECS, EKS, S3, CloudWatch, Athena, Glue, Secrets
+                Manager, Bedrock, ElasticSearch), Docker, Kubernetes, Postgres,
+                Neo4j
               </p>
             </div>
           </div>
