@@ -13,8 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Zach Riley - Software Developer",
-  description: "Computer Science graduate with experience at Amazon and Digital Democracy. Full-stack developer specializing in React, Node.js, Python, and data analysis.",
+  title: "Zach Riley — Backend & AI Infrastructure Engineer",
+  description:
+    "Backend engineer building AI-agent infrastructure on AWS at Dragin Technologies — Bedrock, AgentCore, Kubernetes. Previously Digital Democracy (CalMatters) and Amazon. Brooklyn-based.",
 };
 
 export default function RootLayout({

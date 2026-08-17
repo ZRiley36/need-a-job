@@ -26,11 +26,11 @@ export function Hero({ onNavigate }: { onNavigate: (page: PageKey) => void }) {
           </h1>
           <span className="inline-flex items-center gap-2 px-3 py-1 border border-[var(--accent)]/40 text-[var(--accent)] text-xs tracking-[0.2em] uppercase">
             <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-pulse" />
-            Open to software roles
+            Open to backend &amp; AI-infra roles
           </span>
           <p className="text-neutral-300 body-base sm:text-lg leading-relaxed">
-            Software developer and CS grad — formerly Amazon and Digital Democracy — building
-            data pipelines, full-stack apps, and tools that turn messy data into answers.
+            Backend engineer at Dragin Technologies, building AI-agent infrastructure on AWS —
+            Bedrock, AgentCore, and Kubernetes. Previously Digital Democracy (CalMatters) and Amazon.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-3 pointer-events-auto">
             <button

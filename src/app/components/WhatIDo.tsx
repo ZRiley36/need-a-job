@@ -3,6 +3,11 @@ import { VectorField } from "@/app/components/VectorField";
 
 const CARDS = [
   {
+    title: "AI Agent Infrastructure",
+    body: "Containerizing and shipping production LLM agents on AWS Bedrock and AgentCore — multi-step reasoning over real business data, deployed on EKS / Kubernetes with observability from day one.",
+    tags: ["Bedrock", "AgentCore", "Kubernetes"],
+  },
+  {
     title: "Data Engineering",
     body: "Real-time ingestion pipelines — GTFS-RT transit feeds, Prefect-scheduled flows, FastAPI services, and Dockerized Postgres/Redis stacks, moving to Kubernetes for production workloads.",
     tags: ["Python", "FastAPI", "Docker", "Kubernetes"],
@@ -32,7 +37,7 @@ export function WhatIDo({ onNavigate }: { onNavigate: (page: PageKey) => void })
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid sm:grid-cols-2 gap-6">
           {CARDS.map((card) => (
             <div
               key={card.title}
