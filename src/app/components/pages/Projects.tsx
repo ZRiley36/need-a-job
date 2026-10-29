@@ -1,27 +1,103 @@
 // components/pages/Projects.tsx
+import { MAP_PROJECTS, MapProject } from "@/app/lib/mapProjects";
+
+const SectionHeading = ({ title, blurb }: { title: string; blurb: string }) => (
+  <div className="border-b border-neutral-700 pb-4">
+    <h2 className="heading-lg text-white mb-2">{title}</h2>
+    <p className="text-neutral-400 body-base">{blurb}</p>
+  </div>
+);
+
+function MapProjectCard({ p }: { p: MapProject }) {
+  return (
+    <section className="animate-slide-up">
+      <div className="card p-8">
+        <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 mb-6">
+          <div>
+            <h3 className="heading-lg text-white mb-2">{p.title}</h3>
+            <p className="text-neutral-400 body-sm max-w-2xl">{p.question}</p>
+            <div className="flex flex-wrap gap-x-4 gap-y-1 mt-2 body-sm">
+              <a href={p.liveUrl} className="text-accent hover:text-accent-hover transition-colors" target="_blank" rel="noopener noreferrer">
+                Live map →
+              </a>
+              <a href={p.guideUrl} className="text-neutral-400 hover:text-accent transition-colors" target="_blank" rel="noopener noreferrer">
+                Guide &amp; method
+              </a>
+              <a href={p.repoUrl} className="text-neutral-400 hover:text-accent transition-colors" target="_blank" rel="noopener noreferrer">
+                View source
+              </a>
+            </div>
+          </div>
+          <div className="flex flex-wrap gap-2 lg:justify-end lg:max-w-sm">
+            {p.tags.map((tag) => (
+              <span key={tag} className="chip">
+                {tag}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        <dl className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
+          {p.stats.map((s) => (
+            <div key={s.label} className="bg-neutral-800/60 rounded-none p-4 border border-neutral-700/70">
+              <dt className="sr-only">{s.label}</dt>
+              <dd className="font-mono text-accent font-semibold text-2xl">{s.value}</dd>
+              <dd className="text-neutral-400 text-sm mt-1">{s.label}</dd>
+            </div>
+          ))}
+        </dl>
+
+        <div className="space-y-6 text-neutral-300 body-base leading-relaxed">
+          <div className="border-l-2 border-accent/50 pl-6 space-y-4">
+            <p>{p.summary}</p>
+            <p>{p.method}</p>
+          </div>
+          <div className="bg-neutral-800/60 rounded-none p-6 border border-neutral-700/70">
+            <h4 className="text-white text-sm font-semibold mb-2">{p.lesson.title}</h4>
+            <p className="text-neutral-300">{p.lesson.body}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export function Projects() {
   return (
-    <div className="bg-neutral-900 text-neutral-100">
+    <div className="text-neutral-100">
       {/* Header Section */}
-      <div className="bg-neutral-800 border-b border-neutral-700">
+      <div className="border-b border-neutral-800">
         <div className="container-custom py-12">
           <div className="text-center mb-8">
-            <h1 className="heading-xl text-[var(--accent)] mb-4">Featured Projects</h1>
+            <h1 className="heading-xl mb-4">Projects</h1>
             <p className="text-neutral-400 body-base max-w-2xl mx-auto">
-              A showcase of my data and software work, spanning data-engineering pipelines,
-              LLM-powered automation, machine learning, full-stack applications, and database design.
+              Geospatial analysis and web mapping first — building-level hazard risk across three
+              cities — followed by data-engineering, backend, and full-stack work.
             </p>
           </div>
         </div>
       </div>
 
       <div className="container-custom py-16 space-y-16">
+        <SectionHeading
+          title="Geospatial & Web Mapping"
+          blurb="Public data in, a validated building-level analysis and a static web map out. Each runs end to end with one command, is tested, and documents its data sources and limitations."
+        />
+        {MAP_PROJECTS.map((p) => (
+          <MapProjectCard key={p.slug} p={p} />
+        ))}
+
+        <SectionHeading
+          title="Data Engineering & Backend"
+          blurb="Pipelines, automation, and data modeling."
+        />
+
         {/* NYC Apartment Hunt Project */}
         <section className="animate-slide-up">
-          <div className="bg-neutral-800/50 border border-neutral-700 rounded-none p-8">
+          <div className="card p-8">
             <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between mb-6">
               <div>
-                <h2 className="heading-lg text-[var(--accent)] mb-2">NYC Apartment Hunt</h2>
+                <h2 className="heading-lg text-white mb-2">NYC Apartment Hunt</h2>
                 <p className="text-neutral-400 body-sm">Automated, Claude-verified apartment search with twice-daily alerts</p>
                 <p className="inline-flex items-center gap-1.5 text-neutral-500 body-sm mt-1">
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -32,19 +108,19 @@ export function Projects() {
               </div>
               <div className="mt-4 lg:mt-0">
                 <div className="flex flex-wrap gap-2 lg:justify-end lg:max-w-md">
-                  <span className="px-3 py-1 bg-neutral-700/50 text-[var(--accent)] rounded-none text-sm">Python</span>
-                  <span className="px-3 py-1 bg-neutral-700/50 text-[var(--accent)] rounded-none text-sm">LangGraph</span>
-                  <span className="px-3 py-1 bg-neutral-700/50 text-[var(--accent)] rounded-none text-sm">Claude (Haiku)</span>
-                  <span className="px-3 py-1 bg-neutral-700/50 text-[var(--accent)] rounded-none text-sm">Apify</span>
-                  <span className="px-3 py-1 bg-neutral-700/50 text-[var(--accent)] rounded-none text-sm">Pydantic</span>
-                  <span className="px-3 py-1 bg-neutral-700/50 text-[var(--accent)] rounded-none text-sm">GitHub Actions</span>
-                  <span className="px-3 py-1 bg-neutral-700/50 text-[var(--accent)] rounded-none text-sm">pytest</span>
+                  <span className="chip">Python</span>
+                  <span className="chip">LangGraph</span>
+                  <span className="chip">Claude (Haiku)</span>
+                  <span className="chip">Apify</span>
+                  <span className="chip">Pydantic</span>
+                  <span className="chip">GitHub Actions</span>
+                  <span className="chip">pytest</span>
                 </div>
               </div>
             </div>
 
             <div className="space-y-6 text-neutral-300 body-base leading-relaxed">
-              <div className="border-l-4 border-neutral-600 pl-6">
+              <div className="border-l-2 border-accent/50 pl-6">
                 <p className="mb-4">
                   An automated apartment finder that runs the tedious part of a NYC housing search on a
                   schedule. Twice a day it pulls fresh rentals for each person&apos;s saved criteria, filters
@@ -53,9 +129,9 @@ export function Projects() {
                 </p>
                 <p>
                   The pipeline is a{' '}
-                  <a href="https://langchain-ai.github.io/langgraph/" className="text-[var(--accent)] hover:text-[var(--accent-hover)] underline transition-colors" target="_blank" rel="noopener noreferrer">
+                  <a href="https://langchain-ai.github.io/langgraph/" className="text-accent hover:text-accent-hover underline transition-colors" target="_blank" rel="noopener noreferrer">
                     LangGraph
-                  </a>{' '}state machine. The <span className="text-[var(--accent)]">verify</span> step hands each new
+                  </a>{' '}state machine. The <span className="text-accent">verify</span> step hands each new
                   listing to a Claude Haiku agent that judges whether it&apos;s a real, active listing (not a
                   scam) and whether it actually has the required amenities, returning structured JSON. Listings
                   are then graded, published to a private web report, and emailed the moment something new turns up.
@@ -64,40 +140,40 @@ export function Projects() {
 
               {/* Pipeline flow */}
               <div className="flex flex-wrap items-center gap-2 text-sm text-neutral-300">
-                <span className="px-3 py-1 bg-neutral-700/50 rounded-none">Search</span>
+                <span className="px-3 py-1 bg-neutral-800 border border-neutral-700 rounded-none">Search</span>
                 <span className="text-neutral-500" aria-hidden="true">→</span>
-                <span className="px-3 py-1 bg-neutral-700/50 rounded-none">Normalize · filter · dedup</span>
+                <span className="px-3 py-1 bg-neutral-800 border border-neutral-700 rounded-none">Normalize, filter, dedup</span>
                 <span className="text-neutral-500" aria-hidden="true">→</span>
-                <span className="px-3 py-1 bg-neutral-700/50 rounded-none text-[var(--accent)]">Verify · Claude Haiku</span>
+                <span className="px-3 py-1 bg-neutral-800 border border-neutral-700 rounded-none text-accent">Verify with Claude Haiku</span>
                 <span className="text-neutral-500" aria-hidden="true">→</span>
-                <span className="px-3 py-1 bg-neutral-700/50 rounded-none">Grade</span>
+                <span className="px-3 py-1 bg-neutral-800 border border-neutral-700 rounded-none">Grade</span>
                 <span className="text-neutral-500" aria-hidden="true">→</span>
-                <span className="px-3 py-1 bg-neutral-700/50 rounded-none">Report · email</span>
+                <span className="px-3 py-1 bg-neutral-800 border border-neutral-700 rounded-none">Report and email</span>
               </div>
 
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                <div className="bg-neutral-700/30 rounded-none p-4 border border-neutral-600">
-                  <h4 className="text-[var(--accent)] text-sm font-medium mb-1">Sources</h4>
+                <div className="bg-neutral-800/60 rounded-none p-4 border border-neutral-700/70">
+                  <h4 className="text-white text-sm font-semibold mb-1">Sources</h4>
                   <p className="text-neutral-400 text-sm">Apify actors scrape StreetEasy and a multi-site aggregator (Zillow, Zumper, Redfin, Realtor); profiles sharing a neighborhood share one fetch.</p>
                 </div>
-                <div className="bg-neutral-700/30 rounded-none p-4 border border-neutral-600">
-                  <h4 className="text-[var(--accent)] text-sm font-medium mb-1">Filtering</h4>
+                <div className="bg-neutral-800/60 rounded-none p-4 border border-neutral-700/70">
+                  <h4 className="text-white text-sm font-semibold mb-1">Filtering</h4>
                   <p className="text-neutral-400 text-sm">In-code rules for budget (incl. per-room-share caps), bed/bath ratios, a geo-radius (haversine), and co-living / room-share exclusion.</p>
                 </div>
-                <div className="bg-neutral-700/30 rounded-none p-4 border border-neutral-600">
-                  <h4 className="text-[var(--accent)] text-sm font-medium mb-1">AI verification</h4>
+                <div className="bg-neutral-800/60 rounded-none p-4 border border-neutral-700/70">
+                  <h4 className="text-white text-sm font-semibold mb-1">AI verification</h4>
                   <p className="text-neutral-400 text-sm">A Claude Haiku agent vets each new listing for scam signals, active status, and amenities — as typed, structured output.</p>
                 </div>
-                <div className="bg-neutral-700/30 rounded-none p-4 border border-neutral-600">
-                  <h4 className="text-[var(--accent)] text-sm font-medium mb-1">Grading</h4>
+                <div className="bg-neutral-800/60 rounded-none p-4 border border-neutral-700/70">
+                  <h4 className="text-white text-sm font-semibold mb-1">Grading</h4>
                   <p className="text-neutral-400 text-sm">Ranks into three bands from amenity confirmations, scam risk, and where the rent sits in the budget.</p>
                 </div>
-                <div className="bg-neutral-700/30 rounded-none p-4 border border-neutral-600">
-                  <h4 className="text-[var(--accent)] text-sm font-medium mb-1">Reports &amp; alerts</h4>
+                <div className="bg-neutral-800/60 rounded-none p-4 border border-neutral-700/70">
+                  <h4 className="text-white text-sm font-semibold mb-1">Reports &amp; alerts</h4>
                   <p className="text-neutral-400 text-sm">Self-contained HTML report on a private, unguessable GitHub Pages URL, plus an email when new matches appear.</p>
                 </div>
-                <div className="bg-neutral-700/30 rounded-none p-4 border border-neutral-600">
-                  <h4 className="text-[var(--accent)] text-sm font-medium mb-1">Automation</h4>
+                <div className="bg-neutral-800/60 rounded-none p-4 border border-neutral-700/70">
+                  <h4 className="text-white text-sm font-semibold mb-1">Automation</h4>
                   <p className="text-neutral-400 text-sm">A GitHub Action runs it twice daily and commits &quot;seen&quot; state back, so you&apos;re only alerted to genuinely new listings.</p>
                 </div>
               </div>
@@ -107,12 +183,12 @@ export function Projects() {
                 <div className="flex flex-wrap gap-2 text-sm">
                   <span className="px-3 py-1 rounded-none border border-green-500/30 text-green-400 bg-green-500/10">Apply now</span>
                   <span className="px-3 py-1 rounded-none border border-amber-500/30 text-amber-400 bg-amber-500/10">Consider</span>
-                  <span className="px-3 py-1 rounded-none border border-neutral-600 text-neutral-400 bg-neutral-700/30">Probably not</span>
+                  <span className="px-3 py-1 rounded-none border border-neutral-600 text-neutral-400 bg-neutral-800/60">Probably not</span>
                 </div>
               </div>
 
-              <div className="bg-neutral-700/30 rounded-none p-6 border border-neutral-600">
-                <h3 className="text-[var(--accent)] text-sm font-medium mb-2">Engineering approach</h3>
+              <div className="bg-neutral-800/60 rounded-none p-6 border border-neutral-700/70">
+                <h3 className="text-white text-sm font-semibold mb-2">Engineering approach</h3>
                 <p className="text-neutral-300">
                   Built spec-first and test-driven: a written design with hard global constraints, decomposed
                   into small, interface-first tasks each landed test-first. ~50 pytest tests run hermetically
@@ -126,14 +202,14 @@ export function Projects() {
 
         {/* NYC Transit Analytics Project */}
         <section className="animate-slide-up">
-          <div className="bg-neutral-800/50 border border-neutral-700 rounded-none p-8">
+          <div className="card p-8">
             <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-6">
               <div>
-                <h2 className="heading-lg text-[var(--accent)] mb-2">NYC Transit Analytics</h2>
+                <h2 className="heading-lg text-white mb-2">NYC Transit Analytics</h2>
                 <p className="text-neutral-400 body-sm">Real-Time MTA Data Ingestion & Analytics Platform</p>
                 <a
                   href="https://github.com/ZRiley36/NYCTransitAnalytics"
-                  className="inline-flex items-center gap-1.5 text-neutral-400 hover:text-[var(--accent)] body-sm transition-colors mt-1"
+                  className="inline-flex items-center gap-1.5 text-neutral-400 hover:text-accent body-sm transition-colors mt-1"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -145,21 +221,21 @@ export function Projects() {
               </div>
               <div className="mt-4 lg:mt-0">
                 <div className="flex flex-wrap gap-2">
-                  <span className="px-3 py-1 bg-neutral-700/50 text-[var(--accent)] rounded-none text-sm">Python</span>
-                  <span className="px-3 py-1 bg-neutral-700/50 text-[var(--accent)] rounded-none text-sm">FastAPI</span>
-                  <span className="px-3 py-1 bg-neutral-700/50 text-[var(--accent)] rounded-none text-sm">GTFS-RT</span>
-                  <span className="px-3 py-1 bg-neutral-700/50 text-[var(--accent)] rounded-none text-sm">PostgreSQL</span>
-                  <span className="px-3 py-1 bg-neutral-700/50 text-[var(--accent)] rounded-none text-sm">Prefect</span>
-                  <span className="px-3 py-1 bg-neutral-700/50 text-[var(--accent)] rounded-none text-sm">Docker</span>
+                  <span className="chip">Python</span>
+                  <span className="chip">FastAPI</span>
+                  <span className="chip">GTFS-RT</span>
+                  <span className="chip">PostgreSQL</span>
+                  <span className="chip">Prefect</span>
+                  <span className="chip">Docker</span>
                 </div>
               </div>
             </div>
 
             <div className="space-y-6 text-neutral-300 body-base leading-relaxed">
-              <div className="border-l-4 border-neutral-600 pl-6">
+              <div className="border-l-2 border-accent/50 pl-6">
                 <p className="mb-4">
                   A data-engineering platform that ingests real-time NYC MTA transit data from{' '}
-                  <a href="https://api.mta.info/" className="text-[var(--accent)] hover:text-[var(--accent-hover)] underline transition-colors" target="_blank" rel="noopener noreferrer">
+                  <a href="https://api.mta.info/" className="text-accent hover:text-accent-hover underline transition-colors" target="_blank" rel="noopener noreferrer">
                     GTFS-RT feeds
                   </a>{' '}— vehicle positions and trip updates — and persists it for analysis. Built around a Prefect-scheduled pipeline that polls the feeds on an interval, stores results in PostgreSQL, and archives raw payloads to cloud storage (AWS S3 / GCS).
                 </p>
@@ -169,28 +245,28 @@ export function Projects() {
               </div>
 
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                <div className="bg-neutral-700/30 rounded-none p-4 border border-neutral-600">
-                  <h4 className="text-[var(--accent)] text-sm font-medium mb-1">Ingestion</h4>
+                <div className="bg-neutral-800/60 rounded-none p-4 border border-neutral-700/70">
+                  <h4 className="text-white text-sm font-semibold mb-1">Ingestion</h4>
                   <p className="text-neutral-400 text-sm">Automatic polling of GTFS-RT vehicle positions and trip updates.</p>
                 </div>
-                <div className="bg-neutral-700/30 rounded-none p-4 border border-neutral-600">
-                  <h4 className="text-[var(--accent)] text-sm font-medium mb-1">Scheduling</h4>
+                <div className="bg-neutral-800/60 rounded-none p-4 border border-neutral-700/70">
+                  <h4 className="text-white text-sm font-semibold mb-1">Scheduling</h4>
                   <p className="text-neutral-400 text-sm">Prefect orchestrates periodic data collection flows.</p>
                 </div>
-                <div className="bg-neutral-700/30 rounded-none p-4 border border-neutral-600">
-                  <h4 className="text-[var(--accent)] text-sm font-medium mb-1">Storage</h4>
+                <div className="bg-neutral-800/60 rounded-none p-4 border border-neutral-700/70">
+                  <h4 className="text-white text-sm font-semibold mb-1">Storage</h4>
                   <p className="text-neutral-400 text-sm">PostgreSQL for structured data, S3/GCS for raw feed archives.</p>
                 </div>
-                <div className="bg-neutral-700/30 rounded-none p-4 border border-neutral-600">
-                  <h4 className="text-[var(--accent)] text-sm font-medium mb-1">API</h4>
+                <div className="bg-neutral-800/60 rounded-none p-4 border border-neutral-700/70">
+                  <h4 className="text-white text-sm font-semibold mb-1">API</h4>
                   <p className="text-neutral-400 text-sm">FastAPI service with health checks and manual fetch endpoints.</p>
                 </div>
-                <div className="bg-neutral-700/30 rounded-none p-4 border border-neutral-600">
-                  <h4 className="text-[var(--accent)] text-sm font-medium mb-1">Containerization</h4>
+                <div className="bg-neutral-800/60 rounded-none p-4 border border-neutral-700/70">
+                  <h4 className="text-white text-sm font-semibold mb-1">Containerization</h4>
                   <p className="text-neutral-400 text-sm">Full stack runs via Docker Compose — API, scheduler, DB, Redis.</p>
                 </div>
-                <div className="bg-neutral-700/30 rounded-none p-4 border border-neutral-600">
-                  <h4 className="text-[var(--accent)] text-sm font-medium mb-1">Caching</h4>
+                <div className="bg-neutral-800/60 rounded-none p-4 border border-neutral-700/70">
+                  <h4 className="text-white text-sm font-semibold mb-1">Caching</h4>
                   <p className="text-neutral-400 text-sm">Redis layer backing the API and scheduled processing.</p>
                 </div>
               </div>
@@ -200,14 +276,14 @@ export function Projects() {
 
         {/* Ultimate Frisbee Media Bias Project */}
         <section className="animate-slide-up">
-          <div className="bg-neutral-800/50 border border-neutral-700 rounded-none overflow-hidden">
+          <div className="card overflow-hidden">
             <div className="p-8">
               <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-6">
                 <div>
-                  <h2 className="heading-lg text-[var(--accent)] mb-2">Ultimate Frisbee Media Bias</h2>
+                  <h2 className="heading-lg text-white mb-2">Ultimate Frisbee Media Bias</h2>
                   <a
                     href="https://github.com/ZRiley36/ultimate-frisbee-media-bias"
-                    className="inline-flex items-center gap-1.5 text-neutral-400 hover:text-[var(--accent)] body-sm transition-colors"
+                    className="inline-flex items-center gap-1.5 text-neutral-400 hover:text-accent body-sm transition-colors"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -219,10 +295,10 @@ export function Projects() {
                 </div>
                 <div className="mt-4 lg:mt-0">
                   <div className="flex flex-wrap gap-2">
-                    <span className="px-3 py-1 bg-neutral-700/50 text-[var(--accent)] rounded-none text-sm">Python</span>
-                    <span className="px-3 py-1 bg-neutral-700/50 text-[var(--accent)] rounded-none text-sm">Selenium</span>
-                    <span className="px-3 py-1 bg-neutral-700/50 text-[var(--accent)] rounded-none text-sm">Pandas</span>
-                    <span className="px-3 py-1 bg-neutral-700/50 text-[var(--accent)] rounded-none text-sm">Scikit-learn</span>
+                    <span className="chip">Python</span>
+                    <span className="chip">Selenium</span>
+                    <span className="chip">Pandas</span>
+                    <span className="chip">Scikit-learn</span>
                   </div>
                 </div>
               </div>
@@ -232,11 +308,11 @@ export function Projects() {
                   <h3 className="heading-sm text-white mb-4">Data Collection</h3>
 
                   <div className="space-y-4 ml-8">
-                    <div className="border-l-4 border-neutral-600 pl-4">
-                      <h4 className="font-semibold text-[var(--accent)] mb-2">Articles Dataset (df_articles)</h4>
+                    <div className="border-l-2 border-accent/50 pl-4">
+                      <h4 className="font-semibold text-white mb-2">Articles Dataset (df_articles)</h4>
                       <p className="mb-3">
                         Gathered 169 articles about Men's DI ultimate frisbee from{' '}
-                        <a href="https://ultiworld.com/division/usau-college-d-i-mens" className="text-[var(--accent)] hover:text-[var(--accent-hover)] underline transition-colors" target="_blank" rel="noopener noreferrer">
+                        <a href="https://ultiworld.com/division/usau-college-d-i-mens" className="text-accent hover:text-accent-hover underline transition-colors" target="_blank" rel="noopener noreferrer">
                           Ultiworld
                         </a>, requiring sophisticated web scraping with Selenium to handle authentication and dynamic content loading.
                       </p>
@@ -248,8 +324,8 @@ export function Projects() {
                       </p>
                     </div>
 
-                    <div className="border-l-4 border-neutral-600 pl-4">
-                      <h4 className="font-semibold text-[var(--accent)] mb-2">Rankings & Rosters (df_rankings, df_rosters)</h4>
+                    <div className="border-l-2 border-accent/50 pl-4">
+                      <h4 className="font-semibold text-white mb-2">Rankings & Rosters (df_rankings, df_rosters)</h4>
                       <p className="mb-3">
                         Extracted comprehensive team data from USAU's official database, including rankings, power ratings, regional classifications, and complete roster information for top-20 teams.
                       </p>
@@ -264,16 +340,16 @@ export function Projects() {
                   <h3 className="heading-sm text-white mb-4">Key Findings</h3>
                   <div className="ml-8 space-y-3">
                     <p>
-                      <strong className="text-[var(--accent)]">Research Question:</strong> Is Cal Poly's Ultimate Frisbee team (SLOCORE) mentioned disproportionately relative to their ranking?
+                      <strong className="text-white">Research Question:</strong> Is Cal Poly's Ultimate Frisbee team (SLOCORE) mentioned disproportionately relative to their ranking?
                     </p>
                     <p>
-                      <strong className="text-[var(--accent)]">Result:</strong> Linear regression analysis revealed Cal Poly received 63 more mentions than predicted by their ranking, indicating positive coverage bias.
+                      <strong className="text-white">Result:</strong> Linear regression analysis revealed Cal Poly received 63 more mentions than predicted by their ranking, indicating positive coverage bias.
                     </p>
                     <p>
-                      <strong className="text-[var(--accent)]">Attribution:</strong> Investigation revealed Jake Thorne (Cal Poly alumnus) contributed 154 mentions, explaining the coverage disparity.
+                      <strong className="text-white">Attribution:</strong> Investigation revealed Jake Thorne (Cal Poly alumnus) contributed 154 mentions, explaining the coverage disparity.
                     </p>
                     <p>
-                      <strong className="text-[var(--accent)]">Additional Insight:</strong> UNC received disproportionately high mentions due to being used as a comparative benchmark across articles.
+                      <strong className="text-white">Additional Insight:</strong> UNC received disproportionately high mentions due to being used as a comparative benchmark across articles.
                     </p>
                   </div>
                 </div>
@@ -282,13 +358,13 @@ export function Projects() {
                   <h3 className="heading-sm text-white mb-4">Machine Learning Implementation</h3>
                   <div className="ml-8 space-y-3">
                     <p>
-                      <strong className="text-[var(--accent)]">TF-IDF Analysis:</strong> Implemented K-Nearest Neighbors classifier using TF-IDF vectorization to predict article authorship based on writing patterns.
+                      <strong className="text-white">TF-IDF Analysis:</strong> Implemented K-Nearest Neighbors classifier using TF-IDF vectorization to predict article authorship based on writing patterns.
                     </p>
                     <p>
-                      <strong className="text-[var(--accent)]">Model Performance:</strong> Achieved ~40% accuracy with k=4, revealing Keith Raynor as the dominant author (38.2% of articles).
+                      <strong className="text-white">Model Performance:</strong> Achieved ~40% accuracy with k=4, revealing Keith Raynor as the dominant author (38.2% of articles).
                     </p>
                     <p>
-                      <strong className="text-[var(--accent)]">Team Mention Modeling:</strong> Secondary KNN model using team mentions as features achieved 50% accuracy for author prediction, providing insights into writing biases.
+                      <strong className="text-white">Team Mention Modeling:</strong> Secondary KNN model using team mentions as features achieved 50% accuracy for author prediction, providing insights into writing biases.
                     </p>
                   </div>
                 </div>
@@ -300,7 +376,7 @@ export function Projects() {
                 <p className="text-neutral-400 body-sm mb-4">
                   Slide deck walking through the methodology, analysis, and findings of the study.
                 </p>
-                <div className="bg-neutral-700/30 rounded-none p-4 border border-neutral-600">
+                <div className="bg-neutral-800/60 rounded-none p-4 border border-neutral-700/70">
                   <div className="aspect-video w-full">
                     <iframe
                       src="https://docs.google.com/presentation/d/e/2PACX-1vQTLAsYuHuBvYQuctSCct_ShzIoeCjIe2av8Z_zJRLqT1cuvG0rklYEXNplnYFR_qAEAS7VQnv4h8-i/pubembed?start=false&loop=false&delayms=3000"
@@ -320,14 +396,14 @@ export function Projects() {
 
         {/* Database Project */}
         <section className="animate-slide-up">
-          <div className="bg-neutral-800/50 border border-neutral-700 rounded-none p-8">
+          <div className="card p-8">
             <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-6">
               <div>
-                <h2 className="heading-lg text-[var(--accent)] mb-2">Database Modeling & Implementation</h2>
+                <h2 className="heading-lg text-white mb-2">Database Modeling & Implementation</h2>
                 <p className="text-neutral-400 body-sm">California Campaign Finance & Lobbying Schema</p>
                 <a
                   href="https://github.com/ZRiley36/ca-campaign-finance-schema"
-                  className="inline-flex items-center gap-1.5 text-neutral-400 hover:text-[var(--accent)] body-sm transition-colors mt-1"
+                  className="inline-flex items-center gap-1.5 text-neutral-400 hover:text-accent body-sm transition-colors mt-1"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -339,53 +415,53 @@ export function Projects() {
               </div>
               <div className="mt-4 lg:mt-0">
                 <div className="flex flex-wrap gap-2">
-                  <span className="px-3 py-1 bg-neutral-700/50 text-[var(--accent)] rounded-none text-sm">SQL</span>
-                  <span className="px-3 py-1 bg-neutral-700/50 text-[var(--accent)] rounded-none text-sm">Database Design</span>
-                  <span className="px-3 py-1 bg-neutral-700/50 text-[var(--accent)] rounded-none text-sm">Data Modeling</span>
+                  <span className="chip">SQL</span>
+                  <span className="chip">Database Design</span>
+                  <span className="chip">Data Modeling</span>
                 </div>
               </div>
             </div>
 
             <div className="space-y-6 text-neutral-300 body-base leading-relaxed">
-              <div className="border-l-4 border-neutral-600 pl-6">
+              <div className="border-l-2 border-accent/50 pl-6">
                 <h3 className="heading-sm text-white mb-3">Project Overview</h3>
                 <p className="mb-4">
                   Designed and implemented a comprehensive relational database to model the complex financial relationships between California lobbyists, organizations, and political entities using data from{' '}
-                  <a href="https://cal-access.sos.ca.gov/" className="text-[var(--accent)] hover:text-[var(--accent-hover)] underline transition-colors" target="_blank" rel="noopener noreferrer">
+                  <a href="https://cal-access.sos.ca.gov/" className="text-accent hover:text-accent-hover underline transition-colors" target="_blank" rel="noopener noreferrer">
                     Cal-Access
                   </a>.
                 </p>
                 <p>
-                  Developed sophisticated data architecture using filer IDs as primary keys to enable complex queries like <em className="text-[var(--accent)]">"How much money did it take to get Keith Olberg elected?"</em>
+                  Developed sophisticated data architecture using filer IDs as primary keys to enable complex queries like <em className="text-accent">"How much money did it take to get Keith Olberg elected?"</em>
                 </p>
               </div>
 
-              <div className="bg-neutral-700/30 rounded-none p-6 border border-neutral-600">
+              <div className="bg-neutral-800/60 rounded-none p-6 border border-neutral-700/70">
                 <h3 className="heading-sm text-white mb-4">Project Resources</h3>
                 <div className="grid md:grid-cols-2 gap-4">
                   <a
                     href="https://drive.google.com/drive/folders/1CY65Ht9pEO9s1u2YuQOAyqN_bwEcpQ5S?usp=drive_link"
-                    className="flex items-center p-4 bg-neutral-600/30 hover:bg-neutral-600/50 rounded-none border border-neutral-500 hover:border-neutral-400 transition-all duration-300 group min-w-0"
+                    className="flex items-center p-4 bg-neutral-800/60 hover:bg-neutral-800 rounded-none border border-neutral-700 hover:border-neutral-500 transition-all duration-300 group min-w-0"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <div className="w-10 h-10 bg-red-500/20 rounded-none flex items-center justify-center mr-3 flex-shrink-0">
-                      <svg className="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="w-10 h-10 bg-accent/10 rounded-none flex items-center justify-center mr-3 flex-shrink-0">
+                      <svg className="w-5 h-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
                       </svg>
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-[var(--accent)] font-medium transition-colors">ER Models & Database Files</p>
+                      <p className="text-accent font-medium transition-colors">ER Models & Database Files</p>
                       <p className="text-neutral-400 text-sm">Logical & Entity-Relationship diagrams, SQL scripts & example queries</p>
                     </div>
                     <svg className="w-4 h-4 text-neutral-400 transition-colors flex-shrink-0 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                     </svg>
                   </a>
-                  <div className="p-4 bg-neutral-600/30 rounded-none border border-neutral-500 min-w-0 overflow-hidden">
+                  <div className="p-4 bg-neutral-800/60 rounded-none border border-neutral-700 min-w-0 overflow-hidden">
                     <div className="flex items-center mb-4">
-                      <div className="w-10 h-10 bg-blue-500/20 rounded-none flex items-center justify-center mr-3 flex-shrink-0">
-                        <svg className="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <div className="w-10 h-10 bg-accent/10 rounded-none flex items-center justify-center mr-3 flex-shrink-0">
+                        <svg className="w-5 h-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
                         </svg>
                       </div>
@@ -397,8 +473,8 @@ export function Projects() {
 
                     <div className="space-y-3">
                       <div className="bg-neutral-900/50 rounded-none p-3 border border-neutral-600 overflow-x-auto">
-                        <h4 className="text-[var(--accent)] text-sm font-medium mb-2">Complex Relationship Query</h4>
-                        <code className="text-[var(--accent)] text-xs block whitespace-pre-wrap break-words">
+                        <h4 className="text-white text-sm font-semibold mb-2">Complex Relationship Query</h4>
+                        <code className="text-accent text-xs block whitespace-pre-wrap break-words">
                           SELECT f.name, SUM(t.amount) as total_contributions<br/>
                           FROM filers f JOIN transactions t ON f.filer_id = t.filer_id<br/>
                           WHERE f.name LIKE '%Keith Olberg%'<br/>
@@ -407,8 +483,8 @@ export function Projects() {
                       </div>
 
                       <div className="bg-neutral-900/50 rounded-none p-3 border border-neutral-600 overflow-x-auto">
-                        <h4 className="text-[var(--accent)] text-sm font-medium mb-2">Lobbyist Activity Analysis</h4>
-                        <code className="text-[var(--accent)] text-xs block whitespace-pre-wrap break-words">
+                        <h4 className="text-white text-sm font-semibold mb-2">Lobbyist Activity Analysis</h4>
+                        <code className="text-accent text-xs block whitespace-pre-wrap break-words">
                           SELECT l.name, COUNT(DISTINCT o.organization_id) as orgs_represented<br/>
                           FROM lobbyists l JOIN lobbyist_orgs lo ON l.lobbyist_id = lo.lobbyist_id<br/>
                           JOIN organizations o ON lo.organization_id = o.organization_id<br/>
@@ -439,15 +515,20 @@ export function Projects() {
           </div>
         </section>
 
+        <SectionHeading
+          title="Full-Stack & Tools"
+          blurb="Web apps and smaller builds."
+        />
+
         {/* DrinksDB Project */}
         <section className="animate-slide-up">
-          <div className="bg-neutral-800/50 border border-neutral-700 rounded-none p-8">
+          <div className="card p-8">
             <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-6">
               <div>
-                <h2 className="heading-lg text-[var(--accent)] mb-2">
+                <h2 className="heading-lg text-white mb-2">
                   <a
                     href="https://drinks-db-rosy.vercel.app/"
-                    className="hover:text-[var(--accent-hover)] transition-colors"
+                    className="hover:text-accent-hover transition-colors"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -457,7 +538,7 @@ export function Projects() {
                 <p className="text-neutral-400 body-sm">Cocktail Recipe Database & Search Application</p>
                 <a
                   href="https://github.com/ZRiley36/DrinksDB"
-                  className="inline-flex items-center gap-1.5 text-neutral-400 hover:text-[var(--accent)] body-sm transition-colors mt-1"
+                  className="inline-flex items-center gap-1.5 text-neutral-400 hover:text-accent body-sm transition-colors mt-1"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -469,15 +550,15 @@ export function Projects() {
               </div>
               <div className="mt-4 lg:mt-0">
                 <div className="flex flex-wrap gap-2">
-                  <span className="px-3 py-1 bg-neutral-700/50 text-[var(--accent)] rounded-none text-sm">React</span>
-                  <span className="px-3 py-1 bg-neutral-700/50 text-[var(--accent)] rounded-none text-sm">Express.js</span>
-                  <span className="px-3 py-1 bg-neutral-700/50 text-[var(--accent)] rounded-none text-sm">PostgreSQL</span>
+                  <span className="chip">React</span>
+                  <span className="chip">Express.js</span>
+                  <span className="chip">PostgreSQL</span>
                 </div>
               </div>
             </div>
 
             <div className="mb-6">
-              <div className="bg-neutral-700/30 rounded-none p-4 border border-neutral-600">
+              <div className="bg-neutral-800/60 rounded-none p-4 border border-neutral-700/70">
                 <img
                   src="/drinksdb-screenshot.png"
                   alt="DrinksDB home page search UI"
@@ -487,14 +568,14 @@ export function Projects() {
             </div>
 
             <div className="space-y-6 text-neutral-300 body-base leading-relaxed">
-              <div className="border-l-4 border-neutral-600 pl-6">
+              <div className="border-l-2 border-accent/50 pl-6">
                 <p className="mb-4">
                   A full-stack cocktail recipe database and search application. Built with React on the frontend and Express.js on the backend, powered by a PostgreSQL database. Users can search cocktails by name, filter by glass type and preparation method, and find drinks by available ingredients. Features a custom icon system for glass types and a tiled background pattern. Currently in development, with ongoing improvements to the database and user experience.
                 </p>
                 <p>
                   <a
                     href="https://drinks-db-rosy.vercel.app/"
-                    className="text-[var(--accent)] hover:text-[var(--accent-hover)] underline transition-colors"
+                    className="text-accent hover:text-accent-hover underline transition-colors"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -508,14 +589,14 @@ export function Projects() {
 
         {/* FinDashboard Project */}
         <section className="animate-slide-up">
-          <div className="bg-neutral-800/50 border border-neutral-700 rounded-none p-8">
+          <div className="card p-8">
             <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-6">
               <div>
-                <h2 className="heading-lg text-[var(--accent)] mb-2">FinDashboard</h2>
+                <h2 className="heading-lg text-white mb-2">FinDashboard</h2>
                 <p className="text-neutral-400 body-sm">Real-Time Market Data Dashboard</p>
                 <a
                   href="https://github.com/ZRiley36/FinDashboard"
-                  className="inline-flex items-center gap-1.5 text-neutral-400 hover:text-[var(--accent)] body-sm transition-colors mt-1"
+                  className="inline-flex items-center gap-1.5 text-neutral-400 hover:text-accent body-sm transition-colors mt-1"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -527,14 +608,14 @@ export function Projects() {
               </div>
               <div className="mt-4 lg:mt-0">
                 <div className="flex flex-wrap gap-2">
-                  <span className="px-3 py-1 bg-neutral-700/50 text-[var(--accent)] rounded-none text-sm">Python</span>
-                  <span className="px-3 py-1 bg-neutral-700/50 text-[var(--accent)] rounded-none text-sm">Finnhub API</span>
+                  <span className="chip">Python</span>
+                  <span className="chip">Finnhub API</span>
                 </div>
               </div>
             </div>
 
             <div className="space-y-6 text-neutral-300 body-base leading-relaxed">
-              <div className="border-l-4 border-neutral-600 pl-6">
+              <div className="border-l-2 border-accent/50 pl-6">
                 <p>
                   A Python tool that pulls real-time market data from the Finnhub API — live quotes for a
                   watchlist of tickers, company-level financials, and news — and surfaces it in a single

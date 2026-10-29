@@ -1,39 +1,39 @@
 import { PageKey } from "@/app/lib/nav";
-import { VectorField } from "@/app/components/VectorField";
 
 const CARDS = [
   {
-    title: "AI Agent Infrastructure",
-    body: "Containerizing and shipping production LLM agents on AWS Bedrock and AgentCore — multi-step reasoning over real business data, deployed on EKS / Kubernetes with observability from day one.",
-    tags: ["Bedrock", "AgentCore", "Kubernetes"],
+    title: "Geospatial Analysis",
+    body: "Building-level spatial joins, raster sampling, and CRS-aware pipelines over hundreds of thousands of footprints, parcels, and hazard layers — reproducible with one command.",
+    tags: ["GeoPandas", "Shapely 2", "rasterio", "GeoParquet"],
   },
   {
-    title: "Data Engineering",
-    body: "Real-time ingestion pipelines — GTFS-RT transit feeds, Prefect-scheduled flows, FastAPI services, and Dockerized Postgres/Redis stacks, moving to Kubernetes for production workloads.",
-    tags: ["Python", "FastAPI", "Docker", "Kubernetes"],
+    title: "Web Mapping",
+    body: "Static, backend-free MapLibre GL maps served from PMTiles and Cloud-Optimized GeoTIFFs, with address search and guide pages generated from the same data as the analysis.",
+    tags: ["MapLibre GL", "PMTiles", "COG", "tippecanoe"],
   },
   {
-    title: "Full-Stack Development",
-    body: "End-to-end web apps with React front ends, Express / Node APIs, and PostgreSQL data layers — shipped and deployed.",
-    tags: ["React", "Node", "PostgreSQL"],
+    title: "Spatial Modeling & Validation",
+    body: "Spatial cross-validation, leakage checks, and sensitivity analysis, ground-truthed against what actually happened — 311 flood complaints, post-fire damage inspections.",
+    tags: ["scikit-learn", "Spatial CV", "Pandas"],
   },
   {
-    title: "ML & Data Analysis",
-    body: "Web scraping, regression, and TF-IDF / KNN modeling to pull defensible findings out of messy real-world datasets.",
-    tags: ["Pandas", "scikit-learn", "Selenium"],
+    title: "Cloud & Data Infrastructure",
+    body: "Production backend work on AWS — ingestion pipelines, containerized services on EKS / Kubernetes, and queryable logging with CloudWatch, S3, and Athena.",
+    tags: ["AWS", "Docker", "Kubernetes", "PostgreSQL"],
   },
 ];
 
 export function WhatIDo({ onNavigate }: { onNavigate: (page: PageKey) => void }) {
   return (
-    <section className="relative bg-neutral-950 border-t border-neutral-800 overflow-hidden">
-      <VectorField className="absolute inset-0 w-full h-full block opacity-60" />
-
-      <div className="relative z-10 container-custom py-16 md:py-20">
-        <div className="text-center mb-12">
-          <h2 className="heading-lg text-[var(--accent)] mb-3">What I do</h2>
-          <p className="text-neutral-400 body-base max-w-2xl mx-auto">
-            A quick look at the kind of work I take on — each maps to a project you can explore.
+    <section className="relative border-t border-neutral-800/80">
+      <div className="container-custom py-16 md:py-20">
+        <div className="mb-12 max-w-2xl">
+          <p className="eyebrow mb-3">What I do</p>
+          <h2 className="heading-xl mb-4">Maps for the energy transition</h2>
+          <p className="text-neutral-300 body-lg">
+            The same toolkit that scores hazard exposure for buildings answers clean-energy questions:
+            solar siting and rooftop potential, land and interconnection screening, and the climate
+            risk facing grid assets.
           </p>
         </div>
 
@@ -41,7 +41,7 @@ export function WhatIDo({ onNavigate }: { onNavigate: (page: PageKey) => void })
           {CARDS.map((card) => (
             <div
               key={card.title}
-              className="bg-neutral-800/80 backdrop-blur-sm border border-neutral-700 rounded-none p-6 hover:border-[var(--accent)]/50 transition-colors"
+              className="card p-6 bg-neutral-900/80 backdrop-blur-sm hover:border-neutral-500 transition-colors"
             >
               <h3 className="heading-sm text-white mb-3">{card.title}</h3>
               <p className="text-neutral-300 body-base leading-relaxed mb-4">{card.body}</p>
@@ -49,7 +49,7 @@ export function WhatIDo({ onNavigate }: { onNavigate: (page: PageKey) => void })
                 {card.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="px-3 py-1 bg-neutral-700/50 text-[var(--accent)] rounded-none text-sm"
+                    className="chip"
                   >
                     {tag}
                   </span>
@@ -59,10 +59,10 @@ export function WhatIDo({ onNavigate }: { onNavigate: (page: PageKey) => void })
           ))}
         </div>
 
-        <div className="text-center mt-12">
+        <div className="mt-12">
           <button
             onClick={() => onNavigate("Projects")}
-            className="inline-flex items-center gap-2 px-6 py-3 border border-neutral-600 text-neutral-200 font-medium rounded-none hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors"
+            className="btn-secondary"
           >
             See all projects
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">

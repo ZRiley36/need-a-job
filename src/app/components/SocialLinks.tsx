@@ -6,7 +6,7 @@ type SocialLinksProps = {
 };
 
 export function SocialLinks({ className = "", iconClassName = "w-5 h-5" }: SocialLinksProps) {
-  const linkClass = "text-neutral-400 hover:text-[var(--accent)] transition-colors";
+  const linkClass = "text-neutral-300 hover:text-white transition-colors";
 
   return (
     <div className={`flex items-center gap-5 ${className}`}>

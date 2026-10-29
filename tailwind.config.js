@@ -7,47 +7,35 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Georgia', 'serif'],
-        display: ['Georgia', 'serif'],
-        serif: ['Georgia', 'serif'],
+        sans: ['var(--font-geist-sans)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        display: ['var(--font-geist-sans)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        mono: ['var(--font-geist-mono)', 'ui-monospace', 'SFMono-Regular', 'monospace'],
       },
       colors: {
-        // Primary brand colors - Purple theme
-        primary: {
-          50: '#faf5ff',
-          100: '#f3e8ff',
-          200: '#e9d5ff',
-          300: '#d8b4fe',
-          400: '#c084fc',
-          500: '#a855f7',
-          600: '#9333ea',
-          700: '#7c3aed',
-          800: '#6b21a8',
-          900: '#581c87',
-        },
-        // Neutral colors for better contrast
+        // Cool slate tuned for contrast on a near-black page: 200-300 for body copy,
+        // 400 for secondary text (still ~8:1 on 950), 700-800 for borders and surfaces.
         neutral: {
-          50: '#fafafa',
-          100: '#f5f5f5',
-          200: '#e5e5e5',
-          300: '#d4d4d4',
-          400: '#a3a3a3',
-          500: '#737373',
-          600: '#525252',
-          700: '#404040',
-          800: '#262626',
-          900: '#171717',
+          50: '#F7F9FB',
+          100: '#EEF1F5',
+          200: '#DDE3EA',
+          300: '#C5CDD8',
+          400: '#A1ABBA',
+          500: '#7A8495',
+          600: '#3D4552',
+          700: '#29303A',
+          800: '#171B22',
+          900: '#0F1217',
+          950: '#080A0D',
         },
-        // Legacy colors (keeping for backward compatibility) - Purple theme
-        default: "#a855f7", 
-        light: "#faf5ff",
-        dark: "#1a0b2e",
-        rich: "#6b21a8",
-        accent: "#c084fc",
-        // Semantic colors
-        success: '#10b981',
-        warning: '#f59e0b',
-        error: '#ef4444',
+        // Channels live in globals.css so opacity modifiers like border-accent/50 work.
+        accent: {
+          DEFAULT: 'rgb(var(--accent-ch) / <alpha-value>)',
+          hover: 'rgb(var(--accent-hover-ch) / <alpha-value>)',
+        },
+        'on-accent': '#06200F',
+        success: '#7CF29C',
+        warning: '#F5C451',
+        error: '#FF7A7A',
       },
       spacing: {
         '18': '4.5rem',

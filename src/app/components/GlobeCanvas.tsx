@@ -21,7 +21,7 @@ const MARKERS: { location: [number, number]; size: number }[] = [
 ];
 
 /**
- * Rotating dotted globe (cobe) tinted to the site's rust accent, used as the
+ * Rotating dotted globe (cobe) tinted to the site's mint accent, used as the
  * hero background — now click-and-drag to spin, with fling inertia that decays
  * back into the idle auto-rotation.
  *
@@ -37,11 +37,11 @@ export function GlobeCanvas({ className = "" }: { className?: string }) {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    // Match the animation to the CSS accent, same as VectorField does.
+    // Match the globe to the CSS accent.
     const accentRaw =
       getComputedStyle(document.documentElement)
         .getPropertyValue("--accent-rgb")
-        .trim() || "194, 87, 46";
+        .trim() || "124, 242, 156";
     const accent = accentRaw.split(",").map((n) => Number(n.trim()) / 255) as [
       number,
       number,
@@ -118,8 +118,8 @@ export function GlobeCanvas({ className = "" }: { className?: string }) {
       diffuse: 1.7,
       mapSamples: 16000,
       mapBrightness: 11,
-      baseColor: [0.78, 0.34, 0.16], // punchy rust land dots on #0a0a0a
-      markerColor: accent, // bright rust city markers
+      baseColor: [0.32, 0.38, 0.46], // cool slate land dots so the mint markers pop
+      markerColor: accent, // mint city markers
       glowColor: [accent[0] * 0.6, accent[1] * 0.6, accent[2] * 0.6],
       markers: MARKERS,
     });

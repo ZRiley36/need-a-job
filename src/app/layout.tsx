@@ -13,9 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Zach Riley — Backend & AI Infrastructure Engineer",
+  title: "Zach Riley — Geospatial Software Engineer",
   description:
-    "Backend engineer building AI-agent infrastructure on AWS at Dragin Technologies — Bedrock, AgentCore, Kubernetes. Previously Digital Democracy (CalMatters) and Amazon. Brooklyn-based.",
+    "Geospatial software engineer building GIS pipelines and MapLibre web maps — building-level flood, earthquake, and wildfire risk for NYC, SF, and LA. Seeking GIS, mapping, solar, and clean-energy engineering roles. Brooklyn-based.",
 };
 
 export default function RootLayout({

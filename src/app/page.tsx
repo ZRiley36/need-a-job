@@ -14,7 +14,7 @@ const SITE_DOWN = false;
 function MaintenancePage() {
   return (
     <div className="min-h-screen bg-neutral-900 text-neutral-100 flex flex-col items-center justify-center px-6">
-      <h1 className="text-3xl font-semibold text-[var(--accent)]">Zach Riley</h1>
+      <h1 className="text-3xl font-semibold text-white">Zach Riley</h1>
       <p className="mt-4 text-neutral-400 text-center max-w-md">
         This site is temporarily offline. Check back later.
       </p>
@@ -43,32 +43,39 @@ function SiteContent() {
   const pageKeys: PageKey[] = ["Home", "Resume", "Projects", "Contact"];
 
   return (
-    <div className="min-h-screen bg-neutral-950 text-neutral-100 flex flex-col">
-      <nav className="relative bg-neutral-900/80 border-b border-neutral-800 sticky top-0 z-50 backdrop-blur">
-        <button
-          onClick={() => setActivePage("Home")}
-          aria-label="Home"
-          className="absolute left-6 md:left-8 top-1/2 -translate-y-1/2 hidden sm:block text-[var(--accent)] text-lg font-bold tracking-wider hover:text-[var(--accent-hover)] transition-colors"
-        >
-          ZR
-        </button>
-        <div className="container-custom overflow-x-auto">
-          <div className="flex justify-center min-w-max sm:min-w-0">
-            <div className="flex space-x-1 bg-neutral-700/50 rounded-none p-1 my-4">
-              {pageKeys.map((page) => (
-                <button
-                  key={page}
-                  onClick={() => setActivePage(page)}
-                  className={`px-3 sm:px-6 py-2 sm:py-3 rounded-none font-medium transition-all duration-300 text-sm sm:text-base whitespace-nowrap ${
-                    activePage === page
-                      ? "bg-neutral-700 text-[var(--accent)]"
-                      : "text-neutral-300 hover:text-[var(--accent)] hover:bg-neutral-600/50"
-                  }`}
-                >
-                  {page}
-                </button>
-              ))}
-            </div>
+    <div className="relative isolate min-h-screen text-neutral-100 flex flex-col">
+      {/* NASA Black Marble (Earth at night) behind everything, darkened so text keeps its contrast. */}
+      <div aria-hidden="true" className="fixed inset-0 -z-10 bg-neutral-950">
+        <div className="absolute inset-0 bg-[url('/earth-at-night.jpg')] bg-cover bg-center opacity-60" />
+        <div className="absolute inset-0 bg-gradient-to-b from-neutral-950/70 via-neutral-950/40 to-neutral-950/80" />
+      </div>
+      <nav className="sticky top-0 z-50 bg-neutral-950/75 border-b border-neutral-800/80 backdrop-blur-xl">
+        <div className="container-custom h-16 flex items-center justify-between gap-4">
+          <button
+            onClick={() => setActivePage("Home")}
+            aria-label="Home"
+            className="flex items-center gap-2.5 shrink-0 text-white font-semibold tracking-tight"
+          >
+            <span className="grid place-items-center w-7 h-7 rounded-none bg-accent text-on-accent text-xs font-bold">
+              ZR
+            </span>
+            <span className="hidden sm:inline">Zach Riley</span>
+          </button>
+          <div className="flex items-center gap-1 overflow-x-auto">
+            {pageKeys.map((page) => (
+              <button
+                key={page}
+                onClick={() => setActivePage(page)}
+                aria-current={activePage === page ? "page" : undefined}
+                className={`px-3 py-1.5 rounded-none text-sm font-medium whitespace-nowrap transition-colors ${
+                  activePage === page
+                    ? "bg-white text-neutral-950"
+                    : "text-neutral-300 hover:text-white hover:bg-white/5"
+                }`}
+              >
+                {page}
+              </button>
+            ))}
           </div>
         </div>
       </nav>
