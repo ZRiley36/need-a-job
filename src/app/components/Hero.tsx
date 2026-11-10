@@ -26,19 +26,18 @@ export function Hero({ onNavigate }: { onNavigate: (page: PageKey) => void }) {
           </h1>
           <span className="inline-flex items-center gap-2 px-3 py-1 rounded-none border border-accent/30 bg-accent/10 text-accent font-mono text-xs tracking-wider uppercase backdrop-blur">
             <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
-            Open to GIS, mapping &amp; clean-energy roles
+            Open to backend &amp; AI-infra roles
           </span>
           <p className="text-neutral-200 body-base sm:text-lg leading-relaxed">
-            Geospatial software engineer. I build pipelines and web maps that score flood, earthquake,
-            and wildfire risk for every building in a city — and I want to point that at solar, grid,
-            and clean-energy problems. Backend engineer at Dragin Technologies; previously Amazon.
+            Backend engineer at Dragin Technologies, building AI-agent infrastructure on AWS —
+            Bedrock, AgentCore, and Kubernetes. Previously Digital Democracy (CalMatters) and Amazon.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-3 pointer-events-auto">
             <button
               onClick={() => onNavigate("Projects")}
               className="btn-primary"
             >
-              See the maps
+              View projects
             </button>
             <button
               onClick={() => onNavigate("Contact")}

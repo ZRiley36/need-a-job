@@ -71,8 +71,8 @@ export function Projects() {
           <div className="text-center mb-8">
             <h1 className="heading-xl mb-4">Projects</h1>
             <p className="text-neutral-400 body-base max-w-2xl mx-auto">
-              Geospatial analysis and web mapping first — building-level hazard risk across three
-              cities — followed by data-engineering, backend, and full-stack work.
+              AI and backend work first — LLM agents, data pipelines, and APIs — followed by
+              geospatial analysis, web mapping, and full-stack builds.
             </p>
           </div>
         </div>
@@ -80,16 +80,8 @@ export function Projects() {
 
       <div className="container-custom py-16 space-y-16">
         <SectionHeading
-          title="Geospatial & Web Mapping"
-          blurb="Public data in, a validated building-level analysis and a static web map out. Each runs end to end with one command, is tested, and documents its data sources and limitations."
-        />
-        {MAP_PROJECTS.map((p) => (
-          <MapProjectCard key={p.slug} p={p} />
-        ))}
-
-        <SectionHeading
-          title="Data Engineering & Backend"
-          blurb="Pipelines, automation, and data modeling."
+          title="AI & Backend"
+          blurb="LLM agents, data pipelines, automation, and data modeling."
         />
 
         {/* NYC Apartment Hunt Project */}
@@ -514,6 +506,14 @@ export function Projects() {
             </div>
           </div>
         </section>
+
+        <SectionHeading
+          title="Geospatial & Web Mapping"
+          blurb="Public data in, a validated building-level analysis and a static web map out. Each runs end to end with one command, is tested, and documents its data sources and limitations."
+        />
+        {MAP_PROJECTS.map((p) => (
+          <MapProjectCard key={p.slug} p={p} />
+        ))}
 
         <SectionHeading
           title="Full-Stack & Tools"

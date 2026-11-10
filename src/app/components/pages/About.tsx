@@ -85,29 +85,11 @@ export function About() {
         <section className="animate-slide-up">
           <h2 className="heading-lg text-white mb-6">Summary</h2>
           <p className="text-neutral-300 body-base leading-relaxed card p-8">
-            Software engineer focused on geospatial data. I&apos;ve built end-to-end pipelines and
-            static web maps that score flood, earthquake, and wildfire risk for every building in New
-            York, San Francisco, and Los Angeles, validated against real outcomes. Backed by
-            production backend and cloud experience at Dragin Technologies, CalMatters, and Amazon.
-            Looking for GIS, mapping, solar, and clean-energy engineering roles.
+            Backend engineer building AI-agent infrastructure on AWS at Dragin Technologies:
+            production LLM agents on Bedrock and AgentCore, the data pipelines that feed them, and
+            the logging and deployment around them on Kubernetes. Previously Digital Democracy
+            (CalMatters) and Amazon. Looking for backend and AI-infrastructure roles.
           </p>
-        </section>
-
-        <section className="animate-slide-up">
-          <h2 className="heading-lg text-white mb-6">Geospatial Projects</h2>
-          <div className="space-y-6">
-            {MAP_PROJECTS.map((p) => (
-              <div key={p.slug} className="card p-8">
-                <div className="flex flex-col md:flex-row md:items-baseline md:justify-between mb-2 gap-1">
-                  <h3 className="heading-sm text-white">{p.title}</h3>
-                  <a href={p.liveUrl} className={`${linkClass} body-sm`} target="_blank" rel="noopener noreferrer">
-                    Live map →
-                  </a>
-                </div>
-                <p className="text-neutral-300 body-base leading-relaxed">{p.resumeBullet}</p>
-              </div>
-            ))}
-          </div>
         </section>
 
         <section className="animate-slide-up">
@@ -187,8 +169,19 @@ export function About() {
         </section>
 
         <section className="animate-slide-up">
-          <h2 className="heading-lg text-white mb-6">Other Projects</h2>
+          <h2 className="heading-lg text-white mb-6">Projects</h2>
           <div className="space-y-6">
+            <div className="card p-8">
+              <h3 className="heading-sm text-white mb-2">
+                NYC Apartment Hunt
+              </h3>
+              <p className="text-neutral-300 body-base leading-relaxed">
+                Built a LangGraph pipeline that pulls new NYC rentals twice daily, filters and
+                de-duplicates them in code, and has a Claude Haiku agent vet each listing for scam
+                signals and amenities as structured output; ~50 hermetic pytest tests, run on
+                GitHub Actions.
+              </p>
+            </div>
             <div className="card p-8">
               <h3 className="heading-sm text-white mb-2">
                 NYC Transit Analytics
@@ -210,6 +203,17 @@ export function About() {
                 coverage skew by team and region.
               </p>
             </div>
+            {MAP_PROJECTS.map((p) => (
+              <div key={p.slug} className="card p-8">
+                <div className="flex flex-col md:flex-row md:items-baseline md:justify-between mb-2 gap-1">
+                  <h3 className="heading-sm text-white">{p.title}</h3>
+                  <a href={p.liveUrl} className={`${linkClass} body-sm`} target="_blank" rel="noopener noreferrer">
+                    Live map →
+                  </a>
+                </div>
+                <p className="text-neutral-300 body-base leading-relaxed">{p.resumeBullet}</p>
+              </div>
+            ))}
           </div>
         </section>
 
@@ -218,21 +222,6 @@ export function About() {
             Technical Skills
           </h2>
           <div className="grid md:grid-cols-2 gap-4">
-            <div className="card p-6">
-              <h3 className="eyebrow mb-2">Geospatial</h3>
-              <p className="text-neutral-300 body-base">
-                GeoPandas, Shapely 2 (STRtree), rasterio, rasterstats, pyproj, GeoParquet,
-                Cloud-Optimized GeoTIFF, MapLibre GL, PMTiles, tippecanoe, spatial
-                cross-validation, ArcGIS FeatureServer / DataSF APIs
-              </p>
-            </div>
-            <div className="card p-6">
-              <h3 className="eyebrow mb-2">Spatial data</h3>
-              <p className="text-neutral-300 body-base">
-                USGS 3DEP DEM and ShakeMap, LANDFIRE fuels, FEMA flood zones, CGS seismic
-                hazard zones, Census / ACS, building footprints and assessor parcels
-              </p>
-            </div>
             <div className="card p-6">
               <h3 className="eyebrow mb-2">Languages</h3>
               <p className="text-neutral-300 body-base">
@@ -254,6 +243,13 @@ export function About() {
                 AWS (Lambda, ECS, EKS, S3, CloudWatch, Athena, Glue, Secrets
                 Manager, Bedrock, ElasticSearch), Docker, Kubernetes, Postgres,
                 Neo4j
+              </p>
+            </div>
+            <div className="card p-6">
+              <h3 className="eyebrow mb-2">Geospatial</h3>
+              <p className="text-neutral-300 body-base">
+                GeoPandas, Shapely 2, rasterio, pyproj, GeoParquet, Cloud-Optimized GeoTIFF,
+                MapLibre GL, PMTiles, tippecanoe, spatial cross-validation
               </p>
             </div>
           </div>

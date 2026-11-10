@@ -2,24 +2,24 @@ import { PageKey } from "@/app/lib/nav";
 
 const CARDS = [
   {
-    title: "Geospatial Analysis",
-    body: "Building-level spatial joins, raster sampling, and CRS-aware pipelines over hundreds of thousands of footprints, parcels, and hazard layers — reproducible with one command.",
-    tags: ["GeoPandas", "Shapely 2", "rasterio", "GeoParquet"],
+    title: "AI Agent Infrastructure",
+    body: "Containerizing and shipping production LLM agents on AWS Bedrock and AgentCore — multi-step reasoning over real business data, deployed on EKS / Kubernetes with observability from day one.",
+    tags: ["Bedrock", "AgentCore", "Kubernetes"],
   },
   {
-    title: "Web Mapping",
-    body: "Static, backend-free MapLibre GL maps served from PMTiles and Cloud-Optimized GeoTIFFs, with address search and guide pages generated from the same data as the analysis.",
-    tags: ["MapLibre GL", "PMTiles", "COG", "tippecanoe"],
+    title: "Data Engineering",
+    body: "Real-time ingestion pipelines — GTFS-RT transit feeds, Prefect-scheduled flows, FastAPI services, and Dockerized Postgres/Redis stacks, moving to Kubernetes for production workloads.",
+    tags: ["Python", "FastAPI", "Docker", "Kubernetes"],
   },
   {
-    title: "Spatial Modeling & Validation",
-    body: "Spatial cross-validation, leakage checks, and sensitivity analysis, ground-truthed against what actually happened — 311 flood complaints, post-fire damage inspections.",
-    tags: ["scikit-learn", "Spatial CV", "Pandas"],
+    title: "Cloud & Observability",
+    body: "Production backend work on AWS — containerized services on EKS / Kubernetes, and queryable logging with CloudWatch, S3, and Athena.",
+    tags: ["AWS", "CloudWatch", "Athena", "PostgreSQL"],
   },
   {
-    title: "Cloud & Data Infrastructure",
-    body: "Production backend work on AWS — ingestion pipelines, containerized services on EKS / Kubernetes, and queryable logging with CloudWatch, S3, and Athena.",
-    tags: ["AWS", "Docker", "Kubernetes", "PostgreSQL"],
+    title: "Geospatial & ML Analysis",
+    body: "Building-level spatial pipelines and models validated against what actually happened — flood complaints and post-fire damage inspections — shipped as static web maps.",
+    tags: ["GeoPandas", "scikit-learn", "MapLibre GL"],
   },
 ];
 
@@ -29,11 +29,9 @@ export function WhatIDo({ onNavigate }: { onNavigate: (page: PageKey) => void })
       <div className="container-custom py-16 md:py-20">
         <div className="mb-12 max-w-2xl">
           <p className="eyebrow mb-3">What I do</p>
-          <h2 className="heading-xl mb-4">Maps for the energy transition</h2>
+          <h2 className="heading-xl mb-4">Backend &amp; AI infrastructure</h2>
           <p className="text-neutral-300 body-lg">
-            The same toolkit that scores hazard exposure for buildings answers clean-energy questions:
-            solar siting and rooftop potential, land and interconnection screening, and the climate
-            risk facing grid assets.
+            A quick look at the kind of work I take on — each maps to a project you can explore.
           </p>
         </div>
 
